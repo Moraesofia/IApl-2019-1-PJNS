@@ -6,16 +6,17 @@ CREATE TABLE filme(
   nome VARCHAR(255),
   ano INT,
   genero VARCHAR(255),
-  categoria VARCHAR(255),
-  FOREIGN KEY categoria
-  REFERENCES premio(categoria)
+  premio_id VARCHAR(255),
+  FOREIGN KEY premio_id
+  REFERENCES premio(id)
   PRIMARY KEY (nome)
 );
 
 CREATE TABLE premio(
+  id INT,
   categoria VARCHAR(255),
   ano INT,
-  PRIMARY KEY (ano)
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE pessoa(
@@ -23,9 +24,9 @@ CREATE TABLE pessoa(
   cargo VARCHAR(255),
   nascimento DATE,
   genero VARCHAR(255),
-  categoria VARCHAR(255),
-  FOREIGN KEY categoria
-  REFERENCES premio(categoria),
+  premio_id VARCHAR(255),
+  FOREIGN KEY premio_id
+  REFERENCES premio(id),
   PRIMARY KEY (nome)
 );
 
