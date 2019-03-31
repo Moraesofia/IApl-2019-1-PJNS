@@ -6,6 +6,9 @@ CREATE TABLE filme(
   nome VARCHAR(255),
   ano INT,
   genero VARCHAR(255),
+  categoria VARCHAR(255),
+  FOREIGN KEY categoria
+  REFERENCES premio(categoria)
   PRIMARY KEY (nome)
 );
 
@@ -20,6 +23,9 @@ CREATE TABLE pessoa(
   cargo VARCHAR(255),
   nascimento DATE,
   genero VARCHAR(255),
+  categoria VARCHAR(255),
+  FOREIGN KEY categoria
+  REFERENCES premio(categoria),
   PRIMARY KEY (nome)
 );
 
