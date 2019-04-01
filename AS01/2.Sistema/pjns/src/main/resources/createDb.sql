@@ -8,35 +8,35 @@ START TRANSACTION;
 
 CREATE TABLE `Filme` (
   `id` int(5) NOT NULL,
-  `titulo` varchar(31) COLLATE utf8_unicode_ci NOT NULL,
+  `titulo` varchar(31) COLLATE utf8mb4_unicode_ci NOT NULL,
   `ano` int(5) NOT NULL,
-  `genero` varchar(21) COLLATE utf8_unicode_ci NOT NULL,
+  `genero` varchar(21) COLLATE utf8mb4_unicode_ci NOT NULL,
   `id_diretor` int(5) NOT NULL,
   `id_ator` int(5) NOT NULL,
   `id_atriz` int(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `Pessoa` (
   `id` int(5) NOT NULL,
-  `nome` varchar(51) COLLATE utf8_unicode_ci NOT NULL,
-  `cargo` varchar(21) COLLATE utf8_unicode_ci NOT NULL,
+  `nome` varchar(51) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cargo` varchar(21) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nascimento` date NOT NULL,
-  `genero` varchar(2) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `genero` varchar(2) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `Premiacao` (
   `id` int(5) NOT NULL,
-  `nome` varchar(21) COLLATE utf8_unicode_ci NOT NULL,
+  `nome` varchar(21) COLLATE utf8mb4_unicode_ci NOT NULL,
   `ano` int(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `Premio` (
   `id` int(5) NOT NULL,
-  `categoria` varchar(21) COLLATE utf8_unicode_ci NOT NULL,
+  `categoria` varchar(21) COLLATE utf8mb4_unicode_ci NOT NULL,
   `id_premiacao` int(5) NOT NULL,
   `id_vencedor` int(5) DEFAULT NULL,
   `id_filme` int(5) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------
 -- Adição das chaves
