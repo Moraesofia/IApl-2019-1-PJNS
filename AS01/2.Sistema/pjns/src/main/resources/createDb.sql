@@ -2,9 +2,9 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
 
------------------------------------------------------------
+-- ---------------------------------------------------------
 -- Criação das tabelas
------------------------------------------------------------
+-- ---------------------------------------------------------
 
 CREATE TABLE `Filme` (
   `id` int(5) NOT NULL,
@@ -38,9 +38,9 @@ CREATE TABLE `Premio` (
   `id_filme` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
------------------------------------------------------------
+-- ---------------------------------------------------------
 -- Adição das chaves
------------------------------------------------------------
+-- ---------------------------------------------------------
 
 ALTER TABLE `Filme`
   ADD PRIMARY KEY (`id`),
@@ -60,25 +60,25 @@ ALTER TABLE `Premio`
   ADD KEY `id_vencedor` (`id_vencedor`),
   ADD KEY `id_filme` (`id_filme`);
 
------------------------------------------------------------
+-- ---------------------------------------------------------
 -- Adição dos auto increments
------------------------------------------------------------
+-- ---------------------------------------------------------
 
 ALTER TABLE `Filme`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `Pessoa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `Premiacao`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `Premio`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
 
------------------------------------------------------------
+-- ---------------------------------------------------------
 -- Adição dos constraints
------------------------------------------------------------
+-- ---------------------------------------------------------
 
 ALTER TABLE `Filme`
   ADD CONSTRAINT `Filme_ibfk_1` FOREIGN KEY (`id_ator`) REFERENCES `Pessoa` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
