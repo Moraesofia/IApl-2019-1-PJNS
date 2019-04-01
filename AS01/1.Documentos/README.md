@@ -14,6 +14,6 @@ Os documentos também estão hospedados no serviço Google Drive e podem ser ace
 
 ## Outros
 
-Os documentos abaixo fazem parte do projeto e, portanto, estão em outros diretórios:
+Os documentos abaixo fazem parte do sistema e, portanto, estão em outros diretórios:
 
 - [Script de criação do banco de dados](../2.Sistema/pjns/src/main/resources/createDb.sql)
