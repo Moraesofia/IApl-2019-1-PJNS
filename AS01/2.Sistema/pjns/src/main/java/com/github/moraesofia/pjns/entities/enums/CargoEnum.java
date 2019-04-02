@@ -1,4 +1,4 @@
-package com.github.moraesofia.pjns.com.github.moraesofia.pjns.entities.enums;
+package com.github.moraesofia.pjns.entities.enums;
 
 /**
  * Created by aluno on 01/04/19.

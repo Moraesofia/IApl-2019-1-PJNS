@@ -1,7 +1,7 @@
-package com.github.moraesofia.pjns.com.github.moraesofia.pjns.entities;
+package com.github.moraesofia.pjns.entities;
 
-import com.github.moraesofia.pjns.com.github.moraesofia.pjns.entities.enums.CargoEnum;
-import com.github.moraesofia.pjns.com.github.moraesofia.pjns.entities.enums.GeneroEnum;
+import com.github.moraesofia.pjns.entities.enums.CargoEnum;
+import com.github.moraesofia.pjns.entities.enums.GeneroEnum;
 
 import java.time.LocalDate;
 

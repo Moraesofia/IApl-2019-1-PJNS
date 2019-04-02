@@ -1,6 +1,6 @@
-package com.github.moraesofia.pjns.com.github.moraesofia.pjns.entities;
+package com.github.moraesofia.pjns.entities;
 
-import com.github.moraesofia.pjns.com.github.moraesofia.pjns.entities.enums.CategoriaEnum;
+import com.github.moraesofia.pjns.entities.enums.CategoriaEnum;
 
 /**
  * Created by aluno on 01/04/19.

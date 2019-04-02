@@ -1,12 +1,21 @@
 package com.github.moraesofia.pjns;
 
+import com.github.moraesofia.pjns.ui.Menu;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class Main {
 
-    public static void main(String[] args) {
+    private static Menu menu;
 
+    public static void main(String[] args) {
+        testConnection();
+
+        menu = new Menu();
+        menu.show();
+    }
+
+    private static void testConnection() {
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(
                     "https://remotemysql.com/phpmyadmin").openConnection();
@@ -26,7 +35,6 @@ public class Main {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
 }
