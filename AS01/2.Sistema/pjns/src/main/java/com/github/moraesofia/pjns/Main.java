@@ -1,40 +1,59 @@
 package com.github.moraesofia.pjns;
 
+import com.github.moraesofia.pjns.database.DatabaseConnection;
+import com.github.moraesofia.pjns.files.ArquivoJns;
+import com.github.moraesofia.pjns.files.ArquivoJnsParser;
 import com.github.moraesofia.pjns.ui.Menu;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.SQLException;
 
 public class Main {
 
     private static Menu menu;
 
     public static void main(String[] args) {
-        testConnection();
+        if (!establishConnection())
+            System.exit(1);
 
         menu = new Menu();
         menu.show();
     }
 
-    private static void testConnection() {
+    private static boolean establishConnection() {
         try {
-            HttpURLConnection connection = (HttpURLConnection) new URL(
-                    "https://remotemysql.com/phpmyadmin").openConnection();
+            // Verifica se o servidor do banco está disponível
+            HttpURLConnection connection = null;
+            connection = (HttpURLConnection)
+                    new URL("https://remotemysql.com/phpmyadmin").openConnection();
             connection.setRequestMethod("HEAD");
             int responseCode = connection.getResponseCode();
-
             if (responseCode == 200) {
-                System.out.println("Servidor Disponível");
+                System.out.println("Servidor do banco de dados disponível.");
+            } else {
+                throw new IOException(connection.getResponseMessage());
             }
-
-            String expectedStatus = "Connection established";
-            Conexao.getConnection();
-
-            if (Conexao.status.equals(expectedStatus)) {
-                System.out.println("Conexão Estabelecida");
-            }
-        } catch (Exception e) {
+        } catch (IOException e) {
+            System.err.println("Erro ao acessar o servidor do banco de dados:");
             e.printStackTrace();
+            return false;
         }
+
+        try {
+            // Tenta estabelecer a conexão com o banco
+            DatabaseConnection.connect();
+            System.out.println("Conexão estabelecida com o banco de dados.");
+        } catch (ClassNotFoundException | IOException | SQLException |
+                IllegalAccessException | InstantiationException e) {
+            System.err.println("Erro ao acessar o servidor do banco de dados:");
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 
 }

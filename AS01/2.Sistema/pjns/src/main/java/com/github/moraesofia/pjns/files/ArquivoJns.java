@@ -1,8 +1,13 @@
-package com.github.moraesofia.pjns.entities;
+package com.github.moraesofia.pjns.files;
+
+import com.github.moraesofia.pjns.entities.Filme;
+import com.github.moraesofia.pjns.entities.Pessoa;
+import com.github.moraesofia.pjns.entities.Premiacao;
+import com.github.moraesofia.pjns.entities.Premio;
 
 import java.util.List;
 
-public class Entities {
+public class ArquivoJns {
 
     private List<Pessoa> pessoas;
 

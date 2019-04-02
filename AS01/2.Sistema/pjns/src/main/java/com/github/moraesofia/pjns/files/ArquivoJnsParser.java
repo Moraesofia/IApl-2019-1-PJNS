@@ -5,16 +5,22 @@
  */
 package com.github.moraesofia.pjns.files;
 
-import com.github.moraesofia.pjns.entities.Entities;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.nio.file.Path;
 
 public class ArquivoJnsParser {
 
-    public static Entities load(Path path) {
-        return new Entities();
+    public static String parse(BufferedReader reader) throws IOException {
+        StringBuilder resultStringBuilder = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            resultStringBuilder.append(line).append("\n");
+        }
+        return resultStringBuilder.toString();
     }
 
-    public static void save(Entities entities, Path path) {
+    public static void save(ArquivoJns arquivo, Path path) {
 
     }
 }
