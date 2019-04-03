@@ -127,8 +127,8 @@ public class ArquivoJns {
         final Connection connection = DatabaseConnection.connect();
         try {
             PreparedStatement s;
-            s = connection.prepareStatement("INSERT INTO Filme(id,titulo,ano,genero,id_diretor,id_ator,id_atriz)," +
-                    "VALUES (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            s = connection.prepareStatement("INSERT INTO Filme(id,titulo,ano,genero,id_diretor,id_ator," +
+                    "id_atriz), VALUES (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             s.setObject(1, filme.getId(), Types.INTEGER);
             s.setObject(2, filme.getTitulo(), Types.VARCHAR);
             s.setObject(3, filme.getAno(), Types.INTEGER);
@@ -177,8 +177,8 @@ public class ArquivoJns {
         return premiacoes;
     }
 
-    public boolean addPremiacao(final Premiacao premiacao) throws ClassNotFoundException, SQLException, InstantiationException,
-            IllegalAccessException, IOException {
+    public boolean addPremiacao(final Premiacao premiacao) throws ClassNotFoundException, SQLException,
+            InstantiationException, IllegalAccessException, IOException {
         final Connection connection = DatabaseConnection.connect();
         try {
             PreparedStatement s;
