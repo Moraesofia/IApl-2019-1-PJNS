@@ -15,7 +15,7 @@ public class Filme {
 
     private Integer idDiretor;
 
-    private Integer idAriz;
+    private Integer idAtriz;
 
     private Integer idAtor;
 
@@ -59,12 +59,12 @@ public class Filme {
         this.idDiretor = idDiretor;
     }
 
-    public Integer getIdAriz() {
-        return idAriz;
+    public Integer getIdAtriz() {
+        return idAtriz;
     }
 
-    public void setIdAriz(Integer idAriz) {
-        this.idAriz = idAriz;
+    public void setIdAtriz(Integer idAriz) {
+        this.idAtriz = idAriz;
     }
 
     public Integer getIdAtor() {
