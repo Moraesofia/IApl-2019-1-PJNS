@@ -133,8 +133,8 @@ public class ArquivoJns {
             InstantiationException, IllegalAccessException, IOException {
         final Connection connection = DatabaseConnection.connect();
         try {
-            final PreparedStatement s = connection.prepareStatement("SELECT id,categoria,id_premiacao,id_vencedor " +
-                    "id_filme FROM Premio");
+            final PreparedStatement s = connection.prepareStatement("SELECT id,categoria,id_premiacao," +
+                    "id_vencedor,id_filme FROM Premio");
             final ResultSet r = s.executeQuery();
             while (r.next()) {
                 final Integer id = (Integer) r.getObject("id");
