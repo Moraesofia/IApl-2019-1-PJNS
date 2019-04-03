@@ -37,7 +37,7 @@ public class ArquivoJns {
         final Connection connection = DatabaseConnection.connect();
         try {
             final PreparedStatement s = connection.prepareStatement("SELECT id,nome,cargo,nascimento,genero " +
-                    "FROM pessoa");
+                    "FROM Pessoa");
             final ResultSet r = s.executeQuery();
             while (r.next()) {
                 final Integer id = (Integer) r.getObject("id");
@@ -54,8 +54,8 @@ public class ArquivoJns {
                 pessoa.setGenero(GeneroEnum.valueOf(genero));
                 pessoas.add(pessoa);
             }
-        } catch (SQLException sqlE) {
-            sqlE.printStackTrace();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
         return pessoas;
     }
@@ -64,7 +64,34 @@ public class ArquivoJns {
         this.pessoas = pessoas;
     }
 
-    public List<Filme> getFilmes() {
+    public List<Filme> getFilmes() throws ClassNotFoundException, SQLException,
+            InstantiationException, IllegalAccessException, IOException {
+        final Connection connection = DatabaseConnection.connect();
+        try {
+            final PreparedStatement s = connection.prepareStatement("SELECT id,titulo,ano,genero,id_diretor, " +
+                    "id_ator,id_atriz FROM Filme");
+            final ResultSet r = s.executeQuery();
+            while (r.next()) {
+                final Integer id = (Integer) r.getObject("id");
+                final String titulo = (String) r.getObject("titulo");
+                final String genero = (String) r.getObject("genero");
+                final Integer idDiretor = (Integer) r.getObject("id_diretor");
+                final Integer idAtor = (Integer) r.getObject("id_ator");
+                final Integer idAtriz = (Integer) r.getObject("id_atriz");
+
+                final Filme filme = new Filme();
+                filme.setId(id);
+                filme.setTitulo(titulo);
+                filme.setGenero(genero);
+                filme.setIdDiretor(idDiretor);
+                filme.setIdAtor(idAtor);
+                filme.setIdAriz(idAtriz);
+                filmes.add(filme);
+            }
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
         return filmes;
     }
 
