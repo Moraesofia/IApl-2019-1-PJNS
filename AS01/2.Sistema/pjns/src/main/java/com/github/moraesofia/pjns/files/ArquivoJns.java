@@ -14,6 +14,8 @@ import java.sql.*;
 
 import java.io.IOException;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,11 +74,17 @@ public class ArquivoJns {
             s.setObject(1, pessoa.getId(), Types.INTEGER);
             s.setObject(2, pessoa.getNome(), Types.VARCHAR);
             s.setObject(3, pessoa.getCargo(), Types.VARCHAR);
-            s.setObject(4, pessoa.getNascimento(), Types.DATE);
+
+            String data = Integer.toString(pessoa.getNascimento());
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+            java.util.Date date = sdf.parse(data);
+            java.sql.Date birthdate = new java.sql.Date(date.getTime());
+
+            s.setObject(4, birthdate, Types.DATE);
             s.setObject(5, pessoa.getGenero(), Types.VARCHAR);
             s.executeUpdate();
             return true;
-        } catch (final SQLException sqlException) {
+        } catch (final SQLException | ParseException sqlException) {
             sqlException.printStackTrace();
         }
         return false;
