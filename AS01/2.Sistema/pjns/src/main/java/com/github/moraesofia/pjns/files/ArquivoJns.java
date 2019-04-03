@@ -10,7 +10,6 @@ import com.github.moraesofia.pjns.entities.enums.CargoEnum;
 import com.github.moraesofia.pjns.entities.enums.CategoriaEnum;
 import com.github.moraesofia.pjns.entities.enums.GeneroEnum;
 
-import java.sql.Date;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +17,6 @@ import java.sql.SQLException;
 
 import java.io.IOException;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
