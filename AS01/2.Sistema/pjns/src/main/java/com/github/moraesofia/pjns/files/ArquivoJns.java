@@ -204,6 +204,27 @@ public class ArquivoJns {
         }
     }
 
+    public boolean addPremio(Premio premio) throws ClassNotFoundException, SQLException, InstantiationException,
+            IllegalAccessException, IOException {
+        final Connection connection = DatabaseConnection.connect();
+        try {
+            PreparedStatement s;
+            s = connection.prepareStatement("INSERT INTO Premio(id,categoria,id_premiacao,id_vencedor," +
+                            "id_filme), VALUES (?,?,?,?,?)",
+                    Statement.RETURN_GENERATED_KEYS);
+            s.setObject(1, premio.getId(), Types.INTEGER);
+            s.setObject(2, premio.getCategoria(), Types.VARCHAR);
+            s.setObject(3, premio.getIdPremiacao(), Types.INTEGER);
+            s.setObject(3, premio.getIdVencedor(), Types.INTEGER);
+            s.setObject(3, premio.getIdFilme(), Types.INTEGER);
+            s.executeUpdate();
+            return true;
+        } catch (final SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return false;
+    }
+
     public List<Premio> getPremios() throws ClassNotFoundException, SQLException,
             InstantiationException, IllegalAccessException, IOException {
         final Connection connection = DatabaseConnection.connect();
@@ -234,8 +255,13 @@ public class ArquivoJns {
         return premios;
     }
 
-    public void setPremios(List<Premio> premios) {
+    public void setPremios(List<Premio> premios) throws ClassNotFoundException, SQLException, InstantiationException,
+            IOException, IllegalAccessException {
         this.premios = premios;
+        boolean added = false;
+        for (final Premio premio : premios) {
+            added |= addPremio(premio);
+        }
     }
 
     /**
