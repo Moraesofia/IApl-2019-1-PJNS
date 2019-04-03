@@ -10,13 +10,11 @@ import com.github.moraesofia.pjns.entities.enums.CargoEnum;
 import com.github.moraesofia.pjns.entities.enums.CategoriaEnum;
 import com.github.moraesofia.pjns.entities.enums.GeneroEnum;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 import java.io.IOException;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,15 +40,20 @@ public class ArquivoJns {
                 final Integer id = (Integer) r.getObject("id");
                 final String nome = (String) r.getObject("nome");
                 final String cargo = (String) r.getObject("cargo");
-                final Integer nascimento = (Integer) r.getObject("nascimento");
+
+                final LocalDate nasc = ((Date) r.getObject("nascimento")).toLocalDate();
+                String nascAux = nasc.toString();
+                nascAux = nascAux.replace("-", "");
+
+                final Integer nascimento = Integer.valueOf(nascAux);
                 final String genero = (String) r.getObject("genero");
 
                 final Pessoa pessoa = new Pessoa();
                 pessoa.setId(id);
                 pessoa.setNome(nome);
-                pessoa.setCargo(CargoEnum.valueOf(cargo));
+                pessoa.setCargo(CargoEnum.fromText(cargo));
                 pessoa.setNascimento(nascimento);
-                pessoa.setGenero(GeneroEnum.valueOf(genero));
+                pessoa.setGenero(GeneroEnum.fromText(genero));
                 pessoas.add(pessoa);
             }
         } catch (SQLException sqlException) {
@@ -142,7 +145,7 @@ public class ArquivoJns {
 
                 final Premio premio = new Premio();
                 premio.setId(id);
-                premio.setCategoria(CategoriaEnum.valueOf(categoria));
+                premio.setCategoria(CategoriaEnum.fromText(categoria));
                 premio.setIdPremiacao(idPremiacao);
                 premio.setIdVencedor(idVencedor);
                 premio.setIdFilme(idFilme);
