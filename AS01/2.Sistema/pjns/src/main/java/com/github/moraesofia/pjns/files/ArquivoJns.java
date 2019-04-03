@@ -112,7 +112,7 @@ public class ArquivoJns {
                 filme.setGenero(genero);
                 filme.setIdDiretor(idDiretor);
                 filme.setIdAtor(idAtor);
-                filme.setIdAriz(idAtriz);
+                filme.setIdAtriz(idAtriz);
                 filmes.add(filme);
             }
 
@@ -122,8 +122,35 @@ public class ArquivoJns {
         return filmes;
     }
 
-    public void setFilmes(List<Filme> filmes) {
+    public boolean addFilme(final Filme filme) throws ClassNotFoundException, SQLException, InstantiationException,
+            IllegalAccessException, IOException {
+        final Connection connection = DatabaseConnection.connect();
+        try {
+            PreparedStatement s;
+            s = connection.prepareStatement("INSERT INTO Filme(id,titulo,ano,genero,id_diretor,id_ator,id_atriz)," +
+                    "VALUES (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            s.setObject(1, filme.getId(), Types.INTEGER);
+            s.setObject(2, filme.getTitulo(), Types.VARCHAR);
+            s.setObject(3, filme.getAno(), Types.INTEGER);
+            s.setObject(4, filme.getGenero(), Types.VARCHAR);
+            s.setObject(5, filme.getIdDiretor(), Types.INTEGER);
+            s.setObject(6, filme.getIdAtor(), Types.INTEGER);
+            s.setObject(7, filme.getIdAtriz(), Types.INTEGER);
+            s.executeUpdate();
+            return true;
+        } catch (final SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return false;
+    }
+
+    public void setFilmes(List<Filme> filmes) throws ClassNotFoundException, SQLException, InstantiationException,
+            IOException, IllegalAccessException {
         this.filmes = filmes;
+        boolean added = false;
+        for (final Filme filme: filmes) {
+            added |= addFilme(filme);
+        }
     }
 
     public List<Premiacao> getPremiacoes() throws ClassNotFoundException, SQLException,
