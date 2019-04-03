@@ -62,8 +62,33 @@ public class ArquivoJns {
         return pessoas;
     }
 
-    public void setPessoas(List<Pessoa> pessoas) {
+    public boolean addPessoa(final Pessoa pessoa) throws ClassNotFoundException, SQLException, InstantiationException,
+            IllegalAccessException, IOException {
+        final Connection connection = DatabaseConnection.connect();
+        try {
+            PreparedStatement s;
+            s = connection.prepareStatement("INSERT INTO Pessoa(id,nome,cargo,nascimento,genero) " +
+                    "VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            s.setObject(1, pessoa.getId(), Types.INTEGER);
+            s.setObject(2, pessoa.getNome(), Types.VARCHAR);
+            s.setObject(3, pessoa.getCargo(), Types.VARCHAR);
+            s.setObject(4, pessoa.getNascimento(), Types.DATE);
+            s.setObject(5, pessoa.getGenero(), Types.VARCHAR);
+            s.executeUpdate();
+            return true;
+        } catch (final SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return false;
+    }
+
+    public void setPessoas(List<Pessoa> pessoas) throws ClassNotFoundException, SQLException, InstantiationException,
+            IOException, IllegalAccessException {
         this.pessoas = pessoas;
+        boolean added = false;
+        for (final Pessoa pessoa : pessoas) {
+            added |= addPessoa(pessoa);
+        }
     }
 
     public List<Filme> getFilmes() throws ClassNotFoundException, SQLException,
