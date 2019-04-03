@@ -177,8 +177,31 @@ public class ArquivoJns {
         return premiacoes;
     }
 
-    public void setPremiacoes(List<Premiacao> premiacoes) {
+    public boolean addPremiacao(final Premiacao premiacao) throws ClassNotFoundException, SQLException, InstantiationException,
+            IllegalAccessException, IOException {
+        final Connection connection = DatabaseConnection.connect();
+        try {
+            PreparedStatement s;
+            s = connection.prepareStatement("INSERT INTO Premiacao(id,nome,ano), VALUES (?,?,?)",
+                    Statement.RETURN_GENERATED_KEYS);
+            s.setObject(1, premiacao.getId(), Types.INTEGER);
+            s.setObject(2, premiacao.getNome(), Types.VARCHAR);
+            s.setObject(3, premiacao.getAno(), Types.INTEGER);
+            s.executeUpdate();
+            return true;
+        } catch (final SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return false;
+    }
+
+    public void setPremiacoes(List<Premiacao> premiacoes) throws ClassNotFoundException, SQLException,
+            InstantiationException, IOException, IllegalAccessException {
         this.premiacoes = premiacoes;
+        boolean added = false;
+        for (final Premiacao premiacao : premiacoes) {
+            added |= addPremiacao(premiacao);
+        }
     }
 
     public List<Premio> getPremios() throws ClassNotFoundException, SQLException,
