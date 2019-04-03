@@ -99,7 +99,27 @@ public class ArquivoJns {
         this.filmes = filmes;
     }
 
-    public List<Premiacao> getPremiacoes() {
+    public List<Premiacao> getPremiacoes() throws ClassNotFoundException, SQLException,
+            InstantiationException, IllegalAccessException, IOException {
+        final Connection connection = DatabaseConnection.connect();
+        try {
+            final PreparedStatement s = connection.prepareStatement("SELECT id,nome,ano FROM Premiacao");
+            final ResultSet r = s.executeQuery();
+            while (r.next()) {
+                final Integer id = (Integer) r.getObject("id");
+                final String nome = (String) r.getObject("nome");
+                final Integer ano = (Integer) r.getObject("ano");
+
+                final Premiacao premiacao = new Premiacao();
+                premiacao.setId(id);
+                premiacao.setNome(nome);
+                premiacao.setAno(ano);
+                premiacoes.add(premiacao);
+            }
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
         return premiacoes;
     }
 
