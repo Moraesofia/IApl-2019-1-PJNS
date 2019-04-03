@@ -8,8 +8,10 @@ import com.github.moraesofia.pjns.files.exceptions.UnsupportedTypeException;
 public enum CargoEnum {
 
     DIRETOR("Diretor"),
+    DIRETORA("Diretora"),
     ATRIZ("Atriz"),
-    ATOR("Ator");
+    ATOR("Ator"),
+    ROTEIRISTA("Roteirista");
 
     private String text;
 
