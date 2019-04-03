@@ -7,6 +7,7 @@ import com.github.moraesofia.pjns.entities.Premio;
 
 import com.github.moraesofia.pjns.database.DatabaseConnection;
 import com.github.moraesofia.pjns.entities.enums.CargoEnum;
+import com.github.moraesofia.pjns.entities.enums.CategoriaEnum;
 import com.github.moraesofia.pjns.entities.enums.GeneroEnum;
 
 import java.sql.Date;
@@ -127,7 +128,33 @@ public class ArquivoJns {
         this.premiacoes = premiacoes;
     }
 
-    public List<Premio> getPremios() {
+    public List<Premio> getPremios() throws ClassNotFoundException, SQLException,
+            InstantiationException, IllegalAccessException, IOException {
+        final Connection connection = DatabaseConnection.connect();
+        try {
+            final PreparedStatement s = connection.prepareStatement("SELECT id,categoria,id_premiacao,id_vencedor " +
+                    "id_filme FROM Premio");
+            final ResultSet r = s.executeQuery();
+            while (r.next()) {
+                final Integer id = (Integer) r.getObject("id");
+                final String categoria = (String) r.getObject("categoria");
+                final Integer idPremiacao = (Integer) r.getObject("id_premiacao");
+                final Integer idVencedor = (Integer) r.getObject("id_vencedor");
+                final Integer idFilme = (Integer) r.getObject("id_filme");
+
+                final Premio premio = new Premio();
+                premio.setId(id);
+                premio.setCategoria(CategoriaEnum.valueOf(categoria));
+                premio.setIdPremiacao(idPremiacao);
+                premio.setIdVencedor(idVencedor);
+                premio.setIdFilme(idFilme);
+                premios.add(premio);
+            }
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+
         return premios;
     }
 
