@@ -5,17 +5,27 @@ package com.github.moraesofia.pjns.entities;
  */
 public class Filme {
 
+    private int id;
+
     private String titulo;
 
     private int ano;
 
     private String genero;
 
-    private Pessoa diretor;
+    private Integer idDiretor;
 
-    private Pessoa atriz;
+    private Integer idAriz;
 
-    private Pessoa ator;
+    private Integer idAtor;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTitulo() {
         return titulo;
@@ -41,27 +51,42 @@ public class Filme {
         this.genero = genero;
     }
 
-    public Pessoa getDiretor() {
-        return diretor;
+    public Integer getIdDiretor() {
+        return idDiretor;
     }
 
-    public void setDiretor(Pessoa diretor) {
-        this.diretor = diretor;
+    public void setIdDiretor(Integer idDiretor) {
+        this.idDiretor = idDiretor;
     }
 
-    public Pessoa getAtriz() {
-        return atriz;
+    public Integer getIdAriz() {
+        return idAriz;
     }
 
-    public void setAtriz(Pessoa atriz) {
-        this.atriz = atriz;
+    public void setIdAriz(Integer idAriz) {
+        this.idAriz = idAriz;
     }
 
-    public Pessoa getAtor() {
-        return ator;
+    public Integer getIdAtor() {
+        return idAtor;
     }
 
-    public void setAtor(Pessoa ator) {
-        this.ator = ator;
+    public void setIdAtor(Integer idAtor) {
+        this.idAtor = idAtor;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Filme filme = (Filme) o;
+
+        return id == filme.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }

@@ -1,10 +1,9 @@
 package com.github.moraesofia.pjns.ui;
 
 import com.github.moraesofia.pjns.files.ArquivoJns;
+import com.github.moraesofia.pjns.files.ArquivoJnsLoader;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -47,7 +46,9 @@ public class Menu {
         System.out.println("Selecione o arquivo com os dados a serem inseridos...");
         FileDialog fileDialog = new FileDialog();
         File file = fileDialog.showOpenFile();
-        if (file == null) {
+        if (file != null) {
+            System.out.println("Selecionado: " + file.getAbsolutePath());
+        } else {
             System.out.println("Inserção de dados cancelada.");
             showOptions();
             return;
@@ -55,18 +56,27 @@ public class Menu {
 
         // Obtém os dados do o arquivo.
         System.out.println("Lendo dados do arquivo...");
-        try (FileReader fileReader = new FileReader(file);
-             BufferedReader bufferedReader = new BufferedReader(fileReader)) {
-            // TODO Change this!
-            ArquivoJns data = null;
+        ArquivoJns dados = null;
+        try {
+            ArquivoJnsLoader loader = new ArquivoJnsLoader(file);
+            dados = loader.load();
+            System.out.println("Dados lidos.");
         } catch (IOException e) {
-            System.err.println("Erro ao inserir dados.");
+            System.err.println("Erro ao ler arquivo de dados.");
             e.printStackTrace();
             System.exit(1);
         }
 
+        // Valida os dados do arquivo.
+        System.out.println("Validando dados do arquivo...");
+        dados.validate(true);
+        System.out.println("Dados validados.");
+
         // TODO Deleta os dados atuais e insere os novos dados.
-        // ...
+        System.out.println(dados.getFilmes().get(0).getTitulo());
+        System.out.println(dados.getPessoas().get(0).getNome());
+        System.out.println(dados.getPremiacoes().get(0).getNome());
+        System.out.println(dados.getPremios().get(0).getCategoria());
 
         System.out.println("Dados inseridos com sucesso.");
         showOptions();

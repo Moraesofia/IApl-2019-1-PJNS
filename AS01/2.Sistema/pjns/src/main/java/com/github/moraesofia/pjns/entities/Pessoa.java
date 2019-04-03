@@ -3,20 +3,28 @@ package com.github.moraesofia.pjns.entities;
 import com.github.moraesofia.pjns.entities.enums.CargoEnum;
 import com.github.moraesofia.pjns.entities.enums.GeneroEnum;
 
-import java.time.LocalDate;
-
 /**
  * Created by aluno on 01/04/19.
  */
 public class Pessoa {
 
+    private int id;
+
     private String nome;
 
-    private LocalDate nascimento;
+    private int nascimento;
 
     private CargoEnum cargo;
 
     private GeneroEnum genero;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;
@@ -26,11 +34,11 @@ public class Pessoa {
         this.nome = nome;
     }
 
-    public LocalDate getNascimento() {
+    public int getNascimento() {
         return nascimento;
     }
 
-    public void setNascimento(LocalDate nascimento) {
+    public void setNascimento(int nascimento) {
         this.nascimento = nascimento;
     }
 
@@ -50,4 +58,18 @@ public class Pessoa {
         this.genero = genero;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Pessoa pessoa = (Pessoa) o;
+
+        return id == pessoa.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }

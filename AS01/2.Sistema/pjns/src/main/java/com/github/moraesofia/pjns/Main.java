@@ -1,12 +1,9 @@
 package com.github.moraesofia.pjns;
 
 import com.github.moraesofia.pjns.database.DatabaseConnection;
-import com.github.moraesofia.pjns.files.ArquivoJns;
-import com.github.moraesofia.pjns.files.ArquivoJnsParser;
 import com.github.moraesofia.pjns.ui.Menu;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.SQLException;

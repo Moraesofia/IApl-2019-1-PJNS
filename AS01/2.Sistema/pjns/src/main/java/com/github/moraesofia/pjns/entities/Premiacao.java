@@ -1,17 +1,23 @@
 package com.github.moraesofia.pjns.entities;
 
-import com.github.moraesofia.pjns.entities.enums.CategoriaEnum;
-
 /**
  * Created by aluno on 01/04/19.
  */
 public class Premiacao {
 
+    private int id;
+
     private String nome;
 
     private int ano;
 
-    private Premio premio;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;
@@ -29,12 +35,18 @@ public class Premiacao {
         this.ano = ano;
     }
 
-    public Premio getPremio() {
-        return premio;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Premiacao premiacao = (Premiacao) o;
+
+        return id == premiacao.id;
     }
 
-    public void setPremio(Premio premio) {
-        this.premio = premio;
+    @Override
+    public int hashCode() {
+        return id;
     }
-
 }
