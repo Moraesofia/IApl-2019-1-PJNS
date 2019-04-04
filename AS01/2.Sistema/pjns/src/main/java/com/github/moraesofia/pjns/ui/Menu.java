@@ -58,7 +58,7 @@ public class Menu {
         System.out.println("Lendo dados do arquivo...");
         ArquivoJns dados = null;
         try {
-            ArquivoJnsLoader loader = new ArquivoJnsLoader(file);
+            ArquivoJnsLoader loader = new ArquivoJnsLoader(file, true);
             dados = loader.load();
             System.out.println("Dados lidos.");
         } catch (IOException e) {
@@ -73,10 +73,11 @@ public class Menu {
         System.out.println("Dados validados.");
 
         // TODO Deleta os dados atuais e insere os novos dados.
-        System.out.println(dados.getFilmes().get(0).getTitulo());
-        System.out.println(dados.getPessoas().get(0).getNome());
-        System.out.println(dados.getPremiacoes().get(0).getNome());
-        System.out.println(dados.getPremios().get(0).getCategoria());
+        System.out.println("Leu:");
+        System.out.println(dados.getFilmes().size() + " filmes");
+        System.out.println(dados.getPessoas().size() + " pessoas");
+        System.out.println(dados.getPremiacoes().size() + " premiações");
+        System.out.println(dados.getPremios().size() + " prêmios");
 
         System.out.println("Dados inseridos com sucesso.");
         showOptions();

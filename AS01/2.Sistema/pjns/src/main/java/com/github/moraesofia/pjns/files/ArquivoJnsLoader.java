@@ -19,7 +19,9 @@ import java.io.*;
 
 public class ArquivoJnsLoader implements AutoCloseable {
 
-    private FileReader fileReader;
+    private final boolean permitirQualquerModo;
+    private final FileReader fileReader;
+
     private BufferedReader reader;
     private ArquivoJns dados = new ArquivoJns();
 
@@ -28,8 +30,9 @@ public class ArquivoJnsLoader implements AutoCloseable {
     private int totalLotes = 0; // Contagem de registros no arquivo, incluindo header e trailer
     private int totalRegistros = 0; // Contagem de registros no arquivo, incluindo header e trailer
 
-    public ArquivoJnsLoader(File file) throws FileNotFoundException {
-        fileReader = new FileReader(file);
+    public ArquivoJnsLoader(File file, boolean permitirQualquerModo) throws FileNotFoundException {
+        this.permitirQualquerModo = permitirQualquerModo;
+        this.fileReader = new FileReader(file);
     }
 
     @Override
@@ -152,10 +155,12 @@ public class ArquivoJnsLoader implements AutoCloseable {
         if (tamanhoFaltando > 0)
             skip(tamanhoFaltando);
 
-        // Como estamos carregando, o modo deve ser inserção
-        if (!insercaoOuObtencao.equals("I")) {
-            throw new IllegalArgumentException("Não é possível inserir um ArquivoJns que não " +
-                    "esteja no modo inserção.");
+        if (!permitirQualquerModo) {
+            // Como estamos carregando, o modo deveria ser inserção
+            if (!insercaoOuObtencao.equals("I")) {
+                throw new IllegalArgumentException("Não é possível inserir um ArquivoJns que não " +
+                        "esteja no modo inserção.");
+            }
         }
 
         // Vai lendo registros de detalhe (até achar o trailer do lote)
