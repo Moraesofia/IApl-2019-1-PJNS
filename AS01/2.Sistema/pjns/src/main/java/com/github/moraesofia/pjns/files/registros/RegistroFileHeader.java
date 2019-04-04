@@ -5,6 +5,7 @@ public class RegistroFileHeader extends Registro {
 
     public RegistroFileHeader(Registro registro) {
         super();
+        this.setPosicaoInicial(registro.getPosicaoInicial());
         this.setTamanho(registro.getTamanho());
         this.setNumeroLote(registro.getNumeroLote());
         this.setTipoRegistro(registro.getTipoRegistro());

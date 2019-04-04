@@ -23,6 +23,7 @@ public class ArquivoJnsLoader implements AutoCloseable {
     private BufferedReader reader;
     private ArquivoJns dados = new ArquivoJns();
 
+    private int currentPosition = 0;
     private int currentLote = 0;
     private int totalLotes = 0; // Contagem de registros no arquivo, incluindo header e trailer
     private int totalRegistros = 0; // Contagem de registros no arquivo, incluindo header e trailer
@@ -52,6 +53,7 @@ public class ArquivoJnsLoader implements AutoCloseable {
         currentLote = 0;
         totalLotes = 0;
         totalRegistros = 0;
+        currentPosition = 0;
 
         // Lê o primeiro registro, que deve ser o header do arquivo.
         Registro registro = readRegistro();
@@ -60,7 +62,8 @@ public class ArquivoJnsLoader implements AutoCloseable {
         totalRegistros++;
 
         if (lote != 0 || tipo != TipoRegistroEnum.FILE_HEADER) {
-            throw new FileFormatException("O primeiro lote deve ser o header do arquivo.");
+            throw new FileFormatException("O primeiro lote deve ser o header do arquivo.",
+                    currentPosition);
         }
 
         // O lote do file header só tem ele, então já contabiliza o lote como lido.
@@ -87,10 +90,12 @@ public class ArquivoJnsLoader implements AutoCloseable {
             // Vê se chegou no file trailer
             if (lote == 9999 || tipo == TipoRegistroEnum.FILE_TRAILER) {
                 if (lote != 9999) {
-                    throw new FileFormatException("O trailer do arquivo deve ficar no lote 9999.");
+                    throw new FileFormatException("O trailer do arquivo deve ficar no lote 9999."
+                            , currentPosition);
                 }
                 if (tipo != TipoRegistroEnum.FILE_TRAILER) {
-                    throw new FileFormatException("O lote 9999 deve ser o trailer do arquivo.");
+                    throw new FileFormatException("O lote 9999 deve ser o trailer do arquivo.",
+                            currentPosition);
                 }
 
                 // O lote do file trailer só tem ele, então já contabiliza o lote como lido.
@@ -100,11 +105,11 @@ public class ArquivoJnsLoader implements AutoCloseable {
                 RegistroFileTrailer fileTrailer = readFileTrailer(registro);
                 if (fileTrailer.getQuantidadeLotes() != totalLotes) {
                     throw new FileFormatException("O arquivo não possui a quantidade esperada de " +
-                            "lotes.");
+                            "lotes.", currentPosition);
                 }
                 if (fileTrailer.getQuantidadeRegistros() != totalRegistros) {
                     throw new FileFormatException("O arquivo não possui a quantidade esperada de " +
-                            "registros.");
+                            "registros.", currentPosition);
                 }
 
                 // Terminou o arquivo
@@ -114,15 +119,17 @@ public class ArquivoJnsLoader implements AutoCloseable {
             // Como não é file trailer, deve ser um lote header
             if (tipo != TipoRegistroEnum.LOTE_HEADER) {
                 throw new FileFormatException("O primeiro registro do lote deve ser o header " +
-                        "do lote.");
+                        "do lote.", currentPosition);
             }
             if (lote != currentLote + 1) {
                 throw new FileFormatException("Headers de lotes devem possuir numero igual ao " +
-                        "lote anterior acrescido de 1.");
+                        "lote anterior acrescido de 1.", currentPosition);
             }
 
-            // Lê o resto do lote com base no tipo
+            // Lê o header do lote
             RegistroLoteHeader loteHeader = readLoteHeader(registro);
+
+            // Lê o resto do lote com base no tipo
             if (loteHeader.getTipoLote() == TipoLoteEnum.INSERCAO_OU_OBTENCAO_DE_DADOS) {
                 readLote_InsercaoOuObtencaoDeDados(loteHeader);
             } else {
@@ -138,6 +145,12 @@ public class ArquivoJnsLoader implements AutoCloseable {
 
         // Lê os dados exclusivos desse lote header.
         String insercaoOuObtencao = readString(1);
+
+        // Pula possível espaço sobrando no header
+        int tamanhoLido = currentPosition - header.getPosicaoInicial();
+        int tamanhoFaltando = header.getTamanho() - tamanhoLido;
+        if (tamanhoFaltando > 0)
+            skip(tamanhoFaltando);
 
         // Como estamos carregando, o modo deve ser inserção
         if (!insercaoOuObtencao.equals("I")) {
@@ -156,16 +169,24 @@ public class ArquivoJnsLoader implements AutoCloseable {
             // Checa se avançou de lote indevidamente
             if (lote != currentLote) {
                 throw new FileFormatException("O número do lote não pode avançar antes o trailer " +
-                        "do lote anterior");
+                        "do lote anterior", currentPosition);
             }
 
             // Checa se chegou no lote trailer
             if (tipo == TipoRegistroEnum.LOTE_TRAILER) {
                 // Checa os totais do lote trailer.
                 RegistroLoteTrailer loteTrailer = readLoteTrailer(registro);
+
+                // Pula possível espaço sobrando no trailer
+                tamanhoLido = currentPosition - loteTrailer.getPosicaoInicial();
+                tamanhoFaltando = loteTrailer.getTamanho() - tamanhoLido;
+                if (tamanhoFaltando > 0)
+                    skip(tamanhoFaltando);
+
+                // Verifica totais
                 if (loteTrailer.getQuantidadeRegistros() != totalRegistrosLote) {
                     throw new FileFormatException("O lote não possui a quantidade esperada de " +
-                            "registros.");
+                            "registros.", currentPosition);
                 }
 
                 totalLotes++;
@@ -175,16 +196,16 @@ public class ArquivoJnsLoader implements AutoCloseable {
             // Checa se chegou em algum lote que não é detalhe
             if (tipo != TipoRegistroEnum.LOTE_DETALHE) {
                 throw new FileFormatException("O lote deve acabar (com trailer) antes de inserir " +
-                        "algum registro que não seja de detalhe.");
+                        "algum registro que não seja de detalhe.", currentPosition);
             }
 
             // Lê o registro de detalhe
-            RegistroLoteDetalhe detalhe = readLoteDetalhe(registro);
+            RegistroLoteDetalhe detalhe = readDetalhe(registro);
 
             // Checa se avançou de registro indevidamente
             if (detalhe.getNumeroRegistro() != currentRegistro + 1) {
                 throw new FileFormatException("Registros de detalhe devem possuir numero igual ao" +
-                        " registro anterior acrescido de 1.");
+                        " registro anterior acrescido de 1.", currentPosition);
             }
 
             // Lê o resto do registro de detalhe com base no tipo
@@ -209,7 +230,67 @@ public class ArquivoJnsLoader implements AutoCloseable {
                 default:
                     throw new UnsupportedTypeException();
             }
+
+            // Pula possível espaço sobrando no registro de detalhe
+            tamanhoLido = currentPosition - detalhe.getPosicaoInicial();
+            tamanhoFaltando = detalhe.getTamanho() - tamanhoLido;
+            if (tamanhoFaltando > 0)
+                skip(tamanhoFaltando);
         }
+    }
+
+    private Registro readRegistro() throws IOException {
+        Registro registro = new Registro();
+        registro.setPosicaoInicial(currentPosition);
+        registro.setTamanho(readInt(4));
+        registro.setNumeroLote(readInt(4));
+        registro.setTipoRegistro(TipoRegistroEnum.fromCode(readInt(1)));
+        return registro;
+    }
+
+    private RegistroFileHeader readFileHeader(Registro registro) throws IOException {
+        RegistroFileHeader fileHeader = new RegistroFileHeader(registro);
+        fileHeader.setVersaoLayoutArquivo(readInt(2));
+
+        // Pula possíveis espaços sobrando
+        int tamanhoLido = currentPosition - registro.getPosicaoInicial();
+        int tamanhoFaltando = registro.getTamanho() - tamanhoLido;
+        if (tamanhoFaltando > 0)
+            skip(tamanhoFaltando);
+        return fileHeader;
+    }
+
+    private RegistroFileTrailer readFileTrailer(Registro registro) throws IOException {
+        RegistroFileTrailer fileTrailer = new RegistroFileTrailer(registro);
+        fileTrailer.setQuantidadeLotes(readInt(4));
+        fileTrailer.setQuantidadeRegistros(readInt(6));
+
+        // Pula possíveis espaços sobrando
+        int tamanhoLido = currentPosition - registro.getPosicaoInicial();
+        int tamanhoFaltando = registro.getTamanho() - tamanhoLido;
+        if (tamanhoFaltando > 0)
+            skip(tamanhoFaltando);
+        return fileTrailer;
+    }
+
+    private RegistroLoteHeader readLoteHeader(Registro registro) throws IOException {
+        RegistroLoteHeader loteHeader = new RegistroLoteHeader(registro);
+        loteHeader.setTipoLote(TipoLoteEnum.fromCode(readInt(2)));
+        loteHeader.setVersaoLayoutLote(readInt(2));
+        return loteHeader;
+    }
+
+    private RegistroLoteTrailer readLoteTrailer(Registro registro) throws IOException {
+        RegistroLoteTrailer loteTrailer = new RegistroLoteTrailer(registro);
+        loteTrailer.setQuantidadeRegistros(readInt(3));
+        return loteTrailer;
+    }
+
+    private RegistroLoteDetalhe readDetalhe(Registro registro) throws IOException {
+        RegistroLoteDetalhe loteDetalhe = new RegistroLoteDetalhe(registro);
+        loteDetalhe.setNumeroRegistro(readInt(4));
+        loteDetalhe.setTipoRegistroDetalhe(TipoRegistroDetalheEnum.fromCode(readString(2)));
+        return loteDetalhe;
     }
 
     private void readDetalhe_DadosFilme() throws IOException {
@@ -219,7 +300,7 @@ public class ArquivoJnsLoader implements AutoCloseable {
         filme.setAno(readInt(4));
         filme.setGenero(readString(20));
         filme.setIdAtor(readInteger(4));
-        filme.setIdAriz(readInteger(4));
+        filme.setIdAtriz(readInteger(4));
         filme.setIdDiretor(readInteger(4));
         dados.getFilmes().add(filme);
     }
@@ -253,51 +334,11 @@ public class ArquivoJnsLoader implements AutoCloseable {
         dados.getPremiacoes().add(premiacao);
     }
 
-    private Registro readRegistro() throws IOException {
-        Registro registro = new Registro();
-        registro.setTamanho(readInt(4));
-        registro.setNumeroLote(readInt(4));
-        registro.setTipoRegistro(TipoRegistroEnum.fromCode(readInt(1)));
-        return registro;
-    }
-
-    private RegistroFileHeader readFileHeader(Registro registro) throws IOException {
-        RegistroFileHeader fileHeader = new RegistroFileHeader(registro);
-        fileHeader.setVersaoLayoutArquivo(readInt(2));
-        return fileHeader;
-    }
-
-    private RegistroFileTrailer readFileTrailer(Registro registro) throws IOException {
-        RegistroFileTrailer fileTrailer = new RegistroFileTrailer(registro);
-        fileTrailer.setQuantidadeLotes(readInt(4));
-        fileTrailer.setQuantidadeRegistros(readInt(6));
-        return fileTrailer;
-    }
-
-    private RegistroLoteHeader readLoteHeader(Registro registro) throws IOException {
-        RegistroLoteHeader loteHeader = new RegistroLoteHeader(registro);
-        loteHeader.setTipoLote(TipoLoteEnum.fromCode(readInt(2)));
-        loteHeader.setVersaoLayoutLote(readInt(2));
-        return loteHeader;
-    }
-
-    private RegistroLoteTrailer readLoteTrailer(Registro registro) throws IOException {
-        RegistroLoteTrailer loteTrailer = new RegistroLoteTrailer(registro);
-        loteTrailer.setQuantidadeRegistros(readInt(3));
-        return loteTrailer;
-    }
-
-    private RegistroLoteDetalhe readLoteDetalhe(Registro registro) throws IOException {
-        RegistroLoteDetalhe loteDetalhe = new RegistroLoteDetalhe(registro);
-        loteDetalhe.setNumeroRegistro(readInt(4));
-        loteDetalhe.setTipoRegistroDetalhe(TipoRegistroDetalheEnum.fromCode(readString(2)));
-        return loteDetalhe;
-    }
-
     private Integer readInteger(int length) throws IOException {
         char[] chars = new char[length];
         if (reader.read(chars) < 0)
-            throw new FileFormatException("Campo faltando caracteres");
+            throw new FileFormatException("Campo faltando caracteres", currentPosition);
+        currentPosition += length;
         String string = new String(chars);
         if (string.trim().isEmpty())
             return null;
@@ -308,14 +349,23 @@ public class ArquivoJnsLoader implements AutoCloseable {
     private int readInt(int length) throws IOException {
         char[] chars = new char[length];
         if (reader.read(chars) < 0)
-            throw new FileFormatException("Campo faltando caracteres");
+            throw new FileFormatException("Campo faltando caracteres", currentPosition);
+        currentPosition += length;
         return Integer.parseInt(new String(chars));
     }
 
     private String readString(int length) throws IOException {
         char[] chars = new char[length];
         if (reader.read(chars) < 0)
-            throw new FileFormatException("Campo faltando caracteres");
+            throw new FileFormatException("Campo faltando caracteres", currentPosition);
+        currentPosition += length;
         return new String(chars).trim();
+    }
+
+    private void skip(int length) throws IOException {
+        long skipped = reader.skip(length);
+        if (skipped < length)
+            throw new FileFormatException("Campo faltando caracteres", currentPosition);
+        currentPosition += length;
     }
 }

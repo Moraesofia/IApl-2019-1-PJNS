@@ -9,6 +9,7 @@ public class RegistroLoteDetalhe extends Registro {
 
     public RegistroLoteDetalhe(Registro registro) {
         super();
+        this.setPosicaoInicial(registro.getPosicaoInicial());
         this.setTamanho(registro.getTamanho());
         this.setNumeroLote(registro.getNumeroLote());
         this.setTipoRegistro(registro.getTipoRegistro());

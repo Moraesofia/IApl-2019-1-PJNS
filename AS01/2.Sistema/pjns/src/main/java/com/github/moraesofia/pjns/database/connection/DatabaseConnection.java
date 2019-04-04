@@ -1,4 +1,4 @@
-package com.github.moraesofia.pjns.database;
+package com.github.moraesofia.pjns.database.connection;
 
 import java.io.IOException;
 import java.io.InputStream;

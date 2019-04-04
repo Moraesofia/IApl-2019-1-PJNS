@@ -1,6 +1,6 @@
 package com.github.moraesofia.pjns;
 
-import com.github.moraesofia.pjns.database.DatabaseConnection;
+import com.github.moraesofia.pjns.database.connection.DatabaseConnection;
 import com.github.moraesofia.pjns.ui.Menu;
 
 import java.io.IOException;
