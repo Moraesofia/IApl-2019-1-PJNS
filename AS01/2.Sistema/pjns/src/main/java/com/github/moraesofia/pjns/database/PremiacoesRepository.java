@@ -63,8 +63,16 @@ public class PremiacoesRepository {
         return added;
     }
 
-    public void deleteAll() {
-        // TODO
+    public void deleteAll() throws ClassNotFoundException, SQLException,
+            InstantiationException, IllegalAccessException, IOException {
+        final Connection connection = DatabaseConnection.connect();
+        try {
+            PreparedStatement s;
+            s = connection.prepareStatement("DELETE FROM Premiacao");
+            s.executeUpdate();
+        } catch (final SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
     }
 
 }
