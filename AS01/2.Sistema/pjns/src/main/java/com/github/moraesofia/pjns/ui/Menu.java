@@ -1,11 +1,11 @@
 package com.github.moraesofia.pjns.ui;
 
-import com.github.moraesofia.pjns.files.ArquivoJns;
-import com.github.moraesofia.pjns.files.ArquivoJnsLoader;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
+
+import com.github.moraesofia.pjns.files.ArquivoJns;
+import com.github.moraesofia.pjns.files.ArquivoJnsLoader;
 
 /**
  * Menu principal em interface de linha de comando.
@@ -85,8 +85,6 @@ public class Menu {
 
     private void showSalvar() {
         System.out.println();
-
-        // TODO
 
         System.out.println("Dados obtidos com sucesso.");
         showOptions();

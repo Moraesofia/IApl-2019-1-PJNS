@@ -17,9 +17,13 @@ public class ArquivoJnsSaver {
     private static String VERSAO = "01";
 
     /**
+     * Quantidade de lotes;
+     */
+    private Integer countLotes = 1;
+    /**
      *
      */
-    private static Integer countRegistros = 1;
+    private Integer countRegistros = 0;
 
     /**
      * Salva um ArquivoJns como um arquivo de texto conforme formato definido pelo
@@ -28,37 +32,90 @@ public class ArquivoJnsSaver {
      * @param dados ArquivoJns com os dados a serem salvos.
      * @param file File no qual será salvo o texto gerado.
      */
-    public static void save(ArquivoJns dados, File file) {
+    public void save(ArquivoJns dados, File file) {
         StringBuilder conteudo = new StringBuilder();
 
         // Header do arquivo // tam 11 // ...
-        String headerArquivo = headerArquivo("0011", "0000", "0", VERSAO);
+        String headerArquivo = headerArquivo(11, 0, 0, VERSAO);
+        countRegistros++;
         conteudo.append(headerArquivo);
+        conteudo.append("\n");
 
         // Header lote // tam 14
-        String headerLote = headerLote("0014", "0001", "1", "01", VERSAO);
+        String headerLote = headerLote(14, 1, 1, 1, VERSAO);
+        countRegistros++;
         conteudo.append(headerLote);
+        conteudo.append("\n");
 
         // resposta para obtenção de arquivo // tam 36 // tipo "AC"
-        String regObtencao = BeginRegistro("0036", "0001", "2", countRegistros.toString(), "AC");
-        countRegistros++;
+        String regObtencao = beginRegistro(36, 1, 2, countLotes, "AC");
         String condicao = "S" + formatStr("20", "Ocorrido com sucesso");
+        countRegistros++;
+        countLotes++;
         conteudo.append(regObtencao).append(condicao);
+        conteudo.append("\n");
 
         // rd's premiacao // tam 43 // tipo "AD"
         for (Premiacao p : dados.getPremiacoes()) {
-            if (validPremiacao(p)) {
+            if (!validPremiacao(p)) {
                 throw new IllegalArgumentException("Premiação ID " + p.getId() + " inválida");
 
             } else {
-                String headRePremiacao = BeginRegistro("0043", "0001", "2", countRegistros.toString(), "AD");
-                String idP = formatNum("4", Integer.toString(p.getId()));
+                String headRePremiacao = beginRegistro(43, 1, 2, countLotes, "AD");
+                String idP = formatNum("4", p.getId());
                 String nomeP = formatStr("20", p.getNome());
-                String anoP = formatNum("4", Integer.toString(p.getAno()));
+                String anoP = formatNum("4", p.getAno());
                 countRegistros++;
+                countLotes++;
 
                 conteudo.append(headRePremiacao).append(idP).append(nomeP).append(anoP);
+                conteudo.append("\n");
             }
+
+        }
+
+        // rd's pessoa // tam 98 // tipo "AF"
+        for (Pessoa pe : dados.getPessoas()) {
+            if (!validPessoa(pe)) {
+                throw new IllegalArgumentException("Pessoa ID " + pe.getId() + " inválida");
+
+            } else {
+                String headRePessoa = beginRegistro(98, 1, 2, countLotes, "AF");
+                String idPe = formatNum("4", pe.getId());
+                String nomePe = formatStr("50", pe.getNome());
+                String cargoPe = formatStr("20", pe.getCargo().getText());
+                String nascP = formatNum("8", pe.getNascimento());
+                String genPe = formatStr("1", pe.getGenero().getText());
+                countRegistros++;
+                countLotes++;
+
+                conteudo.append(headRePessoa).append(idPe).append(nomePe).append(cargoPe).append(nascP).append(genPe);
+            }
+            conteudo.append("\n");
+
+        }
+
+        // rd's filme // tam 85 // tipo "AG"
+        for (Filme f : dados.getFilmes()) {
+            if (!validFilm(f)) {
+                throw new IllegalArgumentException("Filme ID " + f.getId() + " inválido");
+
+            } else {
+                String headReFilme = beginRegistro(85, 1, 2, countLotes, "AG");
+                String idF = formatNum("4", f.getId());
+                String tituloF = formatStr("30", f.getTitulo());
+                String anoF = formatNum("4", f.getAno());
+                String generoF = formatStr("20", f.getGenero());
+                String idAtorF = formatNum("4", f.getIdAtor());
+                String idAtrizF = formatNum("4", f.getIdAtriz());
+                String idDiretorF = formatNum("4", f.getIdDiretor());
+                countRegistros++;
+                countLotes++;
+
+                conteudo.append(headReFilme).append(idF).append(tituloF).append(anoF).append(generoF).append(idAtorF)
+                        .append(idAtrizF).append(idDiretorF);
+            }
+            conteudo.append("\n");
 
         }
 
@@ -67,80 +124,41 @@ public class ArquivoJnsSaver {
          * TODO Flag IdFilme nulo?? como formata?
          */
         for (Premio pr : dados.getPremios()) {
-            if (validPremio(pr)) {
+            if (!validPremio(pr)) {
                 throw new IllegalArgumentException("Premio ID " + pr.getId() + " inválido");
 
             } else {
-                String headRePremio = BeginRegistro("0051", "0001", "2", countRegistros.toString(), "AE");
-                String idPr = formatNum("4", Integer.toString(pr.getId()));
+                String headRePremio = beginRegistro(51, 1, 2, countLotes, "AE");
+                String idPr = formatNum("4", pr.getId());
                 String catPr = formatStr("20", pr.getCategoria().getText());
-                String idVenPr = formatNum("4", Integer.toString(pr.getId()));
-                String idFilmPr = formatNum("4", Integer.toString(pr.getIdFilme()));
-                String idPremPr = formatNum("4", Integer.toString(pr.getIdPremiacao()));
+                String idVenPr = formatNum("4", pr.getId());
+                String idFilmPr = formatNum("4", pr.getIdFilme());
+                String idPremPr = formatNum("4", pr.getIdPremiacao());
                 countRegistros++;
+                countLotes++;
 
                 conteudo.append(headRePremio).append(idPr).append(catPr).append(idVenPr).append(idFilmPr)
                         .append(idPremPr);
             }
 
         }
-
-        // rd's pessoa // tam 98 // tipo "AF"
-        for (Pessoa pe : dados.getPessoas()) {
-            if (validPessoa(pe)) {
-                throw new IllegalArgumentException("Pessoa ID " + pe.getId() + " inválida");
-
-            } else {
-                String headRePessoa = BeginRegistro("0098", "0001", "2", countRegistros.toString(), "AF");
-                String idPe = formatNum("4", Integer.toString(pe.getId()));
-                String nomePe = formatStr("50", pe.getNome());
-                String cargoPe = formatStr("20", pe.getCargo().getText());
-                String nascP = formatNum("8", Integer.toString(pe.getNascimento()));
-                String genPe = formatStr("1", pe.getGenero().getText());
-                countRegistros++;
-
-                conteudo.append(headRePessoa).append(idPe).append(nomePe).append(cargoPe).append(nascP).append(genPe);
-            }
-
-        }
-
-        // rd's filme // tam 85 // tipo "AG"
-        for (Filme f : dados.getFilmes()) {
-            if (validFilm(f)) {
-                throw new IllegalArgumentException("Filme ID " + f.getId() + " inválido");
-
-            } else {
-                String headReFilme = BeginRegistro("0085", "0001", "2", countRegistros.toString(), "AG");
-                String idF = formatNum("4", Integer.toString(f.getId()));
-                String tituloF = formatStr("30", f.getTitulo());
-                String anoF = formatNum("4", Integer.toString(f.getAno()));
-                String generoF = formatStr("20", f.getGenero());
-                String idAtorF = formatNum("4", f.getIdAtor().toString());
-                String idAtrizF = formatNum("4", f.getIdAtriz().toString());
-                String idDiretorF = formatNum("4", f.getIdDiretor().toString());
-
-                // A PARTIR DAQUI NÃO HAVERÃO MAIS REGISTROS - PARAR DE CONTAR!
-
-                conteudo.append(headReFilme).append(idF).append(tituloF).append(anoF).append(generoF).append(idAtorF)
-                        .append(idAtrizF).append(idDiretorF);
-            }
-
-        }
+        conteudo.append("\n");
 
         // trailer lotes // tam 12 // tipoReg '3'
-        String trailerLote = trailerLote("0012", "0001", "3", countRegistros.toString());
+        String trailerLote = trailerLote(12, 1, 3, countRegistros);
         conteudo.append(trailerLote);
+        countRegistros++;
 
-        // trailer arquivo // tam 19 // tipoReg '9' ...
-        String trailerArquivo = trailerArquivo("0019", "9999", "9", "0001", countRegistros.toString());
+        // trailer arquivo // tam 19 // tipoReg '9' // Lotes: 3...
+        String trailerArquivo = trailerArquivo(19, 9999, 9, 3, countRegistros + 1);
         conteudo.append(trailerArquivo);
+        conteudo.append("\n");
 
         writeFile(conteudo.toString(), file);
 
     }
 
-    private static String trailerArquivo(String tamReg, String numLote, String tipoReg, String qntLotesArq,
-            String qntRegArq) {
+    private static String trailerArquivo(int tamReg, int numLote, int tipoReg, int qntLotesArq, int qntRegArq) {
         StringBuilder tail = new StringBuilder();
         tail.append(formatNum("4", tamReg));
         tail.append(formatNum("4", numLote));
@@ -151,7 +169,7 @@ public class ArquivoJnsSaver {
         return tail.toString();
     }
 
-    private static String trailerLote(String tamReg, String numLote, String tipoReg, String qntRegLote) {
+    private static String trailerLote(int tamReg, int numLote, int tipoReg, int qntRegLote) {
         StringBuilder tail = new StringBuilder();
         tail.append(formatNum("4", tamReg));
         tail.append(formatNum("4", numLote));
@@ -161,7 +179,7 @@ public class ArquivoJnsSaver {
         return tail.toString();
     }
 
-    private static String headerLote(String tamReg, String numLote, String tipoReg, String tipolote, String versao) {
+    private static String headerLote(int tamReg, int numLote, int tipoReg, int tipolote, String versao) {
         StringBuilder head = new StringBuilder();
         head.append(formatNum("4", tamReg));
         head.append(formatNum("4", numLote));
@@ -173,7 +191,7 @@ public class ArquivoJnsSaver {
         return head.toString();
     }
 
-    private static String headerArquivo(String tamReg, String numLote, String tipoReg, String versao) {
+    private static String headerArquivo(int tamReg, int numLote, int tipoReg, String versao) {
         StringBuilder head = new StringBuilder();
         head.append(formatNum("4", tamReg));
         head.append(formatNum("4", numLote));
@@ -193,8 +211,7 @@ public class ArquivoJnsSaver {
      * @param tipoRegDetalhe
      * @return
      */
-    private static String BeginRegistro(String tamReg, String numLote, String tipoReg, String numReg,
-            String tipoRegDetalhe) {
+    private static String beginRegistro(int tamReg, int numLote, int tipoReg, int numReg, String tipoRegDetalhe) {
         StringBuilder head = new StringBuilder();
         head.append(formatNum("4", tamReg));
         head.append(formatNum("4", numLote));
@@ -206,6 +223,7 @@ public class ArquivoJnsSaver {
     }
 
     private static boolean validSize(String str, int size) {
+        System.out.println(str + " " + size);
         if (str.length() > size) {
             return false;
         } else {
@@ -297,7 +315,7 @@ public class ArquivoJnsSaver {
         return formatted;
     }
 
-    private static String formatNum(String size, String num) {
+    private static String formatNum(String size, int num) {
         String form = "%0" + size + "d";
         String formatted = String.format(form, num);
 
