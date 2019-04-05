@@ -142,6 +142,9 @@ public class ArquivoJnsLoader implements AutoCloseable {
     }
 
     private void readLote_InsercaoOuObtencaoDeDados(RegistroLoteHeader header) throws IOException {
+    	if (header.getTamanho() < 14)
+    		throw new FileFormatException("O tamanho do registro não pode ser menor que o mínimo (14)", currentPosition - 8);
+    	
         currentLote = header.getNumeroLote();
         int currentRegistro = 0;
         int totalRegistrosLote = 1; // Contagem de registros no lote, incluindo header e trailer
@@ -179,6 +182,9 @@ public class ArquivoJnsLoader implements AutoCloseable {
 
             // Checa se chegou no lote trailer
             if (tipo == TipoRegistroEnum.LOTE_TRAILER) {
+            	if (registro.getTamanho() < 13)
+            		throw new FileFormatException("O tamanho do registro não pode ser menor que o mínimo (13)", currentPosition - 4);
+            	
                 // Checa os totais do lote trailer.
                 RegistroLoteTrailer loteTrailer = readLoteTrailer(registro);
 
@@ -221,16 +227,16 @@ public class ArquivoJnsLoader implements AutoCloseable {
                     // Ignora pois não tem impacto na obtenção dos dados.
                     break;
                 case DADOS_PREMIACAO:
-                    readDetalhe_DadosPremiacao();
+                    readDetalhe_DadosPremiacao(detalhe);
                     break;
                 case DADOS_PREMIO:
-                    readDetalhe_DadosPremio();
+                    readDetalhe_DadosPremio(detalhe);
                     break;
                 case DADOS_PESSOA:
-                    readDetalhe_DadosPessoa();
+                    readDetalhe_DadosPessoa(detalhe);
                     break;
                 case DADOS_FILME:
-                    readDetalhe_DadosFilme();
+                    readDetalhe_DadosFilme(detalhe);
                     break;
                 default:
                     throw new UnsupportedTypeException();
@@ -254,6 +260,9 @@ public class ArquivoJnsLoader implements AutoCloseable {
     }
 
     private RegistroFileHeader readFileHeader(Registro registro) throws IOException {
+    	if (registro.getTamanho() < 11)
+    		throw new FileFormatException("O tamanho do registro não pode ser menor que o mínimo (11)", currentPosition - 4);
+    	
         RegistroFileHeader fileHeader = new RegistroFileHeader(registro);
         fileHeader.setVersaoLayoutArquivo(readInt(2));
 
@@ -266,6 +275,9 @@ public class ArquivoJnsLoader implements AutoCloseable {
     }
 
     private RegistroFileTrailer readFileTrailer(Registro registro) throws IOException {
+    	if (registro.getTamanho() < 19)
+    		throw new FileFormatException("O tamanho do registro não pode ser menor que o mínimo (19)", currentPosition - 3);
+    	
         RegistroFileTrailer fileTrailer = new RegistroFileTrailer(registro);
         fileTrailer.setQuantidadeLotes(readInt(4));
         fileTrailer.setQuantidadeRegistros(readInt(6));
@@ -287,7 +299,7 @@ public class ArquivoJnsLoader implements AutoCloseable {
 
     private RegistroLoteTrailer readLoteTrailer(Registro registro) throws IOException {
         RegistroLoteTrailer loteTrailer = new RegistroLoteTrailer(registro);
-        loteTrailer.setQuantidadeRegistros(readInt(3));
+        loteTrailer.setQuantidadeRegistros(readInt(4));
         return loteTrailer;
     }
 
@@ -298,7 +310,10 @@ public class ArquivoJnsLoader implements AutoCloseable {
         return loteDetalhe;
     }
 
-    private void readDetalhe_DadosFilme() throws IOException {
+    private void readDetalhe_DadosFilme(RegistroLoteDetalhe registro) throws IOException {
+    	if (registro.getTamanho() < 85)
+    		throw new FileFormatException("O tamanho do registro não pode ser menor que o mínimo (85)", currentPosition - 10);
+    	
         Filme filme = new Filme();
         filme.setId(readInt(4));
         filme.setTitulo(readString(30));
@@ -311,7 +326,10 @@ public class ArquivoJnsLoader implements AutoCloseable {
     }
 
 
-    private void readDetalhe_DadosPremio() throws IOException {
+    private void readDetalhe_DadosPremio(RegistroLoteDetalhe registro) throws IOException {
+    	if (registro.getTamanho() < 51)
+    		throw new FileFormatException("O tamanho do registro não pode ser menor que o mínimo (51)", currentPosition - 10);
+    	
         Premio premio = new Premio();
         premio.setId(readInt(4));
         premio.setCategoria(CategoriaEnum.fromText(readString(20)));
@@ -321,7 +339,10 @@ public class ArquivoJnsLoader implements AutoCloseable {
         dados.getPremios().add(premio);
     }
 
-    private void readDetalhe_DadosPessoa() throws IOException {
+    private void readDetalhe_DadosPessoa(RegistroLoteDetalhe registro) throws IOException {
+    	if (registro.getTamanho() < 98)
+    		throw new FileFormatException("O tamanho do registro não pode ser menor que o mínimo (98)", currentPosition - 10);
+    	
         Pessoa pessoa = new Pessoa();
         pessoa.setId(readInt(4));
         pessoa.setNome(readString(50));
@@ -331,7 +352,10 @@ public class ArquivoJnsLoader implements AutoCloseable {
         dados.getPessoas().add(pessoa);
     }
 
-    private void readDetalhe_DadosPremiacao() throws IOException {
+    private void readDetalhe_DadosPremiacao(RegistroLoteDetalhe registro) throws IOException {
+    	if (registro.getTamanho() < 43)
+    		throw new FileFormatException("O tamanho do registro não pode ser menor que o mínimo (43)", currentPosition - 10);
+    	
         Premiacao premiacao = new Premiacao();
         premiacao.setId(readInt(4));
         premiacao.setNome(readString(20));
@@ -351,12 +375,16 @@ public class ArquivoJnsLoader implements AutoCloseable {
             return Integer.parseInt(string);
     }
 
-    private int readInt(int length) throws IOException {
+    private Integer readInt(int length) throws IOException {
         char[] chars = new char[length];
         if (reader.read(chars) < 0)
             throw new FileFormatException("Campo faltando caracteres", currentPosition);
         currentPosition += length;
-        return Integer.parseInt(new String(chars));
+        String string = new String(chars);
+        if (string.trim().isEmpty())
+        	return null;
+        else
+        	return Integer.parseInt(string);
     }
 
     private String readString(int length) throws IOException {

@@ -13,8 +13,8 @@ public class Main {
     private static Menu menu;
 
     public static void main(String[] args) {
-        if (!establishConnection())
-            System.exit(1);
+		if (!establishConnection())
+			System.exit(1);
 
         menu = new Menu();
         menu.show();
