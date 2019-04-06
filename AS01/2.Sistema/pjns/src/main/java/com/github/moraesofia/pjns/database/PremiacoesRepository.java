@@ -10,69 +10,56 @@ import java.util.List;
 
 public class PremiacoesRepository {
 
-    public List<Premiacao> getAll() throws ClassNotFoundException, SQLException,
+    private final Connection connection;
+
+    public PremiacoesRepository() throws ClassNotFoundException, SQLException,
             InstantiationException, IllegalAccessException, IOException {
-        final Connection connection = DatabaseConnection.connect();
+        this.connection = DatabaseConnection.connect();
+    }
+
+    public PremiacoesRepository(Connection connection) {
+        this.connection = connection;
+    }
+
+    public List<Premiacao> getAll() throws SQLException {
         final List<Premiacao> premiacoes = new ArrayList<>();
-        try {
-            final PreparedStatement s = connection.prepareStatement("SELECT id,nome,ano FROM " +
-                    "Premiacao");
-            final ResultSet r = s.executeQuery();
-            while (r.next()) {
-                final Integer id = (Integer) r.getObject("id");
-                final String nome = (String) r.getObject("nome");
-                final Integer ano = (Integer) r.getObject("ano");
+        final PreparedStatement s = connection.prepareStatement("SELECT id,nome,ano FROM " +
+                "Premiacao");
+        final ResultSet r = s.executeQuery();
+        while (r.next()) {
+            final Integer id = (Integer) r.getObject("id");
+            final String nome = (String) r.getObject("nome");
+            final Integer ano = (Integer) r.getObject("ano");
 
-                final Premiacao premiacao = new Premiacao();
-                premiacao.setId(id);
-                premiacao.setNome(nome);
-                premiacao.setAno(ano);
-                premiacoes.add(premiacao);
-            }
-
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            final Premiacao premiacao = new Premiacao();
+            premiacao.setId(id);
+            premiacao.setNome(nome);
+            premiacao.setAno(ano);
+            premiacoes.add(premiacao);
         }
         return premiacoes;
     }
 
-    public boolean add(final Premiacao premiacao) throws ClassNotFoundException,
-            SQLException, InstantiationException, IllegalAccessException, IOException {
-        final Connection connection = DatabaseConnection.connect();
-        try {
-            PreparedStatement s;
-            s = connection.prepareStatement("INSERT INTO Premiacao(id,nome,ano), VALUES (?,?,?)",
-                    Statement.RETURN_GENERATED_KEYS);
-            s.setObject(1, premiacao.getId(), Types.INTEGER);
-            s.setObject(2, premiacao.getNome(), Types.VARCHAR);
-            s.setObject(3, premiacao.getAno(), Types.INTEGER);
-            s.executeUpdate();
-            return true;
-        } catch (final SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-        return false;
+    public void add(final Premiacao premiacao) throws SQLException {
+        PreparedStatement s;
+        s = connection.prepareStatement("INSERT INTO Premiacao(id,nome,ano) VALUES (?,?,?)",
+                Statement.RETURN_GENERATED_KEYS);
+        s.setObject(1, premiacao.getId(), Types.INTEGER);
+        s.setObject(2, premiacao.getNome(), Types.VARCHAR);
+        s.setObject(3, premiacao.getAno(), Types.INTEGER);
+        s.executeUpdate();
     }
 
-    public boolean add(List<Premiacao> premiacoes) throws ClassNotFoundException,
-            SQLException, InstantiationException, IOException, IllegalAccessException {
-        boolean added = false;
+    public void add(List<Premiacao> premiacoes) throws SQLException {
         for (final Premiacao premiacao : premiacoes) {
-            added |= add(premiacao);
+            add(premiacao);
         }
-        return added;
     }
 
-    public void deleteAll() throws ClassNotFoundException, SQLException,
-            InstantiationException, IllegalAccessException, IOException {
-        final Connection connection = DatabaseConnection.connect();
-        try {
-            PreparedStatement s;
-            s = connection.prepareStatement("DELETE FROM Premiacao");
-            s.executeUpdate();
-        } catch (final SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
+    public void deleteAll() throws SQLException {
+        PreparedStatement s;
+        s = connection.prepareStatement("DELETE FROM Premiacao");
+        s.executeUpdate();
     }
 
 }

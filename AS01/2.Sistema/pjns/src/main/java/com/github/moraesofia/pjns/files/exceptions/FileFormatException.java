@@ -6,6 +6,6 @@ public class FileFormatException extends RuntimeException {
     }
 
     public FileFormatException(String message, int position) {
-        super(message + "(na posição " + position + ")");
+        super(message + " (Próximo à posição " + position + ")");
     }
 }

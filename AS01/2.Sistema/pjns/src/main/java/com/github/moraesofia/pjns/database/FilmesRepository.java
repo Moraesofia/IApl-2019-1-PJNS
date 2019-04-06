@@ -10,80 +10,69 @@ import java.util.List;
 
 public class FilmesRepository {
 
-    public List<Filme> getAll() throws ClassNotFoundException, SQLException,
+    private final Connection connection;
+
+    public FilmesRepository() throws ClassNotFoundException, SQLException,
             InstantiationException, IllegalAccessException, IOException {
-        final Connection connection = DatabaseConnection.connect();
+        this.connection = DatabaseConnection.connect();
+    }
+
+    public FilmesRepository(Connection connection) {
+        this.connection = connection;
+    }
+
+    public List<Filme> getAll() throws SQLException {
         final List<Filme> filmes = new ArrayList<>();
-        try {
-            final PreparedStatement s = connection.prepareStatement("SELECT id,titulo,ano,genero," +
-                    "id_diretor, " +
-                    "id_ator,id_atriz FROM Filme");
-            final ResultSet r = s.executeQuery();
-            while (r.next()) {
-                final Integer id = (Integer) r.getObject("id");
-                final String titulo = (String) r.getObject("titulo");
-                final String genero = (String) r.getObject("genero");
-                final Integer idDiretor = (Integer) r.getObject("id_diretor");
-                final Integer idAtor = (Integer) r.getObject("id_ator");
-                final Integer idAtriz = (Integer) r.getObject("id_atriz");
+        final PreparedStatement s = connection.prepareStatement("SELECT id,titulo,ano,genero," +
+                "id_diretor, " +
+                "id_ator,id_atriz FROM Filme");
+        final ResultSet r = s.executeQuery();
+        while (r.next()) {
+            final Integer id = (Integer) r.getObject("id");
+            final String titulo = (String) r.getObject("titulo");
+            final Integer ano = (Integer) r.getObject("ano");
+            final String genero = (String) r.getObject("genero");
+            final Integer idDiretor = (Integer) r.getObject("id_diretor");
+            final Integer idAtor = (Integer) r.getObject("id_ator");
+            final Integer idAtriz = (Integer) r.getObject("id_atriz");
 
-                final Filme filme = new Filme();
-                filme.setId(id);
-                filme.setTitulo(titulo);
-                filme.setGenero(genero);
-                filme.setIdDiretor(idDiretor);
-                filme.setIdAtor(idAtor);
-                filme.setIdAtriz(idAtriz);
-                filmes.add(filme);
-            }
-
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            final Filme filme = new Filme();
+            filme.setId(id);
+            filme.setTitulo(titulo);
+            filme.setAno(ano);
+            filme.setGenero(genero);
+            filme.setIdDiretor(idDiretor);
+            filme.setIdAtor(idAtor);
+            filme.setIdAtriz(idAtriz);
+            filmes.add(filme);
         }
         return filmes;
     }
 
-    public boolean add(final Filme filme) throws ClassNotFoundException, SQLException,
-            InstantiationException, IllegalAccessException, IOException {
-        final Connection connection = DatabaseConnection.connect();
-        try {
-            PreparedStatement s;
-            s = connection.prepareStatement("INSERT INTO Filme(id,titulo,ano,genero,id_diretor," +
-                    "id_ator," +
-                    "id_atriz), VALUES (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
-            s.setObject(1, filme.getId(), Types.INTEGER);
-            s.setObject(2, filme.getTitulo(), Types.VARCHAR);
-            s.setObject(3, filme.getAno(), Types.INTEGER);
-            s.setObject(4, filme.getGenero(), Types.VARCHAR);
-            s.setObject(5, filme.getIdDiretor(), Types.INTEGER);
-            s.setObject(6, filme.getIdAtor(), Types.INTEGER);
-            s.setObject(7, filme.getIdAtriz(), Types.INTEGER);
-            s.executeUpdate();
-            return true;
-        } catch (final SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-        return false;
+    public void add(final Filme filme) throws SQLException {
+        PreparedStatement s;
+        s = connection.prepareStatement("INSERT INTO Filme(id,titulo,ano,genero,id_diretor," +
+                "id_ator," +
+                "id_atriz) VALUES (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+        s.setObject(1, filme.getId(), Types.INTEGER);
+        s.setObject(2, filme.getTitulo(), Types.VARCHAR);
+        s.setObject(3, filme.getAno(), Types.INTEGER);
+        s.setObject(4, filme.getGenero(), Types.VARCHAR);
+        s.setObject(5, filme.getIdDiretor(), Types.INTEGER);
+        s.setObject(6, filme.getIdAtor(), Types.INTEGER);
+        s.setObject(7, filme.getIdAtriz(), Types.INTEGER);
+        s.executeUpdate();
     }
 
-    public boolean add(List<Filme> filmes) throws ClassNotFoundException, SQLException,
-            InstantiationException, IOException, IllegalAccessException {
-        boolean added = false;
+    public void add(List<Filme> filmes) throws SQLException {
         for (final Filme filme : filmes) {
-            added |= add(filme);
+            add(filme);
         }
-        return added;
     }
 
-    public void deleteAll() throws ClassNotFoundException, SQLException,
-            InstantiationException, IllegalAccessException, IOException {
-        final Connection connection = DatabaseConnection.connect();
-        try {
-            PreparedStatement s;
-            s = connection.prepareStatement("DELETE FROM Filme");
-            s.executeUpdate();
-        } catch (final SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
+    public void deleteAll() throws SQLException {
+        PreparedStatement s;
+        s = connection.prepareStatement("DELETE FROM Filme");
+        s.executeUpdate();
     }
 }

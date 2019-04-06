@@ -12,7 +12,7 @@ public class Pessoa {
 
     private String nome;
 
-    private int nascimento;
+    private String nascimento;
 
     private CargoEnum cargo;
 
@@ -34,11 +34,11 @@ public class Pessoa {
         this.nome = nome;
     }
 
-    public int getNascimento() {
+    public String getNascimento() {
         return nascimento;
     }
 
-    public void setNascimento(int nascimento) {
+    public void setNascimento(String nascimento) {
         this.nascimento = nascimento;
     }
 
