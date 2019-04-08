@@ -31,8 +31,8 @@ public class DatabaseConnection {
      *
      * @return database connection.
      */
-    public static Connection connect() throws ClassNotFoundException, IOException,
-            SQLException, IllegalAccessException, InstantiationException {
+    public static Connection connect()
+            throws ClassNotFoundException, IOException, SQLException, IllegalAccessException, InstantiationException {
         Properties prop = getProperties();
         username = prop.getProperty("Username");
         password = prop.getProperty("Password");

@@ -1,12 +1,12 @@
 package com.github.moraesofia.pjns.ui;
 
+import java.io.File;
+import java.util.Scanner;
+
 import com.github.moraesofia.pjns.database.ArquivoJnsRepository;
 import com.github.moraesofia.pjns.files.ArquivoJns;
 import com.github.moraesofia.pjns.files.ArquivoJnsLoader;
 import com.github.moraesofia.pjns.files.ArquivoJnsSaver;
-
-import java.io.File;
-import java.util.Scanner;
 
 /**
  * Menu principal em interface de linha de comando.
@@ -124,5 +124,6 @@ public class Menu {
     private void showQuit() {
         System.out.println();
         System.out.println("Encerrando o Prêmios JNS...");
+        System.exit(0);
     }
 }
