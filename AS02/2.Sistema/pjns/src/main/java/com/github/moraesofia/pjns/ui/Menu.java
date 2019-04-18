@@ -1,6 +1,7 @@
 package com.github.moraesofia.pjns.ui;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
 
 import com.github.moraesofia.pjns.database.ArquivoJnsRepository;
@@ -13,13 +14,13 @@ import com.github.moraesofia.pjns.files.ArquivoJnsSaver;
  */
 public class Menu {
 
-    public void show() {
+    public void show() throws IOException {
         System.out.println();
         System.out.println("Bem-vindo(a) ao Prêmios JNS.");
         showOptions();
     }
 
-    private void showOptions() {
+    private void showOptions() throws IOException {
         System.out.println();
         System.out.println("Escolha a operação:");
         System.out.println(" 1) Inserir arquivo com novos dados");
@@ -40,7 +41,7 @@ public class Menu {
         }
     }
 
-    private void showInserir() {
+    private void showInserir() throws IOException {
         System.out.println();
 
         // Seleciona o arquivo.
@@ -87,7 +88,7 @@ public class Menu {
         showOptions();
     }
 
-    private void showSalvar() {
+    private void showSalvar() throws IOException {
         System.out.println();
 
         // Seleciona o arquivo.

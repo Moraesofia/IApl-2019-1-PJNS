@@ -1,10 +1,10 @@
 package com.github.moraesofia.pjns;
 
-import com.github.moraesofia.pjns.database.connection.DatabaseConnection;
-import com.github.moraesofia.pjns.ui.Menu;
-
 import java.io.IOException;
 import java.sql.SQLException;
+
+import com.github.moraesofia.pjns.database.connection.DatabaseConnection;
+import com.github.moraesofia.pjns.ui.Menu;
 
 public class Main {
 
@@ -15,7 +15,11 @@ public class Main {
             System.exit(1);
 
         menu = new Menu();
-        menu.show();
+        try {
+            menu.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static boolean establishConnection() {
