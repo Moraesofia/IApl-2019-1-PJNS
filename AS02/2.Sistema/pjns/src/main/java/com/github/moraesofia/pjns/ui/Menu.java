@@ -1,13 +1,13 @@
 package com.github.moraesofia.pjns.ui;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Scanner;
-
 import com.github.moraesofia.pjns.database.ArquivoJnsRepository;
 import com.github.moraesofia.pjns.files.ArquivoJns;
 import com.github.moraesofia.pjns.files.ArquivoJnsLoader;
 import com.github.moraesofia.pjns.files.ArquivoJnsSaver;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
 
 /**
  * Menu principal em interface de linha de comando.
@@ -23,8 +23,8 @@ public class Menu {
     private void showOptions() throws IOException {
         System.out.println();
         System.out.println("Escolha a operação:");
-        System.out.println(" 1) Inserir arquivo com novos dados");
-        System.out.println(" 2) Salvar arquivo com dados atuais");
+        System.out.println(" 1) Inserir JSON com novos dados");
+        System.out.println(" 2) Salvar JSON com dados atuais");
         System.out.println(" 3) Sair");
         System.out.print("Operação: ");
         Scanner scanner = new Scanner(System.in);
@@ -60,8 +60,7 @@ public class Menu {
         System.out.println("Lendo dados do arquivo...");
         ArquivoJns dados = null;
         try {
-            ArquivoJnsLoader loader = new ArquivoJnsLoader(file, true);
-            dados = loader.load();
+            dados = new ArquivoJnsLoader().load(file);
             System.out.println("Dados lidos.");
         } catch (Exception e) {
             System.err.println("Erro ao ler arquivo de dados.");

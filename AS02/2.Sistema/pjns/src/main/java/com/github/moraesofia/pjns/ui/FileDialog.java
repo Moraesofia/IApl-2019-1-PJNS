@@ -28,6 +28,7 @@ public class FileDialog {
 
     public File showSaveFile() {
         JFileChooser chooser = new JFileChooser();
+        chooser.setSelectedFile(new File("dados.json"));
         int chosenOption = chooser.showSaveDialog(null);
         if (chosenOption == JFileChooser.APPROVE_OPTION) {
             frame.setVisible(false);

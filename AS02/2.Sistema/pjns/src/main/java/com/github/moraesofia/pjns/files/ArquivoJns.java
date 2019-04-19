@@ -58,14 +58,13 @@ public class ArquivoJns {
     public void validate(boolean printProblems) {
         // Remove entidades com IDs duplicados. Só funciona porque elas tiveram
         // o "equals()" modificado pra comparar com base no ID.
-        // TODO Deduplicar de alguma outra forma que printe quando tiver duplicados.
         pessoas = pessoas.stream().distinct().collect(Collectors.toList());
         filmes = filmes.stream().distinct().collect(Collectors.toList());
         premiacoes = premiacoes.stream().distinct().collect(Collectors.toList());
         premios = premios.stream().distinct().collect(Collectors.toList());
 
+        // TODO Deduplicar de alguma outra forma que printe quando tiver duplicados.
         // TODO Checa campos obrigatórios
-
         // TODO Checa chaves estrangeiras
     }
 }
