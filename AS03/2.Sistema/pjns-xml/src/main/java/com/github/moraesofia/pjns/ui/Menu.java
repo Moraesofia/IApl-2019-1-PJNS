@@ -23,8 +23,8 @@ public class Menu {
     private void showOptions() throws IOException {
         System.out.println();
         System.out.println("Escolha a operação:");
-        System.out.println(" 1) Inserir JSON com novos dados");
-        System.out.println(" 2) Salvar JSON com dados atuais");
+        System.out.println(" 1) Inserir XML com novos dados");
+        System.out.println(" 2) Salvar XML com dados atuais");
         System.out.println(" 3) Sair");
         System.out.print("Operação: ");
         Scanner scanner = new Scanner(System.in);

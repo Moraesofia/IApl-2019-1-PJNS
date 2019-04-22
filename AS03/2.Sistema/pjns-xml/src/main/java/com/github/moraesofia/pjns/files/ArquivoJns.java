@@ -5,10 +5,14 @@ import com.github.moraesofia.pjns.entities.Pessoa;
 import com.github.moraesofia.pjns.entities.Premiacao;
 import com.github.moraesofia.pjns.entities.Premio;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@XmlRootElement
 public class ArquivoJns {
 
     private List<Pessoa> pessoas = new ArrayList<>();
@@ -19,6 +23,8 @@ public class ArquivoJns {
 
     private List<Premio> premios = new ArrayList<>();
 
+    @XmlElementWrapper(name = "pessoas")
+    @XmlElement(name = "pessoa")
     public List<Pessoa> getPessoas() {
         return pessoas;
     }
@@ -27,6 +33,8 @@ public class ArquivoJns {
         this.pessoas = pessoas;
     }
 
+    @XmlElementWrapper(name = "filmes")
+    @XmlElement(name = "filme")
     public List<Filme> getFilmes() {
         return filmes;
     }
@@ -35,6 +43,8 @@ public class ArquivoJns {
         this.filmes = filmes;
     }
 
+    @XmlElementWrapper(name = "premiacoes")
+    @XmlElement(name = "premiacao")
     public List<Premiacao> getPremiacoes() {
         return premiacoes;
     }
@@ -43,6 +53,8 @@ public class ArquivoJns {
         this.premiacoes = premiacoes;
     }
 
+    @XmlElementWrapper(name = "premios")
+    @XmlElement(name = "premio")
     public List<Premio> getPremios() {
         return premios;
     }
