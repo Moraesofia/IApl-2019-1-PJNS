@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark" th:fragment="navbar">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+            aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" th:href="@{/}">
+            JNS Filmes
+        </a>
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <!-- ... -->
+        </ul>
+        <!-- We are not showing those buttons yet because we don't have proper authentication, -->
+        <!-- so I'm not sure how we're gonna check if we're authenticated... -->
+        <!-- <a class="btn btn-primary" th:href="@{/login}" role="button">-->
+        <!--  Entrar-->
+        <!-- </a>&nbsp;-->
+        <!-- <a class="btn btn-secondary" th:href="@{/logout}" role="button">-->
+        <!--  Sair-->
+        <!-- </a>&nbsp;-->
+    </div>
+</nav>
+</body>
+</html>

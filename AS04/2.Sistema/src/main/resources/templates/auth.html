@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="pt"
+      xmlns:th="https://www.thymeleaf.org">
+
+<head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
+    <title>Início</title>
+    <extras></extras>
+</head>
+
+<body th:include="fragments/layout :: body" th:with="content=~{::content}">
+<div th:fragment="content">
+    <p>Bem-vindo(a)!</p>
+
+    <div th:if="${param.logout}" class="alert alert-success" role="alert">
+        Você foi desautenticado.
+    </div>
+    <div th:if="${param.error}" class="alert alert-danger" role="alert">
+        Usuário e/ou senha inválidos.
+    </div>
+
+    <p>Finge que tem um formulário de login aqui!</p>
+</div>
+</body>
+
+</html>
