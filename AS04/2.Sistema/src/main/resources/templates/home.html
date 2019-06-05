@@ -1,16 +1,16 @@
 <!doctype html>
-<html lang="pt"
+<html lang="en"
       xmlns:th="https://www.thymeleaf.org">
 
 <head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
-    <title>Início</title>
+    <title th:text="#{title_home}">Home</title>
     <extras></extras>
 </head>
 
 <body th:include="fragments/layout :: body" th:with="content=~{::content}">
 <div th:fragment="content">
 
-    <p>Home!</p>
+    <p>...</p>
 
 </div>
 </body>

@@ -2,15 +2,12 @@ package com.crossover.jns.JnsFilmes.presentation.ui;
 
 import com.crossover.jns.JnsFilmes.business.entity.User;
 import com.crossover.jns.JnsFilmes.business.service.UserService;
-import com.crossover.jns.JnsFilmes.presentation.api.UserController;
 import com.crossover.jns.JnsFilmes.presentation.dto.UserCredentialsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller("/")
 public class MainController {

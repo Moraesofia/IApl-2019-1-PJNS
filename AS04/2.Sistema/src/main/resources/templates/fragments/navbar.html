@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
 <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark" th:fragment="navbar">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
@@ -7,20 +7,23 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-        <a class="navbar-brand" th:href="@{/}">
-            JNS Filmes
-        </a>
+        <a class="navbar-brand" th:href="@{/}" th:text="#{title_app}"> </a>
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <!-- ... -->
         </ul>
-        <!-- We are not showing those buttons yet because we don't have proper authentication, -->
-        <!-- so I'm not sure how we're gonna check if we're authenticated... -->
-         <a class="btn btn-primary" th:href="@{/login}" role="button">
-          Entrar
-         </a>&nbsp;
-         <a class="btn btn-secondary" th:href="@{/logout}" role="button">
-          Sair
-         </a>&nbsp;
+        <!-- Languages -->
+        <div style="padding-right:2rem;">
+            <a th:href="@{?lang=en}" role="button">
+                <span class="flag-icon flag-icon-us"></span>
+            </a>&nbsp;
+            <a th:href="@{?lang=pt}" role="button">
+                <span class="flag-icon flag-icon-br"></span>
+            </a>&nbsp;
+        </div>
+
+        <!-- TODO: Detect if we're logged in or not and only display the proper buttons here-->
+        <a class="btn btn-primary" th:href="@{/login}" role="button" th:text="#{navbar_login}">Login</a>&nbsp;
+        <a class="btn btn-secondary" th:href="@{/logout}" role="button" th:text="#{navbar_logout}">Logout</a>&nbsp;
     </div>
 </nav>
 </body>
