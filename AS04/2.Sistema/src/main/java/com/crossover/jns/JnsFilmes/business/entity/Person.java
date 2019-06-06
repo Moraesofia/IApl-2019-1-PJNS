@@ -14,7 +14,7 @@ public class Person {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
 
     private String name;
 
@@ -24,60 +24,44 @@ public class Person {
 
     private GenreEnum genre;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getNome() {
+    public String getName() {
         return name;
     }
 
-    public void setNome(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getNascimento() {
+    public String getBirth() {
         return birth;
     }
 
-    public void setNascimento(String birth) {
+    public void setBirth(String birth) {
         this.birth = birth;
     }
 
-    public JobEnum getCargo() {
+    public JobEnum getJob() {
         return job;
     }
 
-    public void setCargo(JobEnum job) {
+    public void setJob(JobEnum job) {
         this.job = job;
     }
 
-    public GenreEnum getGenero() {
+    public GenreEnum getGenre() {
         return genre;
     }
 
-    public void setGenero(GenreEnum genre) {
+    public void setGenre(GenreEnum genre) {
         this.genre = genre;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-
-        Person pessoa = (Person) o;
-
-        return id == pessoa.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return id;
-    }
 }

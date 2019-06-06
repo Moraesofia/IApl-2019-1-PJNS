@@ -15,7 +15,7 @@ public class Prize {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
 
     private CategoryEnum category;
 
@@ -28,11 +28,11 @@ public class Prize {
     @ManyToOne(fetch = FetchType.LAZY)
     private Award award;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -66,23 +66,6 @@ public class Prize {
 
     public void setAward(Award award) {
         this.award = award;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-
-        Prize premio = (Prize) o;
-
-        return id == premio.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return id;
     }
 
 }

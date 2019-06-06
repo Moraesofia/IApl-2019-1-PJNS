@@ -13,7 +13,7 @@ public class Film {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
 
     private String title;
 
@@ -30,11 +30,11 @@ public class Film {
     @ManyToOne(fetch = FetchType.LAZY)
     private Person actor;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -86,20 +86,4 @@ public class Film {
         this.actor = actor;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-
-        Film filme = (Film) o;
-
-        return id == filme.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return id;
-    }
 }

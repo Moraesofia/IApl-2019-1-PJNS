@@ -1,6 +1,10 @@
 package com.crossover.jns.JnsFilmes.data.config;
 
+import com.crossover.jns.JnsFilmes.business.entity.Person;
 import com.crossover.jns.JnsFilmes.business.entity.User;
+import com.crossover.jns.JnsFilmes.business.enums.GenreEnum;
+import com.crossover.jns.JnsFilmes.business.enums.JobEnum;
+import com.crossover.jns.JnsFilmes.business.service.PersonService;
 import com.crossover.jns.JnsFilmes.business.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -21,11 +25,15 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private PersonService personService;
+
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
         if (!alreadySetup) {
             createInitialUsers();
+            createInitalPersons();
             alreadySetup = true;
         }
     }
@@ -35,6 +43,15 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         user1.setUsername("admin");
         user1.setPassword("admin");
         user1 = userService.save(user1);
+    }
+
+    private void createInitalPersons(){
+        Person person1 = new Person();
+        person1.setName("Bette Davis");
+        person1.setJob(JobEnum.ACTRESS);
+        person1.setGenre(GenreEnum.F);
+        person1.setBirth("05/04/1908");
+        person1 = personService.save(person1);
     }
 
 }

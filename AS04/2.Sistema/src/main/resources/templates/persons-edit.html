@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
+    <title th:text="#{title_home}">Home</title>
+    <extras></extras>
+</head>
+
+<body th:include="fragments/layout :: body" th:with="content=~{::content}">
+    <div th:fragment="content">
+
+        <form th:action="@{/person/save}" th:object=${person} method="post">
+            <fieldset>
+                <!-- Hidden ID -->
+                <input type="hidden" th:value="*{id}" th:field="*{id}" />
+
+                <div class="form-group">
+                    <label for="name" th:text="#{persons_name}"></label>
+                    <input id="name" type="text" th:field="*{name}" class="form-control" />
+                    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Erro</div>
+                </div>
+
+                <div class="form-group">
+                        <label for="birth" th:text="#{persons_birth}"></label>
+                        <input id="birth" type="text" th:field="*{birth}" class="form-control" />
+                        <small th:text="#{form_date_instructions}"></small>
+                </div>
+
+<!--                 
+                <div class="form-group">     
+                    <label for="job" th:text="#{persons_job}"></label>
+                    <select id="job" class="selectpicker form-control" th:field="*{job}">
+                        <option th:each="job: ${@personService.getJobsText()}" th:value="${job}" th:text="${job}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">     
+                        <label for="genre" th:text="#{persons_genre}"></label>
+                        <select id="genre" class="selectpicker form-control" th:field="*{genre}">
+                            <option th:each="cargo: ${personService.getGenreText()}" th:value="${genre}" th:text="${genre}"></option>
+                        </select>
+                </div>
+     -->
+                <button type="submit" th:text="#{form_submit}" class="btn btn-primary"></button>
+            </fieldset>
+        </form>
+
+
+    </div>
+</body>
+<script type="text/javascript" src="/static/js/customDateFormat.js"></script>
+</html>

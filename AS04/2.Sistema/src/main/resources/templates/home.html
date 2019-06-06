@@ -1,6 +1,5 @@
 <!doctype html>
-<html lang="en"
-      xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 
 <head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
     <title th:text="#{title_home}">Home</title>
@@ -8,12 +7,18 @@
 </head>
 
 <body th:include="fragments/layout :: body" th:with="content=~{::content}">
-<div th:fragment="content">
+    <div th:fragment="content">
 
-    <h2 th:text="#{title_home}"></h2>
-    <a th:href="@{/persons/list}">Ver Pessoas</a> <br>
+        <h2 th:text="#{home_select_entity}"></h2>
+        <ul>
+            <li><a th:text="#{persons_title}" th:href="@{/persons/list}"></a></li>
+            <li><a th:text="#{films_title}"></a></li>
+            <li><a th:text="#{awards_title}"></a></li>
+            <li><a th:text="#{prizes_title}"></a></li>
+        </ul>
 
-</div>
+
+    </div>
 </body>
 
 </html>

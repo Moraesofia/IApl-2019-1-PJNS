@@ -11,17 +11,17 @@ public class Award {
 
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
 
     private String name;
 
     private int year;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -41,20 +41,4 @@ public class Award {
         this.year = year;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-
-        Award premiacao = (Award) o;
-
-        return id == premiacao.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return id;
-    }
 }
