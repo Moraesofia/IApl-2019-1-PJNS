@@ -48,4 +48,9 @@ public class MainController {
         return "home";
     }
 
+    @GetMapping("/persons/list")
+    public String listPersons(Model model) {
+        return "persons";
+    }
+
 }

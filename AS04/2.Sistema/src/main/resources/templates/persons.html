@@ -1,6 +1,5 @@
 <!doctype html>
-<html lang="en"
-      xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 
 <head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
     <title th:text="#{title_home}">Home</title>
@@ -8,11 +7,51 @@
 </head>
 
 <body th:include="fragments/layout :: body" th:with="content=~{::content}">
-<div th:fragment="content">
+    <div th:fragment="content">
 
-    <h2 th:text="#{edit_title}"></h2>
+        <div>
 
-</div>
+
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <h2 th:text="#{persons_title}"> </h2>
+            </div>
+            <div class="col-auto">
+                <button type="button" class="btn btn-primary" th:text="#{add_new_title}"></button>
+            </div>
+        </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col" th:text="#{persons_table_name}"></th>
+                        <th scope="col" th:text="#{persons_table_birth}"></th>
+                        <th scope="col" th:text="#{persons_table_job}"></th>
+                        <th scope="col" th:text="#{persons_table_genre}"></th>
+                        <th scope="col" th:text="#{table_crud_actions}"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>sofia</td>
+                        <td>13/01/98</td>
+                        <td>hippie</td>
+                        <td>F</td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group" aria-label="crud">
+                                <button class="btn btn-secondary" th:text="#{edit_title}"></button>
+                                <button class="btn btn-secondary" th:text="#{delete_title}"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
 </body>
 
 </html>
