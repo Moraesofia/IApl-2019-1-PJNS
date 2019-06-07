@@ -50,8 +50,15 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         person1.setName("Bette Davis");
         person1.setJob(JobEnum.ACTRESS);
         person1.setGenre(GenreEnum.F);
-        person1.setBirth("05/04/1908");
+        person1.setBirth("05 / 04 / 1908");
         person1 = personService.save(person1);
+
+        Person person2 = new Person();
+        person2.setName("Joan Crawford");
+        person2.setJob(JobEnum.ACTRESS);
+        person2.setGenre(GenreEnum.F);
+        person2.setBirth("23 / 03 / 1904");
+        person2 = personService.save(person2);
     }
 
 }

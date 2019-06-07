@@ -9,7 +9,7 @@
 <body th:include="fragments/layout :: body" th:with="content=~{::content}">
     <div th:fragment="content">
 
-        <form th:action="@{/person/save}" th:object=${person} method="post">
+        <form th:action="@{/person/save}" th:object=${personDto} method="POST">
             <fieldset>
                 <!-- Hidden ID -->
                 <input type="hidden" th:value="*{id}" th:field="*{id}" />
@@ -17,36 +17,88 @@
                 <div class="form-group">
                     <label for="name" th:text="#{persons_name}"></label>
                     <input id="name" type="text" th:field="*{name}" class="form-control" />
-                    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Erro</div>
+                    <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
                 </div>
 
                 <div class="form-group">
-                        <label for="birth" th:text="#{persons_birth}"></label>
-                        <input id="birth" type="text" th:field="*{birth}" class="form-control" />
-                        <small th:text="#{form_date_instructions}"></small>
+                    <label for="birth" th:text="#{persons_birth}"></label>
+                    <input id="birth" type="text" th:field="*{birth}" class="form-control" />
+                    <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('birth')}" th:errors="*{birth}"></div>
                 </div>
 
-<!--                 
-                <div class="form-group">     
+                 <div class="form-group">     
                     <label for="job" th:text="#{persons_job}"></label>
                     <select id="job" class="selectpicker form-control" th:field="*{job}">
                         <option th:each="job: ${@personService.getJobsText()}" th:value="${job}" th:text="${job}"></option>
                     </select>
+                    <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('job')}" th:errors="*{job}"></div>
                 </div>
 
                 <div class="form-group">     
-                        <label for="genre" th:text="#{persons_genre}"></label>
-                        <select id="genre" class="selectpicker form-control" th:field="*{genre}">
-                            <option th:each="cargo: ${personService.getGenreText()}" th:value="${genre}" th:text="${genre}"></option>
-                        </select>
+                    <label for="genre" th:text="#{persons_genre}"></label>
+                    <select id="genre" class="selectpicker form-control" th:field="*{genre}">
+                        <option th:each="genre: ${@personService.getGenresText()}" th:value="${genre}" th:text="${genre}"></option>
+                    </select>
+                    <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}"></div>
                 </div>
-     -->
+
                 <button type="submit" th:text="#{form_submit}" class="btn btn-primary"></button>
             </fieldset>
         </form>
-
-
+       
     </div>
 </body>
-<script type="text/javascript" src="/static/js/customDateFormat.js"></script>
+<script>
+    var date = document.getElementById('birth');
+
+    function checkValue(str, max) {
+        if (str == '00') {
+            var num = parseInt(str);
+            if (isNaN(num) || num <= 0 || num > max) num = 1;
+            str = num > parseInt(max.toString().charAt(0)) && num.toString().length == 1 ? '0' + num : num.toString();
+        };
+        return str;
+    };
+
+    date.addEventListener('input', function (e) {
+        this.type = 'text';
+        var input = this.value;
+        if (/\D\/$/.test(input)) input = input.substr(0, input.length - 3);
+        var values = input.split('/').map(function (v) {
+            return v.replace(/\D/g, '')
+        });
+        if (values[0]) values[0] = checkValue(values[0], 12);
+        if (values[1]) values[1] = checkValue(values[1], 31);
+        var output = values.map(function (v, i) {
+            return v.length == 2 && i < 2 ? v + ' / ' : v;
+        });
+        this.value = output.join('').substr(0, 14);
+    });
+
+    date.addEventListener('blur', function (e) {
+        this.type = 'text';
+        var input = this.value;
+        var values = input.split('/').map(function (v, i) {
+            return v.replace(/\D/g, '')
+        });
+        var output = '';
+
+        if (values.length == 3) {
+            var year = values[2].length !== 4 ? parseInt(values[2]) + 2000 : parseInt(values[2]);
+            var month = parseInt(values[0]) - 1;
+            var day = parseInt(values[1]);
+            var d = new Date(year, month, day);
+            if (!isNaN(d)) {
+                document.getElementById('result').innerText = d.toString();
+                var dates = [d.getMonth() + 1, d.getDate(), d.getFullYear()];
+                output = dates.map(function (v) {
+                    v = v.toString();
+                    return v.length == 1 ? '0' + v : v;
+                }).join(' / ');
+            };
+        };
+        this.value = output;
+    });
+//script adapted from https://codepen.io/tutsplus/pen/KMWqRr
+</script>
 </html>

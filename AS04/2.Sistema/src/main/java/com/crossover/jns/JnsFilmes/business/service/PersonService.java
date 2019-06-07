@@ -2,6 +2,7 @@ package com.crossover.jns.JnsFilmes.business.service;
 
 import com.crossover.jns.JnsFilmes.business.enums.GenreEnum;
 import com.crossover.jns.JnsFilmes.business.enums.JobEnum;
+import com.crossover.jns.JnsFilmes.presentation.dto.PersonDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,9 +44,13 @@ public class PersonService extends EntityServiceBase<Person, Long, PersonReposit
         return Arrays.stream(jobs).map(JobEnum::getText).collect(Collectors.toList());
     }
 
-    public List<String> getGenreText() {
+    public List<String> getGenresText() {
         GenreEnum[] genres = GenreEnum.values();
         return Arrays.stream(genres).map(GenreEnum::getText).collect(Collectors.toList());
+    }
+
+    public List<PersonDto> findAllDto() {
+        return findAll().stream().map(PersonDto::fromPerson).collect(Collectors.toList());
     }
 
 
