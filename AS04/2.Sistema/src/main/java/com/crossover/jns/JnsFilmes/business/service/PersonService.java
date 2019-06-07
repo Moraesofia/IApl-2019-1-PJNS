@@ -52,9 +52,5 @@ public class PersonService extends EntityServiceBase<Person, Long, PersonReposit
     public List<PersonDto> findAllDto() {
         return findAll().stream().map(PersonDto::fromPerson).collect(Collectors.toList());
     }
-
-
-
-
-
+    
 }
