@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
+    <title th:text="#{title_home}">Home</title>
+    <extras></extras>
+</head>
+
+<body th:include="fragments/layout :: body" th:with="content=~{::content}">
+    <div th:fragment="content">
+        <form th:action="@{/film/save}" th:object=${filmDto} method="POST">
+            <fieldset>
+                <!-- Hidden ID -->
+                <input type="hidden" th:value="*{id}" th:field="*{id}" />
+
+                <div class="form-group">
+                    <label for="title" th:text="#{films_title}"></label>
+                    <input id="title" type="text" th:field="*{title}" class="form-control" />
+                    <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="year" th:text="#{films_year}"></label>
+                    <input id="year" type="number" th:field="*{year}" class="form-control" step="1" min="1880"/>
+                    <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="genre" th:text="#{films_genre}"></label>
+                    <input id="genre" type="text" th:field="*{genre}" class="form-control"/>
+                    <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('genre')}" th:errors="*{genre}"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="director" th:text="#{films_director}"></label>
+                    <input id="director" type="text" th:field="*{director}" class="form-control"/>
+                    <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('director')}" th:errors="*{director}"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="actor" th:text="#{films_actor}"></label>
+                    <input id="actor" type="text" th:field="*{actor}" class="form-control"/>
+                    <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('actor')}" th:errors="*{actor}"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="actress" th:text="#{films_actress}"></label>
+                    <input id="actress" type="text" th:field="*{actress}" class="form-control"/>
+                    <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('actress')}" th:errors="*{actress}"></div>
+                </div>
+
+
+                <button type="submit" th:text="#{form_submit}" class="btn btn-primary"></button>
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>

@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.crossover.jns.JnsFilmes.business.entity.Film;
 import com.crossover.jns.JnsFilmes.data.repository.FilmRepository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collector;
@@ -35,6 +36,18 @@ public class FilmService extends EntityServiceBase<Film, Long, FilmRepository> {
 
     public Film save(Film film) {
         return filmRepository.save(film);
+    }
+
+    public Collection<Film> findByDirector(Long idDirector) {
+        return filmRepository.findByDirector_Id(idDirector);
+    }
+
+    public Collection<Film> findByActress(Long idActress) {
+        return filmRepository.findByActress_Id(idActress);
+    }
+
+    public Collection<Film> findByActor(Long idActor) {
+        return filmRepository.findByActor_Id(idActor);
     }
 
     public List<FilmDto> findAllDto() {

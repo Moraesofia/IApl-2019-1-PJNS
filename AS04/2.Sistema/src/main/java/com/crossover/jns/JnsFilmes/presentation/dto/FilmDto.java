@@ -2,6 +2,7 @@ package com.crossover.jns.JnsFilmes.presentation.dto;
 
 import com.crossover.jns.JnsFilmes.business.entity.Film;
 import com.crossover.jns.JnsFilmes.business.entity.Person;
+import com.crossover.jns.JnsFilmes.business.service.PersonService;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -11,6 +12,7 @@ public class FilmDto {
 
     private Long id;
 
+    @NotBlank
     @Size(min = 2, max = 128)
     private String title;
 
@@ -20,14 +22,15 @@ public class FilmDto {
     @NotBlank
     private String genre;
 
-    @NotNull
-    private Person director;
+    @NotBlank
+    private Long idDirector;
 
-    @NotNull
-    private Person actress;
+    @NotBlank
+    private Long idActor;
 
-    @NotNull
-    private Person actor;
+    @NotBlank
+    private Long idActress;
+
 
     public static FilmDto fromFilm (Film film) {
         FilmDto filmDto = new FilmDto();
@@ -35,24 +38,32 @@ public class FilmDto {
         filmDto.setTitle(film.getTitle());
         filmDto.setYear(film.getYear());
         filmDto.setGenre(film.getGenre());
-        filmDto.setDirector(film.getDirector());
-        filmDto.setActress(film.getActress());
-        filmDto.setActor(film.getActor());
+
+        Person director = film.getDirector();
+        filmDto.setIdDirector(director == null ? null : director.getId());
+
+        Person actress = film.getActress();
+        filmDto.setIdActress(actress == null ? null : actress.getId());
+
+        Person actor = film.getActor();
+        filmDto.setIdActor(actor == null ? null : actor.getId());
+
         return filmDto;
     }
 
-    public Film toFilm() {
+    public Film toFilm(PersonService personService) {
         Film film = new Film();
         film.setId(this.id);
         film.setTitle(this.title);
         film.setYear(this.year);
         film.setGenre(this.genre);
-        film.setDirector(this.director);
-        film.setActress(this.actress);
-        film.setActor(this.actor);
+
+        film.setDirector(personService.findByid(getIdDirector()));
+        film.setActress(personService.findByid(getIdActress()));
+        film.setActor(personService.findByid(getIdActor()));
+
         return film;
     }
-
 
     public Long getId() {
         return id;
@@ -86,28 +97,27 @@ public class FilmDto {
         this.genre = genre;
     }
 
-    public Person getDirector() {
-        return director;
+    public Long getIdDirector() {
+        return idDirector;
     }
 
-    public void setDirector(Person director) {
-        this.director = director;
+    public void setIdDirector(Long idDirector) {
+        this.idDirector = idDirector;
     }
 
-    public Person getActress() {
-        return actress;
+    public Long getIdActor() {
+        return idActor;
     }
 
-    public void setActress(Person actress) {
-        this.actress = actress;
+    public void setIdActor(Long idActor) {
+        this.idActor = idActor;
     }
 
-    public Person getActor() {
-        return actor;
+    public Long getIdActress() {
+        return idActress;
     }
 
-    public void setActor(Person actor) {
-        this.actor = actor;
+    public void setIdActress(Long idActress) {
+        this.idActress = idActress;
     }
-
 }

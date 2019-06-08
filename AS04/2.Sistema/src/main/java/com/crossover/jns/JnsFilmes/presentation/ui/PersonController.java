@@ -28,6 +28,16 @@ public class PersonController {
         return "persons";
     }
 
+    @GetMapping("/persons/{id}")
+    public String getPerson(@PathVariable Long id, Model model) {
+        Person person = personService.findByid(id);
+        if (person == null) {
+            throw new IllegalArgumentException("Person not found");
+        }
+        model.addAttribute("personDto", PersonDto.fromPerson(person));
+        return "persons/person";
+    }
+
     //Edit a entity by its ID
     @GetMapping("/person/edit/{id}")
     public String editEntity(@PathVariable Long id, Model model) {

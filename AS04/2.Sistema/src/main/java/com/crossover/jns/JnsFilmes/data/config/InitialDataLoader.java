@@ -1,9 +1,11 @@
 package com.crossover.jns.JnsFilmes.data.config;
 
+import com.crossover.jns.JnsFilmes.business.entity.Film;
 import com.crossover.jns.JnsFilmes.business.entity.Person;
 import com.crossover.jns.JnsFilmes.business.entity.User;
 import com.crossover.jns.JnsFilmes.business.enums.GenreEnum;
 import com.crossover.jns.JnsFilmes.business.enums.JobEnum;
+import com.crossover.jns.JnsFilmes.business.service.FilmService;
 import com.crossover.jns.JnsFilmes.business.service.PersonService;
 import com.crossover.jns.JnsFilmes.business.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
     @Autowired
     private PersonService personService;
+
+    @Autowired
+    private FilmService filmService;
 
     @Override
     @Transactional
@@ -59,6 +64,30 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         person2.setGenre(GenreEnum.F);
         person2.setBirth("23 / 03 / 1904");
         person2 = personService.save(person2);
+
+        Person person3 = new Person();
+        person3.setName("Robert Aldrich");
+        person3.setJob(JobEnum.DIRECTOR);
+        person3.setGenre(GenreEnum.M);
+        person3.setBirth("09 / 08 / 1918");
+        person3 = personService.save(person3);
+
+        Person person4 = new Person();
+        person4.setName("Victor Buono");
+        person4.setJob(JobEnum.ACTOR);
+        person4.setGenre(GenreEnum.M);
+        person4.setBirth("03 / 02 / 1938");
+        person4 = personService.save(person4);
+
+        Film film = new Film();
+        film.setTitle("What Ever Happened to Baby Jane?");
+        film.setGenre("Horror");
+        film.setYear(1962);
+        film.setDirector(person3);
+        film.setActress(person1);
+        film.setActor(person4);
+        film = filmService.save(film);
     }
+
 
 }
