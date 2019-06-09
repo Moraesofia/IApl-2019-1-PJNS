@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
+    <title th:text="#{title_home}">Home</title>
+    <extras></extras>
+</head>
+
+<body th:include="fragments/layout :: body" th:with="content=~{::content}">
+<div th:fragment="content">
+
+    <form th:action="@{/prize/save}" th:object=${prizeDto} method="POST">
+        <fieldset>
+            <!-- Hidden ID -->
+            <input type="hidden" th:value="*{id}" th:field="*{id}" />
+
+            <div class="form-group">
+                <label for="category" th:text="#{prizes_category}"></label>
+                <select id="category" class="selectpicker form-control" th:field="*{category}">
+                    <option th:each="category: ${@prizeService.getCategoriesText()}" th:value="${category}" th:text="${category}"></option>
+                </select>
+                <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="idWinner" th:text="#{prizes_winner}"></label>
+                <select id="idWinner" class="selectpicker form-control" data-live-search="true" th:field="*{idWinner}">
+                    <option th:each="winner: ${@personService.findAllDto()}"
+                            th:value="${winner.id}"
+                            th:text="${winner.name}"></option>
+                </select>
+                <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('winner')}" th:errors="*{winner}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="idFilm" th:text="#{prizes_film}"></label>
+                <select id="idFilm" class="selectpicker form-control" data-live-search="true" th:field="*{idFilm}">
+                    <option th:each="film: ${@filmService.findAllDto()}"
+                            th:value="${film.id}"
+                            th:text="${film.name}"></option>
+                </select>
+                <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('film')}" th:errors="*{film}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="idAward" th:text="#{prizes_award}"></label>
+                <select id="idAward" class="selectpicker form-control" data-live-search="true" th:field="*{idAward}">
+                    <option th:each="award: ${@awardService.findAllDto()}"
+                            th:value="${award.id}"
+                            th:text="${award.name}"></option>
+                </select>
+                <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('award')}" th:errors="*{award}"></div>
+            </div>
+
+            <button type="submit" th:text="#{form_submit}" class="btn btn-primary"></button>
+        </fieldset>
+    </form>
+
+</div>
+</body>
+</html>
