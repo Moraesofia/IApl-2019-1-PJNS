@@ -46,13 +46,13 @@
                     </thead>
                     <tbody>
                     <tr th:each="film : ${films}">
-                        <th scope="row" th:text="${film.id}"></th>
-                        <th th:text="${film.title}"></th>
-                        <th th:text="${film.year}"></th>
-                        <th th:text="${film.genre}"></th>
-                        <th th:text="${@personService.findById(film.idDirector)?.name}"></th>
-                        <th th:text="${@personService.findById(film.idActress)?.name}"></th>
-                        <th th:text="${@personService.findById(film.idActor)?.name}"></th>
+                        <td scope="row" th:text="${film.id}"></td>
+                        <td th:text="${film.title}"></td>
+                        <td th:text="${film.year}"></td>
+                        <td th:text="${film.genre}"></td>
+                        <td th:text="${@personService.findById(film.idDirector)?.name}"></td>
+                        <td th:text="${@personService.findById(film.idActress)?.name}"></td>
+                        <td th:text="${@personService.findById(film.idActor)?.name}"></td>
                         <td>
                             <div class="btn-group btn-group-sm" role="group" aria-label="crud">
                                 <a class="btn btn-secondary" th:href="@{/film/edit/{id}(id=${film.id})}"

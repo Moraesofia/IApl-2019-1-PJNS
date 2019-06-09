@@ -16,8 +16,8 @@ public class FilmDto {
     @Size(min = 2, max = 128)
     private String title;
 
-    @NotNull
-    private int year;
+    @NotBlank
+    private Integer year;
 
     @NotBlank
     private String genre;
@@ -81,11 +81,11 @@ public class FilmDto {
         this.title = title;
     }
 
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 

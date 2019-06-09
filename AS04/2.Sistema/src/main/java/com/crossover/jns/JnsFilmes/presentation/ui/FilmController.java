@@ -33,7 +33,7 @@ public class FilmController {
     //Edit an entity by its ID
     @GetMapping("/film/edit/{id}")
     public String editEntity(@PathVariable Long id, Model model) {
-        model.addAttribute("filmsDto", FilmDto.fromFilm(filmService.findById(id)));
+        model.addAttribute("filmDto", FilmDto.fromFilm(filmService.findById(id)));
         return "films-edit";
     }
 
@@ -59,6 +59,21 @@ public class FilmController {
         }
 
         //Validating the DTO's attributes
+        if (filmDto.getTitle() == null || filmDto.getTitle() == "") {
+            bindingResult.rejectValue("title", "error.filmDto", "Invalid title");
+            return "films-edit";
+        }
+
+        if (filmDto.getYear() == null) {
+            bindingResult.rejectValue("year", "error.filmDto", "Invalid year");
+            return "films-edit";
+        }
+
+        if (filmDto.getGenre() == null || filmDto.getGenre() == "") {
+            bindingResult.rejectValue("genre", "error.filmDto", "Invalid genre");
+            return "films-edit";
+        }
+
         if (filmDto.getIdDirector() == null) {
             bindingResult.rejectValue("director", "error.filmDto", "Invalid director");
             return "films-edit";
