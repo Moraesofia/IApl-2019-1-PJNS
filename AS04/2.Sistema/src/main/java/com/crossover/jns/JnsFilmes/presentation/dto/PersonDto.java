@@ -1,7 +1,7 @@
 package com.crossover.jns.JnsFilmes.presentation.dto;
 
 import com.crossover.jns.JnsFilmes.business.entity.Person;
-import com.crossover.jns.JnsFilmes.business.enums.GenreEnum;
+import com.crossover.jns.JnsFilmes.business.enums.GenderEnum;
 import com.crossover.jns.JnsFilmes.business.enums.JobEnum;
 
 import javax.validation.constraints.NotBlank;
@@ -21,14 +21,14 @@ public class PersonDto {
     private String job;
 
     @NotBlank
-    private String genre;
+    private String gender;
 
     public static PersonDto fromPerson(Person p){
         PersonDto dto = new PersonDto();
         dto.setId(p.getId());
         dto.setName(p.getName());
         dto.setBirth(p.getBirth());
-        dto.setGenre(p.getGenre().getText());
+        dto.setGender(p.getGender().getText());
         dto.setJob(p.getJob().getText());
         return dto;
     }
@@ -38,7 +38,7 @@ public class PersonDto {
         p.setId(this.id);
         p.setName(this.name);
         p.setBirth(this.birth);
-        p.setGenre(GenreEnum.fromText(this.genre));
+        p.setGender(GenderEnum.fromText(this.gender));
         p.setJob(JobEnum.fromText(this.job));
         return p;
     }
@@ -75,11 +75,11 @@ public class PersonDto {
         this.job = job;
     }
 
-    public String getGenre() {
-        return genre;
+    public String getGender() {
+        return gender;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

@@ -3,7 +3,7 @@ package com.crossover.jns.JnsFilmes.data.config;
 import com.crossover.jns.JnsFilmes.business.entity.Film;
 import com.crossover.jns.JnsFilmes.business.entity.Person;
 import com.crossover.jns.JnsFilmes.business.entity.User;
-import com.crossover.jns.JnsFilmes.business.enums.GenreEnum;
+import com.crossover.jns.JnsFilmes.business.enums.GenderEnum;
 import com.crossover.jns.JnsFilmes.business.enums.JobEnum;
 import com.crossover.jns.JnsFilmes.business.service.FilmService;
 import com.crossover.jns.JnsFilmes.business.service.PersonService;
@@ -14,7 +14,6 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
-import java.util.Arrays;
 
 /**
  * Adds initial data to the database when the system is initialized.
@@ -54,28 +53,28 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         Person person1 = new Person();
         person1.setName("Bette Davis");
         person1.setJob(JobEnum.ACTRESS);
-        person1.setGenre(GenreEnum.F);
+        person1.setGender(GenderEnum.F);
         person1.setBirth("05 / 04 / 1908");
         person1 = personService.save(person1);
 
         Person person2 = new Person();
         person2.setName("Joan Crawford");
         person2.setJob(JobEnum.ACTRESS);
-        person2.setGenre(GenreEnum.F);
+        person2.setGender(GenderEnum.F);
         person2.setBirth("23 / 03 / 1904");
         person2 = personService.save(person2);
 
         Person person3 = new Person();
         person3.setName("Robert Aldrich");
         person3.setJob(JobEnum.DIRECTOR);
-        person3.setGenre(GenreEnum.M);
+        person3.setGender(GenderEnum.M);
         person3.setBirth("09 / 08 / 1918");
         person3 = personService.save(person3);
 
         Person person4 = new Person();
         person4.setName("Victor Buono");
         person4.setJob(JobEnum.ACTOR);
-        person4.setGenre(GenreEnum.M);
+        person4.setGender(GenderEnum.M);
         person4.setBirth("03 / 02 / 1938");
         person4 = personService.save(person4);
 

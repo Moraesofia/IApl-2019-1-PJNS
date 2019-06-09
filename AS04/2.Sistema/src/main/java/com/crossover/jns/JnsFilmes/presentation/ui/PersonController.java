@@ -1,7 +1,7 @@
 package com.crossover.jns.JnsFilmes.presentation.ui;
 
 import com.crossover.jns.JnsFilmes.business.entity.Person;
-import com.crossover.jns.JnsFilmes.business.enums.GenreEnum;
+import com.crossover.jns.JnsFilmes.business.enums.GenderEnum;
 import com.crossover.jns.JnsFilmes.business.enums.JobEnum;
 import com.crossover.jns.JnsFilmes.business.service.PersonService;
 import com.crossover.jns.JnsFilmes.presentation.dto.PersonDto;
@@ -72,8 +72,8 @@ public class PersonController {
             return "persons-edit";
         }
 
-        if (GenreEnum.fromText(personDto.getGenre()) == null) {
-            bindingResult.rejectValue("genre", "error.personDto", "Invalid genre");
+        if (GenderEnum.fromText(personDto.getGender()) == null) {
+            bindingResult.rejectValue("gender", "error.personDto", "Invalid gender");
             return "persons-edit";
         }
 

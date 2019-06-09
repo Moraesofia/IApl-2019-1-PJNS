@@ -36,7 +36,7 @@
                     <th scope="col" th:text="#{persons_name}"></th>
                     <th scope="col" th:text="#{persons_birth}"></th>
                     <th scope="col" th:text="#{persons_job}"></th>
-                    <th scope="col" th:text="#{persons_genre}"></th>
+                    <th scope="col" th:text="#{persons_gender}"></th>
                     <th scope="col" th:text="#{table_crud_actions}"></th>
                 </tr>
             </thead>
@@ -46,7 +46,7 @@
                     <td th:text="${person.name}"></td>
                     <td th:text="${person.birth}"></td>
                     <td th:text="${person.job}"></td>
-                    <td th:text="${person.genre}"></td>
+                    <td th:text="${person.gender}"></td>
                     <td>
                         <div class="btn-group btn-group-sm" role="group" aria-label="crud">
                             <a class="btn btn-secondary" th:href="@{/person/edit/{id}(id=${person.id})}"

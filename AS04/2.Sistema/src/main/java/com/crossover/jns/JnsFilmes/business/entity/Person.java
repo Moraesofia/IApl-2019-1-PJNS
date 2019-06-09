@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.crossover.jns.JnsFilmes.business.enums.GenreEnum;
+import com.crossover.jns.JnsFilmes.business.enums.GenderEnum;
 import com.crossover.jns.JnsFilmes.business.enums.JobEnum;
 
 @Entity
@@ -22,7 +22,7 @@ public class Person {
 
     private JobEnum job;
 
-    private GenreEnum genre;
+    private GenderEnum gender;
 
     public Long getId() {
         return id;
@@ -56,12 +56,12 @@ public class Person {
         this.job = job;
     }
 
-    public GenreEnum getGenre() {
-        return genre;
+    public GenderEnum getGender() {
+        return gender;
     }
 
-    public void setGenre(GenreEnum genre) {
-        this.genre = genre;
+    public void setGender(GenderEnum gender) {
+        this.gender = gender;
     }
 
 }
