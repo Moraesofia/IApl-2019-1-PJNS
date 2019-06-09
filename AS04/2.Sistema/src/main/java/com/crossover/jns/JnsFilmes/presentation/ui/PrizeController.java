@@ -8,6 +8,7 @@ import com.crossover.jns.JnsFilmes.business.service.PersonService;
 import com.crossover.jns.JnsFilmes.business.service.PrizeService;
 import com.crossover.jns.JnsFilmes.presentation.dto.PrizeDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Objects;
 
+@Controller
 public class PrizeController {
 
     @Autowired
@@ -81,17 +83,17 @@ public class PrizeController {
         }
 
         if (prizeDto.getIdWinner() == null) {
-            bindingResult.rejectValue("winner", "error.prizeDto", "Invalid winner");
+            bindingResult.rejectValue("IdWinner", "error.prizeDto", "Invalid winner");
             return "prizes-edit";
         }
 
         if (prizeDto.getIdAward() == null) {
-            bindingResult.rejectValue("award", "error.prizeDto", "Invalid award");
+            bindingResult.rejectValue("IdAward", "error.prizeDto", "Invalid award");
             return "prizes-edit";
         }
 
         if (prizeDto.getIdFilm() == null) {
-            bindingResult.rejectValue("film", "error.prizeDto", "Invalid film");
+            bindingResult.rejectValue("IdFilm", "error.prizeDto", "Invalid film");
             return "prizes-edit";
         }
 
@@ -107,5 +109,7 @@ public class PrizeController {
             return "redirect:/prizes/list?created";
         }
     }
+
+
 
 }

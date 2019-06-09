@@ -100,11 +100,4 @@ public class PersonController {
         }
     }
 
-    // Create/update template
-    @GetMapping("/edit")
-    public String CreateUpdateScreen() {
-        return "persons-edit";
-    }
-
-
 }

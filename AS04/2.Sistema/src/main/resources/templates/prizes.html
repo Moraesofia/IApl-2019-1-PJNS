@@ -44,7 +44,7 @@
                 <th scope="row" th:text="${prize.id}"></th>
                 <td th:text="${prize.category}"></td>
                 <td th:text="${@personService.findById(prize.idWinner)?.name}"></td>
-                <td th:text="${@filmService.findById(prize.idFilm)?.name}"></td>
+                <td th:text="${@filmService.findById(prize.idFilm)?.title}"></td>
                 <td th:text="${@awardService.findById(prize.idAward)?.name}"></td>
                 <td>
                     <div class="btn-group btn-group-sm" role="group" aria-label="crud">

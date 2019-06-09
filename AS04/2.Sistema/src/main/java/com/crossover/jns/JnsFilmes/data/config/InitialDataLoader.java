@@ -1,10 +1,12 @@
 package com.crossover.jns.JnsFilmes.data.config;
 
+import com.crossover.jns.JnsFilmes.business.entity.Award;
 import com.crossover.jns.JnsFilmes.business.entity.Film;
 import com.crossover.jns.JnsFilmes.business.entity.Person;
 import com.crossover.jns.JnsFilmes.business.entity.User;
 import com.crossover.jns.JnsFilmes.business.enums.GenderEnum;
 import com.crossover.jns.JnsFilmes.business.enums.JobEnum;
+import com.crossover.jns.JnsFilmes.business.service.AwardService;
 import com.crossover.jns.JnsFilmes.business.service.FilmService;
 import com.crossover.jns.JnsFilmes.business.service.PersonService;
 import com.crossover.jns.JnsFilmes.business.service.UserService;
@@ -32,12 +34,15 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     @Autowired
     private FilmService filmService;
 
+    @Autowired
+    private AwardService awardService;
+
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
         if (!alreadySetup) {
             createInitialUsers();
-            createInitalPersons();
+            createEntities();
             alreadySetup = true;
         }
     }
@@ -49,7 +54,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         user1 = userService.save(user1);
     }
 
-    private void createInitalPersons(){
+    private void createEntities(){
         Person person1 = new Person();
         person1.setName("Bette Davis");
         person1.setJob(JobEnum.ACTRESS);
@@ -86,7 +91,14 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         film.setActress(person1);
         film.setActor(person4);
         film = filmService.save(film);
+
+        Award award1 = new Award();
+        award1.setName("Oscar");
+        award1.setYear(1951);
+        award1 = awardService.save(award1);
+
     }
+
 
 
 }
