@@ -7,57 +7,57 @@
 </head>
 
 <body th:include="fragments/layout :: body" th:with="content=~{::content}">
-<div th:fragment="content">
+    <div th:fragment="content">
 
-    <div class="row">
-        <div class="col">
-            <div th:if="${param.created}" class="alert alert-success" role="alert" th:text="#{form_create_sucess}">
-            </div>
-            <div th:if="${param.deleted}" class="alert alert-success" role="alert" th:text="#{form_delete_sucess}">
-            </div>
-            <div th:if="${param.updated}" class="alert alert-success" role="alert" th:text="#{form_update_sucess}">
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
-            <h2 th:text="#{prizes_title}"> </h2>
-        </div>
-        <div class="col-auto">
-            <a class="btn btn-primary" th:href="@{/prize/add}" role="button" th:text="#{add_new}"></a>
-        </div>
-    </div>
-
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">Id</th>
-            <th scope="col" th:text="#{prizes_category}"></th>
-            <th scope="col" th:text="#{prizes_winner}"></th>
-            <th scope="col" th:text="#{prizes_film}"></th>
-            <th scope="col" th:text="#{prizes_award}"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="prize : ${prizes}">
-            <th scope="row" th:text="${prize.id}"></th>
-            <td th:text="${prize.category}"></td>
-            <td th:text="${@personService.findById(prize.idWinner)?.name}"></td>
-            <td th:text="${@filmService.findById(prize.idFilm)?.name}"></td>
-            <td th:text="${@personService.findById(prize.idAward)?.name}"></td>
-            <td>
-                <div class="btn-group btn-group-sm" role="group" aria-label="crud">
-                    <a class="btn btn-secondary" th:href="@{/prize/edit/{id}(id=${prize.id})}"
-                       th:text="#{edit}"></a>
-                    <a class="btn btn-secondary" th:href="@{/prize/delete/{id}(id=${prize.id})}"
-                       th:text="#{delete}"></a>
+        <div class="row">
+            <div class="col">
+                <div th:if="${param.created}" class="alert alert-success" role="alert" th:text="#{form_create_sucess}">
                 </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+                <div th:if="${param.deleted}" class="alert alert-success" role="alert" th:text="#{form_delete_sucess}">
+                </div>
+                <div th:if="${param.updated}" class="alert alert-success" role="alert" th:text="#{form_update_sucess}">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <h2 th:text="#{prizes_title}"> </h2>
+            </div>
+            <div class="col-auto">
+                <a class="btn btn-primary" th:href="@{/prize/add}" role="button" th:text="#{add_new}"></a>
+            </div>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col" th:text="#{prizes_category}"></th>
+                <th scope="col" th:text="#{prizes_winner}"></th>
+                <th scope="col" th:text="#{prizes_film}"></th>
+                <th scope="col" th:text="#{prizes_award}"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="prize : ${prizes}">
+                <th scope="row" th:text="${prize.id}"></th>
+                <td th:text="${prize.category}"></td>
+                <td th:text="${@personService.findById(prize.idWinner)?.name}"></td>
+                <td th:text="${@filmService.findById(prize.idFilm)?.name}"></td>
+                <td th:text="${@awardService.findById(prize.idAward)?.name}"></td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group" aria-label="crud">
+                        <a class="btn btn-secondary" th:href="@{/prize/edit/{id}(id=${prize.id})}"
+                           th:text="#{edit}"></a>
+                        <a class="btn btn-secondary" th:href="@{/prize/delete/{id}(id=${prize.id})}"
+                           th:text="#{delete}"></a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 
 </html>
