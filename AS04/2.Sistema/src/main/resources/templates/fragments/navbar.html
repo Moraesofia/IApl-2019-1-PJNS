@@ -7,7 +7,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-        <a class="navbar-brand" th:href="@{/}" th:text="#{title_app}"> </a>
+        <a class="navbar-brand" th:href="@{/home}" th:text="#{title_app}"> </a>
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
             <!-- ... -->
         </ul>
@@ -21,8 +21,7 @@
             </a>&nbsp;
         </div>
 
-        <!-- TODO: Detect if we're logged in or not and only display the proper buttons here-->
-        <a class="btn btn-primary" th:href="@{/login}" role="button" th:text="#{navbar_login}">Login</a>&nbsp;
+        <!-- Logged-->
         <a class="btn btn-secondary" th:href="@{/logout}" role="button" th:text="#{navbar_logout}">Logout</a>&nbsp;
     </div>
 </nav>
