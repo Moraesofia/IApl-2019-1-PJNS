@@ -11,7 +11,6 @@ import com.crossover.jns.JnsFilmes.data.repository.FilmRepository;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service

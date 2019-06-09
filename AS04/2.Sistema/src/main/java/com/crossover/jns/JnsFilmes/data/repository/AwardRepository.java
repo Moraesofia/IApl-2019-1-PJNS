@@ -7,5 +7,5 @@ import com.crossover.jns.JnsFilmes.business.entity.Award;
 
 @Repository
 public interface AwardRepository extends JpaRepository<Award, Long> {
-
+	
 }

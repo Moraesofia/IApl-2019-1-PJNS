@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
+    <title th:text="#{title_home}">Home</title>
+    <extras></extras>
+</head>
+
+<body th:include="fragments/layout :: body" th:with="content=~{::content}">
+    <div th:fragment="content">
+
+        <form th:action="@{/award/save}" th:object=${awardDto} method="POST">
+            <fieldset>
+                <!-- Hidden ID -->
+                <input type="hidden" th:value="*{id}" th:field="*{id}" />
+
+                <div class="form-group">
+                    <label for="name" th:text="#{awards_name}"></label>
+                    <input id="name" type="text" th:field="*{name}" class="form-control" />
+                    <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="year" th:text="#{awards_year}"></label>
+                    <input id="year" type="number" th:field="*{year}" class="form-control" step="1" min="1880" max="999999999"/>
+                    <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></div>
+                </div>
+
+                <button type="submit" th:text="#{form_submit}" class="btn btn-primary"></button>
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>
