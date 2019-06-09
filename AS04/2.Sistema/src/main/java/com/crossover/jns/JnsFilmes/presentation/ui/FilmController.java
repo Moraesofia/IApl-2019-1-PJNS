@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Objects;
 
@@ -51,8 +52,7 @@ public class FilmController {
     }
 
     // Save action from the form. It either creates or updates a film
-
-    @GetMapping("/film/save")
+    @PostMapping("/film/save")
     public String saveEntity(FilmDto filmDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "films-edit";
@@ -74,7 +74,7 @@ public class FilmController {
             return "films-edit";
         }
 
-        Film film = new FilmDto().toFilm(personService);
+        Film film = filmDto.toFilm(personService);
         Long oldId = film.getId();
         film = filmService.save(film);
         Long newId = film.getId();
@@ -86,6 +86,5 @@ public class FilmController {
         }
 
     }
-
 
 }

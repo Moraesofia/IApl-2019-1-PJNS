@@ -10,9 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.crossover.jns.JnsFilmes.business.entity.Person;
 import com.crossover.jns.JnsFilmes.data.repository.PersonRepository;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,6 +45,25 @@ public class PersonService extends EntityServiceBase<Person, Long, PersonReposit
     public List<String> getGenresText() {
         GenreEnum[] genres = GenreEnum.values();
         return Arrays.stream(genres).map(GenreEnum::getText).collect(Collectors.toList());
+    }
+
+    public Collection<Person> findByJob(JobEnum job) {
+        if (job == null) {
+            return Collections.emptyList();
+        }
+        return personRepository.findByJob(job);
+    }
+
+    public List<PersonDto> findAllDirectorsDto() {
+        return findByJob(JobEnum.DIRECTOR).stream().map(PersonDto::fromPerson).collect(Collectors.toList());
+    }
+
+    public List<PersonDto> findAllActressesDto() {
+        return findByJob(JobEnum.ACTRESS).stream().map(PersonDto::fromPerson).collect(Collectors.toList());
+    }
+
+    public List<PersonDto> findAllActorsDto() {
+        return findByJob(JobEnum.ACTOR).stream().map(PersonDto::fromPerson).collect(Collectors.toList());
     }
 
     public List<PersonDto> findAllDto() {

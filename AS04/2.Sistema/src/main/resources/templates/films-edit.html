@@ -8,6 +8,7 @@
 
 <body th:include="fragments/layout :: body" th:with="content=~{::content}">
     <div th:fragment="content">
+
         <form th:action="@{/film/save}" th:object=${filmDto} method="POST">
             <fieldset>
                 <!-- Hidden ID -->
@@ -32,23 +33,34 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="director" th:text="#{films_director}"></label>
-                    <input id="director" type="text" th:field="*{director}" class="form-control"/>
-                    <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('director')}" th:errors="*{director}"></div>
+                    <label for="idDirector" th:text="#{films_director}"></label>
+                    <select id="idDirector" class="selectpicker form-control" data-live-search="true" th:field="*{idDirector}">
+                        <option th:each="director: ${@personService.findAllDirectorsDto()}"
+                                th:value="${director.id}"
+                                th:text="${director.name}"></option>
+                    </select>
+                    <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('idDirector')}" th:errors="*{idDirector}"></div>
                 </div>
 
                 <div class="form-group">
-                    <label for="actor" th:text="#{films_actor}"></label>
-                    <input id="actor" type="text" th:field="*{actor}" class="form-control"/>
-                    <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('actor')}" th:errors="*{actor}"></div>
+                    <label for="idActress" th:text="#{films_actress}"></label>
+                    <select id="idActress" class="selectpicker form-control" data-live-search="true" th:field="*{idActress}">
+                        <option th:each="actress: ${@personService.findAllActressesDto()}"
+                                th:value="${actress.id}"
+                                th:text="${actress.name}"></option>
+                    </select>
+                    <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('idActress')}" th:errors="*{idActress}"></div>
                 </div>
 
                 <div class="form-group">
-                    <label for="actress" th:text="#{films_actress}"></label>
-                    <input id="actress" type="text" th:field="*{actress}" class="form-control"/>
-                    <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('actress')}" th:errors="*{actress}"></div>
+                    <label for="idActor" th:text="#{films_actor}"></label>
+                    <select id="idActor" class="selectpicker form-control" data-live-search="true" th:field="*{idActor}">
+                        <option th:each="actor: ${@personService.findAllActorsDto()}"
+                                th:value="${actor.id}"
+                                th:text="${actor.name}"></option>
+                    </select>
+                    <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('idActor')}" th:errors="*{idActor}"></div>
                 </div>
-
 
                 <button type="submit" th:text="#{form_submit}" class="btn btn-primary"></button>
             </fieldset>
