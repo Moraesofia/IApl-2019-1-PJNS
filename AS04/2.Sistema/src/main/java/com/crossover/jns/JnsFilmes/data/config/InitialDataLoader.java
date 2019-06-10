@@ -95,6 +95,69 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         person6.setBirth("16 / 04 / 1905");
         person6 = personService.save(person6);
 
+        Person person7 = new Person();
+        person7.setName("Olivia Colman");
+        person7.setJob(JobEnum.ACTOR_OR_ACTRESS);
+        person7.setGender(GenderEnum.FEMALE);
+        person7.setBirth("30 / 01 / 1974");
+        person7 = personService.save(person7);
+
+        Person person8 = new Person();
+        person8.setName("Nicholas Hoult");
+        person8.setJob(JobEnum.ACTOR_OR_ACTRESS);
+        person8.setGender(GenderEnum.MALE);
+        person8.setBirth("07 / 12 / 1989");
+        person8 = personService.save(person8);
+
+        Person person9 = new Person();
+        person9.setName("Yorgos Lanthimos");
+        person9.setJob(JobEnum.DIRECTOR);
+        person9.setGender(GenderEnum.MALE);
+        person9.setBirth("27 / 05 / 1973");
+        person9 = personService.save(person9);
+
+        Person person10 = new Person();
+        person10.setName("Isabelle Huppert");
+        person10.setJob(JobEnum.ACTOR_OR_ACTRESS);
+        person10.setGender(GenderEnum.FEMALE);
+        person10.setBirth("16 / 03 / 1953");
+        person10 = personService.save(person10);
+
+        Person person11 = new Person();
+        person11.setName("Laurent Lafitte");
+        person11.setJob(JobEnum.ACTOR_OR_ACTRESS);
+        person11.setGender(GenderEnum.MALE);
+        person11.setBirth("22 / 08 / 1973");
+        person11 = personService.save(person11);
+
+        Person person12 = new Person();
+        person12.setName("Paul Verhoeven");
+        person12.setJob(JobEnum.DIRECTOR);
+        person12.setGender(GenderEnum.MALE);
+        person12.setBirth("18 / 07 / 1938");
+        person12 = personService.save(person12);
+
+        Person person13 = new Person();
+        person13.setName("Oliver Assayas");
+        person13.setJob(JobEnum.DIRECTOR);
+        person13.setGender(GenderEnum.MALE);
+        person13.setBirth("25 / 01 / 1955");
+        person13 = personService.save(person13);
+
+        Person person14 = new Person();
+        person14.setName("Kristen Stewart");
+        person14.setJob(JobEnum.ACTOR_OR_ACTRESS);
+        person14.setGender(GenderEnum.FEMALE);
+        person14.setBirth("09 / 04 / 1990");
+        person14 = personService.save(person14);
+
+        Person person15 = new Person();
+        person15.setName("Lars Eidinger");
+        person15.setJob(JobEnum.ACTOR_OR_ACTRESS);
+        person15.setGender(GenderEnum.MALE);
+        person15.setBirth("21 / 01 / 1976");
+        person15 = personService.save(person15);
+
         Film film = new Film();
         film.setTitle("What Ever Happened to Baby Jane?");
         film.setGenre("Horror");
@@ -113,6 +176,33 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         film2.setActor(person6);
         film2 = filmService.save(film2);
 
+        Film film3 = new Film();
+        film3.setTitle("The Favourite");
+        film3.setGenre("Comedy");
+        film3.setYear(2018);
+        film3.setDirector(person9);
+        film3.setActress(person7);
+        film3.setActor(person8);
+        film3 = filmService.save(film3);
+
+        Film film4 = new Film();
+        film4.setTitle("Elle");
+        film4.setGenre("Thriller");
+        film4.setYear(2016);
+        film4.setDirector(person12);
+        film4.setActress(person10);
+        film4.setActor(person11);
+        film4 = filmService.save(film4);
+
+        Film film5 = new Film();
+        film5.setTitle("Personal Shopper");
+        film5.setGenre("Thriller");
+        film5.setYear(2017);
+        film5.setDirector(person13);
+        film5.setActress(person14);
+        film5.setActor(person15);
+        film5 = filmService.save(film5);
+
         Award award1 = new Award();
         award1.setName("The 11th Oscars");
         award1.setYear(1938);
@@ -122,6 +212,21 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         award2.setName("The 6th Venice Film Festival");
         award2.setYear(1938);
         award2 = awardService.save(award2);
+
+        Award award3 = new Award();
+        award3.setName("The 72nd BAFTA");
+        award3.setYear(2019);
+        award3 = awardService.save(award3);
+
+        Award award4 = new Award();
+        award4.setName("The 74th Golden Globes");
+        award4.setYear(2017);
+        award4 = awardService.save(award4);
+
+        Award award5 = new Award();
+        award5.setName("43e César du cinéma");
+        award5.setYear(2018);
+        award5 = awardService.save(award5);
 
         Prize prize = new Prize();
         prize.setAward(award1);
@@ -136,6 +241,28 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         prize2.setCategory(CategoryEnum.DIRECTOR);
         prize2.setFilm(film2);
         prize2 = prizeService.save(prize2);
+
+        Prize prize3 = new Prize();
+        prize3.setAward(award3);
+        prize3.setWinner(person7);
+        prize3.setCategory(CategoryEnum.ACTRESS);
+        prize3.setFilm(film3);
+        prize3 = prizeService.save(prize3);
+
+        Prize prize4 = new Prize();
+        prize4.setAward(award5);
+        prize4.setWinner(person14);
+        prize4.setCategory(CategoryEnum.ACTRESS);
+        prize4.setFilm(film5);
+        prize4 = prizeService.save(prize4);
+
+        Prize prize5 = new Prize();
+        prize5.setAward(award4);
+        prize5.setWinner(person10);
+        prize5.setCategory(CategoryEnum.ACTRESS);
+        prize5.setFilm(film4);
+        prize5 = prizeService.save(prize5);
+
     }
 
 
