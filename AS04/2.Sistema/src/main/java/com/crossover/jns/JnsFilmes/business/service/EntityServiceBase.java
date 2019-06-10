@@ -18,6 +18,7 @@ public abstract class EntityServiceBase<TEntity, TId, TRepository extends JpaRep
 
     @Nullable
     public TEntity findById(TId id) {
+        if (id == null) return null;
         return repository.findById(id).orElse(null);
     }
 

@@ -16,19 +16,19 @@ public class FilmDto {
     @Size(min = 2, max = 128)
     private String title;
 
-    @NotBlank
+    @NotNull
     private Integer year;
 
     @NotBlank
     private String genre;
 
-    @NotBlank
+    @NotNull
     private Long idDirector;
 
-    @NotBlank
+    @NotNull
     private Long idActor;
 
-    @NotBlank
+    @NotNull
     private Long idActress;
 
 
@@ -58,9 +58,9 @@ public class FilmDto {
         film.setYear(this.year);
         film.setGenre(this.genre);
 
-        film.setDirector(personService.findByid(getIdDirector()));
-        film.setActress(personService.findByid(getIdActress()));
-        film.setActor(personService.findByid(getIdActor()));
+        film.setDirector(personService.findById(getIdDirector()));
+        film.setActress(personService.findById(getIdActress()));
+        film.setActor(personService.findById(getIdActor()));
 
         return film;
     }

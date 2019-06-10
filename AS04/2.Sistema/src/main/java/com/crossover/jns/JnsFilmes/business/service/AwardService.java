@@ -19,23 +19,6 @@ public class AwardService extends EntityServiceBase<Award, Long, AwardRepository
 	@Autowired
 	private AwardRepository awardRepository;
 
-	public List<Award> findAll() {
-		return awardRepository.findAll();
-	}
-
-	public Award findById(long id) {
-		Optional<Award> award = awardRepository.findById(id);
-		return award.get();
-	}
-
-	public void deleteById(long id) {
-		awardRepository.deleteById(id);
-	}
-
-	public Award save(Award award) {
-		return awardRepository.save(award);
-	}
-
 	public List<AwardDto> findAllDto() {
 		return findAll().stream().map(AwardDto::fromAward).collect(Collectors.toList());
 	}

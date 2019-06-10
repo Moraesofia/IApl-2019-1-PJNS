@@ -3,33 +3,36 @@
 
 <head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
     <title th:text="#{title_home}">Home</title>
-    <extras></extras>
+    <extras>
+    </extras>
 </head>
 
-<body th:include="fragments/layout :: body" th:with="content=~{::content}">
+<body th:include="fragments/layout :: body" th:with="content=~{::content}, customScript=~{::customScript}">
 <div th:fragment="content">
-
     <form th:action="@{/prize/save}" th:object=${prizeDto} method="POST">
         <fieldset>
             <!-- Hidden ID -->
-            <input type="hidden" th:value="*{id}" th:field="*{id}" />
+            <input type="hidden" th:value="*{id}" th:field="*{id}"/>
 
             <div class="form-group">
                 <label for="category" th:text="#{prizes_category}"></label>
                 <select id="category" class="selectpicker form-control" th:field="*{category}">
-                    <option th:each="category: ${@prizeService.getCategoriesText()}" th:value="${category}" th:text="${category}"></option>
+                    <option th:each="category: ${@prizeService.getCategoriesText()}" th:value="${category}"
+                            th:text="#{${'prizes_category_' + category}}"></option>
                 </select>
-                <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></div>
+                <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('category')}"
+                     th:errors="*{category}"></div>
             </div>
 
-            <div class="form-group">
+            <div id="winner_field" class="form-group">
                 <label for="idWinner" th:text="#{prizes_winner}"></label>
                 <select id="idWinner" class="selectpicker form-control" data-live-search="true" th:field="*{idWinner}">
                     <option th:each="winner: ${@personService.findAllDto()}"
                             th:value="${winner.id}"
                             th:text="${winner.name}"></option>
                 </select>
-                <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('idWinner')}" th:errors="*{winner}"></div>
+                <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('idWinner')}"
+                     th:errors="*{winner}"></div>
             </div>
 
             <div class="form-group">
@@ -39,7 +42,8 @@
                             th:value="${film.id}"
                             th:text="${film.title}"></option>
                 </select>
-                <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('idFilm')}" th:errors="*{film}"></div>
+                <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('idFilm')}"
+                     th:errors="*{film}"></div>
             </div>
 
             <div class="form-group">
@@ -49,13 +53,25 @@
                             th:value="${award.id}"
                             th:text="${award.name}"></option>
                 </select>
-                <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('idAward')}" th:errors="*{award}"></div>
+                <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('idAward')}"
+                     th:errors="*{award}"></div>
             </div>
 
             <button type="submit" th:text="#{form_submit}" class="btn btn-primary"></button>
         </fieldset>
     </form>
-
+</div>
+<div th:fragment="customScript">
+    <script type="text/javascript">
+            $("#category").change(function(){
+                var value = this.value;
+                if (value == "FILM" || value == "SCRIPT"){
+                    $("#winner_field").hide();
+                } else {
+                    $("#winner_field").show();
+                }
+            });
+    </script>
 </div>
 </body>
 </html>

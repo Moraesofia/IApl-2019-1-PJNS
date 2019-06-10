@@ -2,12 +2,12 @@
 <html lang="en"
       xmlns:th="https://www.thymeleaf.org">
 <!-- Uses the "not logged" layout -->
-<head th:include="fragments/layout_auth :: head(title=~{::title}, extras=~{::extras})">
+<head th:include="fragments/layout_notauth :: head(title=~{::title}, extras=~{::extras})">
     <title th:text="#{title_auth}">Authentication</title>
     <extras></extras>
 </head>
 
-<body th:include="fragments/layout_auth :: body" th:with="content=~{::content}">
+<body th:include="fragments/layout_notauth :: body" th:with="content=~{::content}">
 <div th:fragment="content">
 
     <div class="row justify-content-md-center">

@@ -28,8 +28,8 @@ public class PersonDto {
         dto.setId(p.getId());
         dto.setName(p.getName());
         dto.setBirth(p.getBirth());
-        dto.setGender(p.getGender().getText());
-        dto.setJob(p.getJob().getText());
+        dto.setGender(p.getGender().name());
+        dto.setJob(p.getJob().name());
         return dto;
     }
 
@@ -38,8 +38,8 @@ public class PersonDto {
         p.setId(this.id);
         p.setName(this.name);
         p.setBirth(this.birth);
-        p.setGender(GenderEnum.fromText(this.gender));
-        p.setJob(JobEnum.fromText(this.job));
+        p.setGender(GenderEnum.valueOf(this.gender));
+        p.setJob(JobEnum.valueOf(this.job));
         return p;
     }
 

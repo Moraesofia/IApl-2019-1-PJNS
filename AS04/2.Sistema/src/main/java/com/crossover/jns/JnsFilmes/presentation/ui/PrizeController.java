@@ -2,12 +2,14 @@ package com.crossover.jns.JnsFilmes.presentation.ui;
 
 import com.crossover.jns.JnsFilmes.business.entity.Prize;
 import com.crossover.jns.JnsFilmes.business.enums.CategoryEnum;
+import com.crossover.jns.JnsFilmes.business.enums.GenderEnum;
 import com.crossover.jns.JnsFilmes.business.service.AwardService;
 import com.crossover.jns.JnsFilmes.business.service.FilmService;
 import com.crossover.jns.JnsFilmes.business.service.PersonService;
 import com.crossover.jns.JnsFilmes.business.service.PrizeService;
 import com.crossover.jns.JnsFilmes.presentation.dto.PrizeDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.Objects;
 
 @Controller
@@ -59,7 +63,11 @@ public class PrizeController {
     //Delete an entity by its ID
     @GetMapping("/prize/delete/{id}")
     public String deleteEntity(@PathVariable Long id) {
-        prizeService.deleteById(id);
+        try {
+            prizeService.deleteById(id);
+        } catch (DataIntegrityViolationException ex) {
+            return "redirect:/prizes/list?cantDeleteBecauseItsUsed";
+        }
         return "redirect:/prizes/list?deleted";
     }
 
@@ -72,29 +80,20 @@ public class PrizeController {
 
     //Save action from the form. It either creates or updates a prize
     @PostMapping("/prize/save")
-    public String saveEntity(PrizeDto prizeDto, BindingResult bindingResult) {
+    public String saveEntity(@Valid PrizeDto prizeDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "prizes-edit";
         }
 
-        if (CategoryEnum.fromText(prizeDto.getCategory()) == null) {
+        if (Arrays.stream(CategoryEnum.values()).noneMatch(v -> Objects.equals(v.name(), prizeDto.getCategory()))) {
             bindingResult.rejectValue("category", "error.prizeDto", "Invalid category");
             return "prizes-edit";
         }
 
-        if (prizeDto.getIdWinner() == null) {
-            bindingResult.rejectValue("IdWinner", "error.prizeDto", "Invalid winner");
-            return "prizes-edit";
-        }
-
-        if (prizeDto.getIdAward() == null) {
-            bindingResult.rejectValue("IdAward", "error.prizeDto", "Invalid award");
-            return "prizes-edit";
-        }
-
-        if (prizeDto.getIdFilm() == null) {
-            bindingResult.rejectValue("IdFilm", "error.prizeDto", "Invalid film");
-            return "prizes-edit";
+        // Remove winner if category is for films only
+        if (prizeDto.getCategory().equals(CategoryEnum.FILM.name()) ||
+                prizeDto.getCategory().equals(CategoryEnum.SCRIPT.name())) {
+            prizeDto.setIdWinner(null);
         }
 
         //Creating an entity from the DTO
@@ -109,7 +108,6 @@ public class PrizeController {
             return "redirect:/prizes/list?created";
         }
     }
-
 
 
 }

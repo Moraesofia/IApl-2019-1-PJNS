@@ -19,26 +19,9 @@ public class PrizeService extends EntityServiceBase<Prize, Long, PrizeRepository
     @Autowired
     private PrizeRepository prizeRepository;
 
-    public List<Prize> findAll() {
-        return prizeRepository.findAll();
-    }
-
-    public Prize findById(long id) {
-        Optional<Prize> prize = prizeRepository.findById(id);
-        return prize.get();
-    }
-
-    public void deleteById(long id) {
-        prizeRepository.deleteById(id);
-    }
-
-    public Prize save(Prize prize) {
-        return prizeRepository.save(prize);
-    }
-
     public List<String> getCategoriesText() {
         CategoryEnum[] category = CategoryEnum.values();
-        return Arrays.stream(category).map(CategoryEnum::getText).collect(Collectors.toList());
+        return Arrays.stream(category).map(CategoryEnum::name).collect(Collectors.toList());
     }
 
     public Collection<Prize> findByCategory(CategoryEnum category) {

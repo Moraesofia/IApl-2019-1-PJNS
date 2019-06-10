@@ -1,20 +1,18 @@
 package com.crossover.jns.JnsFilmes.presentation.dto;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 import com.crossover.jns.JnsFilmes.business.entity.Award;
 
 public class AwardDto {
 
-	@NotBlank
 	private Long id;
 
 	@NotBlank
     @Size(min = 2, max = 128)
 	private String name;
 
-	@NotBlank
+	@NotNull
 	private Integer year;
 
 	public static AwardDto fromAward(Award award) {

@@ -7,58 +7,61 @@
 </head>
 
 <body th:include="fragments/layout :: body" th:with="content=~{::content}">
-    <div th:fragment="content">
+<div th:fragment="content">
 
-        <div class="row">
-            <div class="col">
-                <div th:if="${param.created}" class="alert alert-success" role="alert" th:text="#{form_create_sucess}">
-                </div>
-                <div th:if="${param.deleted}" class="alert alert-success" role="alert" th:text="#{form_delete_sucess}">
-                </div>
-                <div th:if="${param.updated}" class="alert alert-success" role="alert" th:text="#{form_update_sucess}">
-                </div>
+    <div class="row">
+        <div class="col">
+            <div th:if="${param.created}" class="alert alert-success" role="alert" th:text="#{form_create_sucess}">
+            </div>
+            <div th:if="${param.deleted}" class="alert alert-success" role="alert" th:text="#{form_delete_sucess}">
+            </div>
+            <div th:if="${param.updated}" class="alert alert-success" role="alert" th:text="#{form_update_sucess}">
+            </div>
+            <div th:if="${param.cantDeleteBecauseItsUsed}" class="alert alert-danger" role="alert"
+                 th:text="#{form_cant_delete_because_its_used}">
             </div>
         </div>
-
-        <div class="row">
-            <div class="col">
-                <h2 th:text="#{persons_title}"> </h2>
-            </div>
-            <div class="col-auto">
-                <a class="btn btn-primary" th:href="@{/person/add}" role="button" th:text="#{add_new}"></a>
-            </div>
-        </div>
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col" th:text="#{persons_name}"></th>
-                    <th scope="col" th:text="#{persons_birth}"></th>
-                    <th scope="col" th:text="#{persons_job}"></th>
-                    <th scope="col" th:text="#{persons_gender}"></th>
-                    <th scope="col" th:text="#{table_crud_actions}"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="person : ${persons}">
-                    <th scope="row" th:text="${person.id}"></th>
-                    <td th:text="${person.name}"></td>
-                    <td th:text="${person.birth}"></td>
-                    <td th:text="${person.job}"></td>
-                    <td th:text="${person.gender}"></td>
-                    <td>
-                        <div class="btn-group btn-group-sm" role="group" aria-label="crud">
-                            <a class="btn btn-secondary" th:href="@{/person/edit/{id}(id=${person.id})}"
-                                th:text="#{edit}"></a>
-                            <a class="btn btn-secondary" th:href="@{/person/delete/{id}(id=${person.id})}"
-                                th:text="#{delete}"></a>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
     </div>
+
+    <div class="row">
+        <div class="col">
+            <h2 th:text="#{persons_title}"></h2>
+        </div>
+        <div class="col-auto">
+            <a class="btn btn-primary" th:href="@{/person/add}" role="button" th:text="#{add_new}"></a>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col" th:text="#{persons_name}"></th>
+            <th scope="col" th:text="#{persons_birth}"></th>
+            <th scope="col" th:text="#{persons_job}"></th>
+            <th scope="col" th:text="#{persons_gender}"></th>
+            <th scope="col" th:text="#{table_crud_actions}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="person : ${persons}">
+            <th scope="row" th:text="${person.id}"></th>
+            <td th:text="${person.name}"></td>
+            <td th:text="${person.birth}"></td>
+            <td th:text="#{${'persons_job_' + person.job}}"></td>
+            <td th:text="#{${'persons_gender_' + person.gender}}"></td>
+            <td>
+                <div class="btn-group btn-group-sm" role="group" aria-label="crud">
+                    <a class="btn btn-secondary" th:href="@{/person/edit/{id}(id=${person.id})}"
+                       th:text="#{edit}"></a>
+                    <a class="btn btn-secondary" th:href="@{/person/delete/{id}(id=${person.id})}"
+                       th:text="#{delete}"></a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 
 </html>

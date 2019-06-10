@@ -10,6 +10,7 @@ import com.crossover.jns.JnsFilmes.business.service.FilmService;
 import com.crossover.jns.JnsFilmes.business.service.PersonService;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class PrizeDto {
 
@@ -18,20 +19,20 @@ public class PrizeDto {
     @NotBlank
     private String category;
 
-    @NotBlank
+    @NotNull
     private Long idWinner;
 
-    @NotBlank
+    @NotNull
     private Long idFilm;
 
-    @NotBlank
+    @NotNull
     private Long idAward;
 
 
     public static PrizeDto fromPrize(Prize prize) {
         PrizeDto prizeDto = new PrizeDto();
         prizeDto.setId(prize.getId());
-        prizeDto.setCategory(prize.getCategory().getText());
+        prizeDto.setCategory(prize.getCategory().name());
 
         Person winner = prize.getWinner();
         prizeDto.setIdWinner(winner == null ? null : winner.getId());
@@ -48,9 +49,9 @@ public class PrizeDto {
     public Prize toPrize(PersonService personService, FilmService filmService, AwardService awardService) {
         Prize prize = new Prize();
         prize.setId(this.id);
-        prize.setCategory(CategoryEnum.fromText(this.category));
+        prize.setCategory(CategoryEnum.valueOf(this.category));
 
-        prize.setWinner(personService.findByid(getIdWinner()));
+        prize.setWinner(personService.findById(getIdWinner()));
         prize.setFilm(filmService.findById(getIdFilm()));
         prize.setAward(awardService.findById(getIdAward()));
 

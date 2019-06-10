@@ -7,66 +7,69 @@
 </head>
 
 <body th:include="fragments/layout :: body" th:with="content=~{::content}">
-    <div th:fragment="content">
+<div th:fragment="content">
 
-        <div class="row">
-            <div class="col">
-                <div th:if="${param.created}" class="alert alert-success" role="alert" th:text="#{form_create_sucess}">
-                </div>
-                <div th:if="${param.deleted}" class="alert alert-success" role="alert" th:text="#{form_delete_sucess}">
-                </div>
-                <div th:if="${param.updated}" class="alert alert-success" role="alert" th:text="#{form_update_sucess}">
-                </div>
+    <div class="row">
+        <div class="col">
+            <div th:if="${param.created}" class="alert alert-success" role="alert" th:text="#{form_create_sucess}">
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col">
-                <h2 th:text="#{films_title_screen}"></h2>
+            <div th:if="${param.deleted}" class="alert alert-success" role="alert" th:text="#{form_delete_sucess}">
             </div>
-            <div class="col-auto">
-                <a class="btn btn-primary" th:href="@{/film/add}" role="button" th:text="#{add_new}"></a>
+            <div th:if="${param.updated}" class="alert alert-success" role="alert" th:text="#{form_update_sucess}">
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col" th:text="#{films_title}"></th>
-                        <th scope="col" th:text="#{films_year}"></th>
-                        <th scope="col" th:text="#{films_genre}"></th>
-                        <th scope="col" th:text="#{films_director}"></th>
-                        <th scope="col" th:text="#{films_actress}"></th>
-                        <th scope="col" th:text="#{films_actor}"></th>
-                        <th scope="col" th:text="#{table_crud_actions}"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="film : ${films}">
-                        <td scope="row" th:text="${film.id}"></td>
-                        <td th:text="${film.title}"></td>
-                        <td th:text="${film.year}"></td>
-                        <td th:text="${film.genre}"></td>
-                        <td th:text="${@personService.findById(film.idDirector)?.name}"></td>
-                        <td th:text="${@personService.findById(film.idActress)?.name}"></td>
-                        <td th:text="${@personService.findById(film.idActor)?.name}"></td>
-                        <td>
-                            <div class="btn-group btn-group-sm" role="group" aria-label="crud">
-                                <a class="btn btn-secondary" th:href="@{/film/edit/{id}(id=${film.id})}"
-                                   th:text="#{edit}"></a>
-                                <a class="btn btn-secondary" th:href="@{/film/delete/{id}(id=${film.id})}"
-                                   th:text="#{delete}"></a>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+            <div th:if="${param.cantDeleteBecauseItsUsed}" class="alert alert-danger" role="alert"
+                 th:text="#{form_cant_delete_because_its_used}">
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col">
+            <h2 th:text="#{films_title_screen}"></h2>
+        </div>
+        <div class="col-auto">
+            <a class="btn btn-primary" th:href="@{/film/add}" role="button" th:text="#{add_new}"></a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col" th:text="#{films_title}"></th>
+                    <th scope="col" th:text="#{films_year}"></th>
+                    <th scope="col" th:text="#{films_genre}"></th>
+                    <th scope="col" th:text="#{films_director}"></th>
+                    <th scope="col" th:text="#{films_actress}"></th>
+                    <th scope="col" th:text="#{films_actor}"></th>
+                    <th scope="col" th:text="#{table_crud_actions}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="film : ${films}">
+                    <td scope="row" th:text="${film.id}"></td>
+                    <td th:text="${film.title}"></td>
+                    <td th:text="${film.year}"></td>
+                    <td th:text="${film.genre}"></td>
+                    <td th:text="${@personService.findById(film.idDirector)?.name}"></td>
+                    <td th:text="${@personService.findById(film.idActress)?.name}"></td>
+                    <td th:text="${@personService.findById(film.idActor)?.name}"></td>
+                    <td>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="crud">
+                            <a class="btn btn-secondary" th:href="@{/film/edit/{id}(id=${film.id})}"
+                               th:text="#{edit}"></a>
+                            <a class="btn btn-secondary" th:href="@{/film/delete/{id}(id=${film.id})}"
+                               th:text="#{delete}"></a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 </body>
 
 </html>

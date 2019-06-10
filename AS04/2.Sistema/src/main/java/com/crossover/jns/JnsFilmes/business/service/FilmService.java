@@ -20,23 +20,6 @@ public class FilmService extends EntityServiceBase<Film, Long, FilmRepository> {
     @Autowired
     private FilmRepository filmRepository;
 
-    public List<Film> findAll() {
-        return filmRepository.findAll();
-    }
-
-    public Film findById(long id) {
-        Optional<Film> film = filmRepository.findById(id);
-        return film.get();
-    }
-
-    public void deleteById(long id) {
-        filmRepository.deleteById(id);
-    }
-
-    public Film save(Film film) {
-        return filmRepository.save(film);
-    }
-
     public Collection<Film> findByDirector(Long idDirector) {
         return filmRepository.findByDirector_Id(idDirector);
     }

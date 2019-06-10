@@ -6,8 +6,11 @@ import com.crossover.jns.JnsFilmes.presentation.dto.UserCredentialsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.validation.Valid;
 
 @Controller("/")
 public class MainController {
@@ -27,7 +30,7 @@ public class MainController {
     }
 
     @PostMapping("/login")
-    public String loginSubmit(UserCredentialsDto userCredentialsDto) {
+    public String loginSubmit(UserCredentialsDto userCredentialsDto, BindingResult bindingResult) {
         try {
             User user = userService.authenticate(
                     userCredentialsDto.getUsername(),

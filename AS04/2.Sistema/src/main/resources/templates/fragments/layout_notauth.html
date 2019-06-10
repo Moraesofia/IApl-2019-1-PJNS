@@ -24,32 +24,8 @@
 </head>
 
 <body th:fragment="body">
-<!-- Different Navbar -->
-<nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark" th:fragment="navbar">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
-            aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <!-- Home is the auth screen -->
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-        <a class="navbar-brand" th:href="@{/}" th:text="#{title_app}"> </a>
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-            <!-- ... -->
-        </ul>
-        <!-- Languages -->
-        <div style="padding-right:2rem;">
-            <a th:href="@{?lang=en}" role="button">
-                <span class="flag-icon flag-icon-us"></span>
-            </a>&nbsp;
-            <a th:href="@{?lang=pt}" role="button">
-                <span class="flag-icon flag-icon-br"></span>
-            </a>&nbsp;
-        </div>
-
-        <!-- Not logged-->
-        <a class="btn btn-primary" th:href="@{/login}" role="button" th:text="#{navbar_login}">Login</a>&nbsp;
-    </div>
-</nav>
+<!-- Navbar -->
+<div th:replace="~{fragments/navbar_notauth :: navbar}"></div>
 
 <!-- Content -->
 <div class="container" style="padding:1rem;">

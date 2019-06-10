@@ -20,31 +20,14 @@ public class PersonService extends EntityServiceBase<Person, Long, PersonReposit
     @Autowired
     private PersonRepository personRepository;
 
-    public List<Person> findAll() {
-        return personRepository.findAll();
-    }
-
-    public Person findByid(long id) {
-        Optional<Person> person = personRepository.findById(id);
-        return person.get();
-    }
-
-    public void deleteById(long id) {
-        personRepository.deleteById(id);
-    }
-
-    public Person save(Person person) {
-        return personRepository.save(person);
-    }
-
     public List<String> getJobsText() {
         JobEnum[] jobs = JobEnum.values();
-        return Arrays.stream(jobs).map(JobEnum::getText).collect(Collectors.toList());
+        return Arrays.stream(jobs).map(JobEnum::name).collect(Collectors.toList());
     }
 
     public List<String> getGendersText() {
         GenderEnum[] genders = GenderEnum.values();
-        return Arrays.stream(genders).map(GenderEnum::getText).collect(Collectors.toList());
+        return Arrays.stream(genders).map(GenderEnum::name).collect(Collectors.toList());
     }
 
     public Collection<Person> findByJob(JobEnum job) {
@@ -58,16 +41,33 @@ public class PersonService extends EntityServiceBase<Person, Long, PersonReposit
         return findByJob(JobEnum.DIRECTOR).stream().map(PersonDto::fromPerson).collect(Collectors.toList());
     }
 
+    public List<PersonDto> findAllWritersDto() {
+        return findByJob(JobEnum.WRITER).stream().map(PersonDto::fromPerson).collect(Collectors.toList());
+    }
+
+    public List<PersonDto> findAllActorsAndActressesDto() {
+        return findByJob(JobEnum.ACTOR_OR_ACTRESS)
+                .stream()
+                .map(PersonDto::fromPerson).collect(Collectors.toList());
+    }
+
     public List<PersonDto> findAllActressesDto() {
-        return findByJob(JobEnum.ACTRESS).stream().map(PersonDto::fromPerson).collect(Collectors.toList());
+        return findByJob(JobEnum.ACTOR_OR_ACTRESS)
+                .stream()
+                .filter(p -> p.getGender() == GenderEnum.FEMALE)
+                .map(PersonDto::fromPerson).collect(Collectors.toList());
     }
 
     public List<PersonDto> findAllActorsDto() {
-        return findByJob(JobEnum.ACTOR).stream().map(PersonDto::fromPerson).collect(Collectors.toList());
+        return findByJob(JobEnum.ACTOR_OR_ACTRESS)
+                .stream()
+                .filter(p -> p.getGender() == GenderEnum.MALE)
+                .map(PersonDto::fromPerson)
+                .collect(Collectors.toList());
     }
 
     public List<PersonDto> findAllDto() {
         return findAll().stream().map(PersonDto::fromPerson).collect(Collectors.toList());
     }
-    
+
 }
