@@ -20,7 +20,6 @@ public class AwardDto {
 		awardDto.setId(award.getId());
 		awardDto.setName(award.getName());
 		awardDto.setYear(award.getYear());
-
 		return awardDto;
 	}
 	
@@ -29,7 +28,6 @@ public class AwardDto {
 		award.setId(this.id);
 		award.setName(this.name);
 		award.setYear(this.year);
-
         return award;
     }
 

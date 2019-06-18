@@ -3,6 +3,9 @@ package com.crossover.jns.JnsFilmes.presentation.api;
 import com.crossover.jns.JnsFilmes.business.entity.Prize;
 import com.crossover.jns.JnsFilmes.business.service.*;
 import com.crossover.jns.JnsFilmes.data.repository.PrizeRepository;
+import com.crossover.jns.JnsFilmes.exceptions.InvalidDtoException;
+import com.crossover.jns.JnsFilmes.exceptions.NotFoundException;
+import com.crossover.jns.JnsFilmes.exceptions.PersistenceException;
 import com.crossover.jns.JnsFilmes.presentation.dto.PrizeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,7 +40,7 @@ public class ApiPrizeController extends ApiEntityControllerBase<Prize, Long, Pri
     }
 
     @Override
-    protected Prize convertToEntity(PrizeDto prizeDto) {
+    protected Prize convertToEntity(PrizeDto prizeDto) throws PersistenceException, InvalidDtoException {
         return prizeDto.toPrize(personService, filmService, awardService);
     }
 
@@ -47,7 +50,7 @@ public class ApiPrizeController extends ApiEntityControllerBase<Prize, Long, Pri
     }
 
     @Override
-    protected List<PrizeDto> findAllDto() {
+    protected List<PrizeDto> findAllDto() throws PersistenceException {
         return prizeService.findAllDto();
     }
 

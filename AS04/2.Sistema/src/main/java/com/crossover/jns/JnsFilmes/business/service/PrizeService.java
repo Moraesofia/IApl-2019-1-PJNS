@@ -1,6 +1,7 @@
 package com.crossover.jns.JnsFilmes.business.service;
 
 import com.crossover.jns.JnsFilmes.business.enums.CategoryEnum;
+import com.crossover.jns.JnsFilmes.exceptions.PersistenceException;
 import com.crossover.jns.JnsFilmes.presentation.dto.PrizeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,15 +25,27 @@ public class PrizeService extends EntityServiceBase<Prize, Long, PrizeRepository
         return Arrays.stream(category).map(CategoryEnum::name).collect(Collectors.toList());
     }
 
-    public Collection<Prize> findByCategory(CategoryEnum category) {
-        if (category == null) {
-            return Collections.emptyList();
+    public Collection<Prize> findByCategory(CategoryEnum category) throws PersistenceException {
+        try {
+            if (category == null) {
+                return Collections.emptyList();
+            }
+            return prizeRepository.findByCategory(category);
+        } catch (javax.persistence.PersistenceException pex) {
+            throw new PersistenceException(pex.getMessage(), pex);
         }
-        return prizeRepository.findByCategory(category);
     }
 
-    public List<PrizeDto> findAllDto() {
+    public List<PrizeDto> findAllDto() throws PersistenceException {
         return findAll().stream().map(PrizeDto::fromPrize).collect(Collectors.toList());
     }
 
+    @Override
+    public <S extends Prize> S save(S item) throws PersistenceException {
+        // Remove winner if category is films only
+        if (item.getCategory().equals(CategoryEnum.FILM) || item.getCategory().equals(CategoryEnum.SCRIPT)) {
+            item.setWinner(null);
+        }
+        return super.save(item);
+    }
 }

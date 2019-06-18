@@ -5,6 +5,7 @@ import com.crossover.jns.JnsFilmes.business.enums.CategoryEnum;
 import com.crossover.jns.JnsFilmes.business.enums.GenderEnum;
 import com.crossover.jns.JnsFilmes.business.enums.JobEnum;
 import com.crossover.jns.JnsFilmes.business.service.*;
+import com.crossover.jns.JnsFilmes.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -39,20 +40,24 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
         if (!alreadySetup) {
-            createInitialUsers();
-            createEntities();
+            try {
+                createInitialUsers();
+                createEntities();
+            } catch (PersistenceException e) {
+                e.printStackTrace();
+            }
             alreadySetup = true;
         }
     }
 
-    private void createInitialUsers() {
+    private void createInitialUsers() throws PersistenceException {
         User user1 = new User();
         user1.setUsername("admin");
         user1.setPassword("admin");
         user1 = userService.save(user1);
     }
 
-    private void createEntities() {
+    private void createEntities() throws PersistenceException {
         Person person1 = new Person();
         person1.setName("Bette Davis");
         person1.setJob(JobEnum.ACTOR_OR_ACTRESS);

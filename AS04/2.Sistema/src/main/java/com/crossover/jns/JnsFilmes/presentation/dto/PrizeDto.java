@@ -8,6 +8,9 @@ import com.crossover.jns.JnsFilmes.business.enums.CategoryEnum;
 import com.crossover.jns.JnsFilmes.business.service.AwardService;
 import com.crossover.jns.JnsFilmes.business.service.FilmService;
 import com.crossover.jns.JnsFilmes.business.service.PersonService;
+import com.crossover.jns.JnsFilmes.exceptions.InvalidDtoException;
+import com.crossover.jns.JnsFilmes.exceptions.NotFoundException;
+import com.crossover.jns.JnsFilmes.exceptions.PersistenceException;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -28,7 +31,6 @@ public class PrizeDto {
     @NotNull
     private Long idAward;
 
-
     public static PrizeDto fromPrize(Prize prize) {
         PrizeDto prizeDto = new PrizeDto();
         prizeDto.setId(prize.getId());
@@ -36,25 +38,33 @@ public class PrizeDto {
 
         Person winner = prize.getWinner();
         prizeDto.setIdWinner(winner == null ? null : winner.getId());
-
         Film film = prize.getFilm();
         prizeDto.setIdFilm(film == null ? null : film.getId());
-
         Award award = prize.getAward();
         prizeDto.setIdAward(award == null ? null : award.getId());
 
         return prizeDto;
     }
 
-    public Prize toPrize(PersonService personService, FilmService filmService, AwardService awardService) {
+    public Prize toPrize(PersonService personService, FilmService filmService, AwardService awardService) throws PersistenceException, InvalidDtoException {
         Prize prize = new Prize();
         prize.setId(this.id);
         prize.setCategory(CategoryEnum.valueOf(this.category));
-
-        prize.setWinner(personService.findById(getIdWinner()));
-        prize.setFilm(filmService.findById(getIdFilm()));
-        prize.setAward(awardService.findById(getIdAward()));
-
+        try {
+            prize.setWinner(personService.findById(getIdWinner()));
+        } catch (NotFoundException e) {
+            throw new InvalidDtoException("idWinner", "not found");
+        }
+        try {
+            prize.setFilm(filmService.findById(getIdFilm()));
+        } catch (NotFoundException e) {
+            throw new InvalidDtoException("idFilm", "not found");
+        }
+        try {
+            prize.setAward(awardService.findById(getIdAward()));
+        } catch (NotFoundException e) {
+            throw new InvalidDtoException("idAward", "not found");
+        }
         return prize;
     }
 

@@ -3,6 +3,9 @@ package com.crossover.jns.JnsFilmes.presentation.dto;
 import com.crossover.jns.JnsFilmes.business.entity.Film;
 import com.crossover.jns.JnsFilmes.business.entity.Person;
 import com.crossover.jns.JnsFilmes.business.service.PersonService;
+import com.crossover.jns.JnsFilmes.exceptions.InvalidDtoException;
+import com.crossover.jns.JnsFilmes.exceptions.NotFoundException;
+import com.crossover.jns.JnsFilmes.exceptions.PersistenceException;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -32,7 +35,7 @@ public class FilmDto {
     private Long idActress;
 
 
-    public static FilmDto fromFilm (Film film) {
+    public static FilmDto fromFilm(Film film) {
         FilmDto filmDto = new FilmDto();
         filmDto.setId(film.getId());
         filmDto.setTitle(film.getTitle());
@@ -41,27 +44,35 @@ public class FilmDto {
 
         Person director = film.getDirector();
         filmDto.setIdDirector(director == null ? null : director.getId());
-
         Person actress = film.getActress();
         filmDto.setIdActress(actress == null ? null : actress.getId());
-
         Person actor = film.getActor();
         filmDto.setIdActor(actor == null ? null : actor.getId());
 
         return filmDto;
     }
 
-    public Film toFilm(PersonService personService) {
+    public Film toFilm(PersonService personService) throws PersistenceException, InvalidDtoException {
         Film film = new Film();
         film.setId(this.id);
         film.setTitle(this.title);
         film.setYear(this.year);
         film.setGenre(this.genre);
-
-        film.setDirector(personService.findById(getIdDirector()));
-        film.setActress(personService.findById(getIdActress()));
-        film.setActor(personService.findById(getIdActor()));
-
+        try {
+            film.setDirector(personService.findById(getIdDirector()));
+        } catch (NotFoundException e) {
+            throw new InvalidDtoException("idDirector", "not found");
+        }
+        try {
+            film.setActress(personService.findById(getIdActress()));
+        } catch (NotFoundException e) {
+            throw new InvalidDtoException("idActress", "not found");
+        }
+        try {
+            film.setActor(personService.findById(getIdActor()));
+        } catch (NotFoundException e) {
+            throw new InvalidDtoException("idActor", "not found");
+        }
         return film;
     }
 

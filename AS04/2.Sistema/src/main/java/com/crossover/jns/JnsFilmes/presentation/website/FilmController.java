@@ -1,28 +1,33 @@
-package com.crossover.jns.JnsFilmes.presentation.api;
+package com.crossover.jns.JnsFilmes.presentation.website;
 
 import com.crossover.jns.JnsFilmes.business.entity.Film;
-import com.crossover.jns.JnsFilmes.business.service.FilmService;
 import com.crossover.jns.JnsFilmes.business.service.EntityServiceBase;
+import com.crossover.jns.JnsFilmes.business.service.FilmService;
 import com.crossover.jns.JnsFilmes.business.service.PersonService;
 import com.crossover.jns.JnsFilmes.data.repository.FilmRepository;
 import com.crossover.jns.JnsFilmes.exceptions.InvalidDtoException;
 import com.crossover.jns.JnsFilmes.exceptions.PersistenceException;
 import com.crossover.jns.JnsFilmes.presentation.dto.FilmDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/films")
-public class ApiFilmController extends ApiEntityControllerBase<Film, Long, FilmRepository, FilmDto> {
+@Controller
+@RequestMapping("/films")
+public class FilmController extends WebsiteEntityControllerBase<Film, Long, FilmRepository, FilmDto> {
 
     @Autowired
     private FilmService filmService;
 
     @Autowired
     private PersonService personService;
+
+    @Override
+    protected String getControllerBasePath() {
+        return "/films";
+    }
 
     @Override
     protected EntityServiceBase<Film, Long, FilmRepository> getEntityService() {
@@ -35,13 +40,8 @@ public class ApiFilmController extends ApiEntityControllerBase<Film, Long, FilmR
     }
 
     @Override
-    protected Film convertToEntity(FilmDto filmDto) throws PersistenceException, InvalidDtoException {
+    protected Film convertToEntity(FilmDto filmDto) throws InvalidDtoException, PersistenceException {
         return filmDto.toFilm(personService);
-    }
-
-    @Override
-    protected Long getDtoId(FilmDto filmDto) {
-        return filmDto.getId();
     }
 
     @Override
@@ -50,7 +50,23 @@ public class ApiFilmController extends ApiEntityControllerBase<Film, Long, FilmR
     }
 
     @Override
+    protected Long getDtoId(FilmDto filmDto) {
+        return filmDto.getId();
+    }
+
+    @Override
+    protected Long getEntityId(Film film) {
+        return film.getId();
+    }
+
+    @Override
     protected String getEntityName() {
         return Film.class.getSimpleName();
     }
+
+    @Override
+    protected Film getNewEntity() {
+        return new Film();
+    }
+
 }

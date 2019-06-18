@@ -1,4 +1,4 @@
-package com.crossover.jns.JnsFilmes;
+package com.crossover.jns.JnsFilmes.config;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.MessageSource;

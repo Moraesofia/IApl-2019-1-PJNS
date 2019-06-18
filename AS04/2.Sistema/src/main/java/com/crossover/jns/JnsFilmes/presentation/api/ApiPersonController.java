@@ -4,6 +4,7 @@ import com.crossover.jns.JnsFilmes.business.entity.Person;
 import com.crossover.jns.JnsFilmes.business.service.EntityServiceBase;
 import com.crossover.jns.JnsFilmes.business.service.PersonService;
 import com.crossover.jns.JnsFilmes.data.repository.PersonRepository;
+import com.crossover.jns.JnsFilmes.exceptions.PersistenceException;
 import com.crossover.jns.JnsFilmes.presentation.dto.PersonDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +40,7 @@ public class ApiPersonController extends ApiEntityControllerBase<Person, Long, P
     }
 
     @Override
-    protected List<PersonDto> findAllDto() {
+    protected List<PersonDto> findAllDto() throws PersistenceException {
         return personService.findAllDto();
     }
 

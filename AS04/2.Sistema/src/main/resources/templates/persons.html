@@ -28,7 +28,7 @@
             <h2 th:text="#{persons_title}"></h2>
         </div>
         <div class="col-auto">
-            <a class="btn btn-primary" th:href="@{/person/add}" role="button" th:text="#{add_new}"></a>
+            <a class="btn btn-primary" th:href="@{/persons/add}" role="button" th:text="#{add_new}"></a>
         </div>
     </div>
 
@@ -52,9 +52,9 @@
             <td th:text="#{${'persons_gender_' + person.gender}}"></td>
             <td>
                 <div class="btn-group btn-group-sm" role="group" aria-label="crud">
-                    <a class="btn btn-secondary" th:href="@{/person/edit/{id}(id=${person.id})}"
+                    <a class="btn btn-secondary" th:href="@{/persons/edit/{id}(id=${person.id})}"
                        th:text="#{edit}"></a>
-                    <a class="btn btn-secondary" th:href="@{/person/delete/{id}(id=${person.id})}"
+                    <a class="btn btn-secondary" th:href="@{/persons/delete/{id}(id=${person.id})}"
                        th:text="#{delete}"></a>
                 </div>
             </td>
