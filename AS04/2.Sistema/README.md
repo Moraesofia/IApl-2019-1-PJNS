@@ -2,7 +2,10 @@
 
 ### Iniciando o servidor
 
-Para iniciar o servidor, execute o comando:
+Para iniciar o servidor, execute o comando abaixo.
+
+*Lembrando que é necessário ter o PostgreSQL rodando com um database chamado 'jns', com usuário 'postgres' e senha 'root'.*
+
 ```
 mvn spring-boot:run
 ```

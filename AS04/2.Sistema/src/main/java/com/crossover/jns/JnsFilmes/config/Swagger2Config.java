@@ -27,7 +27,7 @@ public class Swagger2Config {
     private ApiInfo apiEndPointsInfo() {
         return new ApiInfoBuilder().title("JnsFilmes REST API")
                 .description("REST API para manter filmes e premiações")
-                .contact(new Contact("Team Poderosas", "https://github.com/Moraesofia/IApl-2019-1-PJNS/tree/master/AS04", "teampoderosas69@gmail.com"))
+                .contact(new Contact("Team Poderosas", "https://github.com/Moraesofia/IApl-2019-1-PJNS", "teampoderosas69@gmail.com"))
                 .license("Apache 2.0")
                 .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
                 .version("1.0.0")
