@@ -7,6 +7,8 @@ import com.crossover.jns.JnsFilmes.exceptions.PersistenceException;
 import com.crossover.jns.JnsFilmes.exceptions.RestApiException;
 import com.crossover.jns.JnsFilmes.exceptions.WrongCredentialsException;
 import com.crossover.jns.JnsFilmes.presentation.dto.UserCredentialsDto;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,8 +28,10 @@ public class ApiUserController {
      *
      * @return The authenticated user if the credentials were valid. An exception if not valid.
      */
+    @ApiOperation(value = "Authenticate", notes = "Tries to authenticate an user by username and password. Returns the user if the authentication is successful.")
     @PostMapping("/users/authenticate")
-    public User authenticate(@RequestBody UserCredentialsDto userCredentialsDto) throws RestApiException {
+    public User authenticate(@ApiParam(name = "userCredentialsDto", required = true, value = "The credentials used to authenticate")
+                             @RequestBody UserCredentialsDto userCredentialsDto) throws RestApiException {
         try {
             return userService.authenticate(userCredentialsDto.getUsername(), userCredentialsDto.getPassword());
         } catch (NotFoundException e) {

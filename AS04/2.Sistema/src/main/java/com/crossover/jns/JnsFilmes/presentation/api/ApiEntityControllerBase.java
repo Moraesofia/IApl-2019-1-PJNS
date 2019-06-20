@@ -6,6 +6,8 @@ import com.crossover.jns.JnsFilmes.exceptions.NotFoundException;
 import com.crossover.jns.JnsFilmes.exceptions.PersistenceException;
 import com.crossover.jns.JnsFilmes.exceptions.RestApiException;
 import com.crossover.jns.JnsFilmes.presentation.dto.RespostaSimplesDto;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.omg.CORBA.DynAnyPackage.Invalid;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
@@ -34,7 +36,8 @@ public abstract class ApiEntityControllerBase<TEntity, TId, TRepository extends 
     /**
      * Get all entities
      */
-    @GetMapping({"", "/"})
+    @ApiOperation(value = "Get all", notes = "Gets all entites")
+    @GetMapping("/")
     public List<TDto> getAll() throws RestApiException {
         try {
             return findAllDto();
@@ -46,8 +49,10 @@ public abstract class ApiEntityControllerBase<TEntity, TId, TRepository extends 
     /**
      * Get entity by ID
      */
+    @ApiOperation(value = "Get by ID", notes = "Gets an existing entity by its ID")
     @GetMapping("/{id}")
-    public TDto get(@PathVariable TId id) throws RestApiException {
+    public TDto getById(@ApiParam(name = "id", required = true, value = "The entity's ID", defaultValue = "0")
+                        @PathVariable TId id) throws RestApiException {
         if (id == null)
             throw new RestApiException(HttpStatus.BAD_REQUEST, "Invalid argument(s) - ID: can't be empty");
 
@@ -66,8 +71,10 @@ public abstract class ApiEntityControllerBase<TEntity, TId, TRepository extends 
     /**
      * Add new entity
      */
-    @PostMapping({"", "/"})
-    public TDto post(@RequestBody @Valid TDto dto) throws RestApiException {
+    @ApiOperation(value = "Add new", notes = "Add a new entity")
+    @PostMapping("/")
+    public TDto post(@ApiParam(name = "dto", required = true, value = "The new entity")
+                     @RequestBody @Valid TDto dto) throws RestApiException {
         if (getDtoId(dto) != null)
             throw new RestApiException(HttpStatus.BAD_REQUEST, "Invalid argument(s) - ID: should be empty");
 
@@ -87,8 +94,11 @@ public abstract class ApiEntityControllerBase<TEntity, TId, TRepository extends 
     /**
      * Edit/replace existing entity
      */
+    @ApiOperation(value = "Edit", notes = "Edits (replaces) the entity with the given ID")
     @PutMapping("/{id}")
-    public TDto put(@RequestBody @Valid TDto dto,
+    public TDto put(@ApiParam(name = "dto", required = true, value = "The new entity values")
+                    @RequestBody @Valid TDto dto,
+                    @ApiParam(name = "id", required = true, value = "The entity's ID", defaultValue = "0")
                     @PathVariable TId id) throws RestApiException {
         if (getDtoId(dto) == null || !getDtoId(dto).equals(id))
             throw new RestApiException(HttpStatus.BAD_REQUEST, "Invalid argument(s) - ID: can't be empty and must match the URL");
@@ -111,8 +121,10 @@ public abstract class ApiEntityControllerBase<TEntity, TId, TRepository extends 
     /**
      * Delete existing entity
      */
+    @ApiOperation(value = "Delete", notes = "Deletes the entity with the given ID")
     @DeleteMapping("/{id}")
-    public RespostaSimplesDto delete(@PathVariable TId id) throws RestApiException {
+    public RespostaSimplesDto delete(@ApiParam(name = "id", required = true, value = "The entity's ID", defaultValue = "0")
+                                     @PathVariable TId id) throws RestApiException {
         if (id == null)
             throw new RestApiException(HttpStatus.BAD_REQUEST, "Invalid argument(s) - ID: can't be empty");
 
