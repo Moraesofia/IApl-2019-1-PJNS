@@ -12,7 +12,11 @@ mvn spring-boot:run
 
 E acesse-o em [http://localhost:8080/jns/](http://localhost:8080/jns/).
 
-### API
+Por padrão, existe apenas um usuário (username 'admin' e senha 'admin') e não é possível cadastrar novos usuários.
 
-Após iniciado o servidor, a 'documentação' da API pode ser vista em:
+### Utilizando a API
+
+Em suma, existem endpoints para CRUD das 4 entidades (filme, pessoa, premiação e prêmio) e um endpoint para autenticação.
+
+Com o servidor iniciado, a 'documentação' da API pode ser acessada em:
 [http://localhost:8080/jns/swagger-ui.html](http://localhost:8080/jns/swagger-ui.html).
