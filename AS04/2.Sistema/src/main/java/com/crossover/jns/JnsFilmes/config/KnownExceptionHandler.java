@@ -42,30 +42,4 @@ public class KnownExceptionHandler extends ResponseEntityExceptionHandler {
         return mav;
     }
 
-//
-//
-//    @ExceptionHandler(value = {NotFoundException.class, HttpClientErrorException.class, Exception.class})
-//    public ModelAndView handleGenericException(HttpServletRequest req, Exception ex) {
-//        ModelAndView mav = new ModelAndView();
-//        mav.addObject("exception", ex);
-//        mav.addObject("url", req.getRequestURL());
-//        mav.addObject("title", ex.getClass().getSimpleName());
-//        mav.addObject("details", ex.getLocalizedMessage());
-//        mav.setViewName("errora");
-//        return mav;
-//    }
-
-//
-//    @Override
-//    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-//        Map<String, String> errors = new HashMap<>();
-//        ex.getBindingResult().getAllErrors().forEach((error) -> {
-//            String fieldName = ((FieldError) error).getField();
-//            String errorMessage = error.getDefaultMessage();
-//            errors.put(fieldName, errorMessage);
-//        });
-//        RespostaSimplesDto respostaSimplesDto = new RespostaSimplesDto(HttpStatus.BAD_REQUEST, request.getContextPath(), errors);
-//        return this.handleExceptionInternal(ex, respostaSimplesDto, headers, status, request);
-//    }
-
 }

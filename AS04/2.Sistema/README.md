@@ -20,3 +20,25 @@ Em suma, existem endpoints para CRUD das 4 entidades (filme, pessoa, premiação
 
 Com o servidor iniciado, a 'documentação' da API pode ser acessada em:
 [http://localhost:8080/jns/swagger-ui.html](http://localhost:8080/jns/swagger-ui.html).
+
+### TODO list
+
+Abaixo estão listados os principais entregáveis do projeto, a fim de esclarecer o status atual.
+
+* ~~Geral: uso de pacotes~~
+* ~~Geral: código-fonte em inglês~~
+* ~~Geral: persistência~~
+* ~~Geral: tratamento de exceção~~ *(ainda não avaliado pelo docente)*
+* ~~Geral: integridade referencial~~ *(ainda não avaliado pelo docente)*
+* **Geral: implantar no servidor do INF**
+* ~~Sistema web: internacionalização~~
+* ~~Sistema web: mensagens de advertência, erro etc.~~
+* ~~Sistema web: login/autenticação~~
+* ~~Sistema web: CRUDs~~
+* ~~Produtor: protocolo RESTFul~~ *(ainda não avaliado pelo docente)*
+* ~~Produtor: formato JSON~~ *(ainda não avaliado pelo docente)*
+* ~~Produtor: login/autenticação~~ *(ainda não avaliado pelo docente)*
+* ~~Produtor: CRUDs~~ *(ainda não avaliado pelo docente)*
+* ~~Produtor: informar como consumir~~ *(ainda não avaliado pelo docente)*
+* **Consumidor: consumir a API da outra equipe?**
+* **Consumidor: exibir interface web para API consumida?**

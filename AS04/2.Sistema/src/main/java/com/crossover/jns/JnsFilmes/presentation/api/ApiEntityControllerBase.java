@@ -9,6 +9,7 @@ import com.crossover.jns.JnsFilmes.presentation.dto.RespostaSimplesDto;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.omg.CORBA.DynAnyPackage.Invalid;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
