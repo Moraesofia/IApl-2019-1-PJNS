@@ -3,7 +3,7 @@
 O sistema JNS Filmes pode ser acessado nos links abaixo:
 
 * **Website:** https://jns-filmes.herokuapp.com/
-* **API (documentação):** https://jns-filmes.herokuapp.com/api/docs
+* **API (documentação):** https://jns-filmes.herokuapp.com/docs
 
 Quaisquer dúvidas sobre o projeto podem ser abertas como Issue neste repositório.
 

@@ -2,6 +2,8 @@ package com.crossover.jns.JnsFilmes.config;
 
 import com.crossover.jns.JnsFilmes.exceptions.RestApiException;
 import com.crossover.jns.JnsFilmes.exceptions.WebsiteException;
+import com.crossover.jns.JnsFilmes.presentation.dto.RespostaSimplesDto;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,14 +24,6 @@ public class UnknownExceptionHandler implements org.springframework.boot.web.ser
 
     @RequestMapping(value = PATH)
     public String error(Model model, HttpServletRequest request) throws RestApiException {
-        // Handle API errors differently
-        String forwardUrl = (String)request.getAttribute(RequestDispatcher.FORWARD_REQUEST_URI);
-        boolean isApi = forwardUrl.startsWith("/jns/api");
-        if (isApi) {
-            // Throw an RestApiException that will be caught by our global handlers
-            throw handleApiError(model, request, forwardUrl);
-        }
-
         // Try to fetch website exception from request
         WebsiteException websiteException = null;
         String message = null;

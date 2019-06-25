@@ -8,7 +8,6 @@ import com.crossover.jns.JnsFilmes.exceptions.RestApiException;
 import com.crossover.jns.JnsFilmes.presentation.dto.RespostaSimplesDto;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.omg.CORBA.DynAnyPackage.Invalid;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
@@ -34,11 +33,6 @@ public abstract class ApiEntityControllerBase<TEntity, TId, TRepository extends 
 
     protected abstract TId getDtoId(TDto dto);
 
-    /**
-     * Get all entities
-     */
-    @ApiOperation(value = "Get all", notes = "Gets all entites")
-    @GetMapping("/")
     public List<TDto> getAll() throws RestApiException {
         try {
             return findAllDto();
@@ -47,11 +41,6 @@ public abstract class ApiEntityControllerBase<TEntity, TId, TRepository extends 
         }
     }
 
-    /**
-     * Get entity by ID
-     */
-    @ApiOperation(value = "Get by ID", notes = "Gets an existing entity by its ID")
-    @GetMapping("/{id}")
     public TDto getById(@ApiParam(name = "id", required = true, value = "The entity's ID", defaultValue = "0")
                         @PathVariable TId id) throws RestApiException {
         if (id == null)
@@ -69,11 +58,6 @@ public abstract class ApiEntityControllerBase<TEntity, TId, TRepository extends 
         return convertToDto(entity);
     }
 
-    /**
-     * Add new entity
-     */
-    @ApiOperation(value = "Add new", notes = "Add a new entity")
-    @PostMapping("/")
     public TDto post(@ApiParam(name = "dto", required = true, value = "The new entity")
                      @RequestBody @Valid TDto dto) throws RestApiException {
         if (getDtoId(dto) != null)
@@ -92,11 +76,6 @@ public abstract class ApiEntityControllerBase<TEntity, TId, TRepository extends 
         }
     }
 
-    /**
-     * Edit/replace existing entity
-     */
-    @ApiOperation(value = "Edit", notes = "Edits (replaces) the entity with the given ID")
-    @PutMapping("/{id}")
     public TDto put(@ApiParam(name = "dto", required = true, value = "The new entity values")
                     @RequestBody @Valid TDto dto,
                     @ApiParam(name = "id", required = true, value = "The entity's ID", defaultValue = "0")
@@ -116,14 +95,11 @@ public abstract class ApiEntityControllerBase<TEntity, TId, TRepository extends 
             throw new RestApiException(HttpStatus.NOT_FOUND, e.getMessage());
         } catch (PersistenceException e) {
             throw new RestApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Persistence error: " + e.getMessage());
+        } catch (DataIntegrityViolationException e) {
+            throw new RestApiException(HttpStatus.BAD_REQUEST, "Can't update: " + e.getMostSpecificCause().getLocalizedMessage());
         }
     }
 
-    /**
-     * Delete existing entity
-     */
-    @ApiOperation(value = "Delete", notes = "Deletes the entity with the given ID")
-    @DeleteMapping("/{id}")
     public RespostaSimplesDto delete(@ApiParam(name = "id", required = true, value = "The entity's ID", defaultValue = "0")
                                      @PathVariable TId id) throws RestApiException {
         if (id == null)
@@ -135,6 +111,8 @@ public abstract class ApiEntityControllerBase<TEntity, TId, TRepository extends 
             throw new RestApiException(HttpStatus.NOT_FOUND, "Couldn't find " + getEntityName() + " with the ID " + id);
         } catch (PersistenceException e) {
             throw new RestApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Persistence error: " + e.getMessage());
+        } catch (DataIntegrityViolationException e) {
+            throw new RestApiException(HttpStatus.BAD_REQUEST, "Can't delete: " + e.getMostSpecificCause().getLocalizedMessage());
         }
 
         return new RespostaSimplesDto(HttpStatus.OK, getEntityName() + " with ID '" + id + "' was deleted");

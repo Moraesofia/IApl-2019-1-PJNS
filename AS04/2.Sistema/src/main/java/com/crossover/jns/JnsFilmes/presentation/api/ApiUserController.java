@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class ApiUserController {
 
     @Autowired
@@ -29,7 +29,7 @@ public class ApiUserController {
      * @return The authenticated user if the credentials were valid. An exception if not valid.
      */
     @ApiOperation(value = "Authenticate", notes = "Tries to authenticate an user by username and password. Returns the user if the authentication is successful.")
-    @PostMapping("/users/authenticate")
+    @PostMapping("/authenticate")
     public User authenticate(@ApiParam(name = "userCredentialsDto", required = true, value = "The credentials used to authenticate")
                              @RequestBody UserCredentialsDto userCredentialsDto) throws RestApiException {
         try {
