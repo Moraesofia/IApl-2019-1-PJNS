@@ -9,7 +9,7 @@
 <body th:include="fragments/layout :: body" th:with="content=~{::content}">
 <div th:fragment="content">
 
-    <form th:action="@{/person/save}" th:object=${personDto} method="POST">
+    <form th:action="@{/persons/save}" th:object=${personDto} method="POST">
         <fieldset>
             <!-- Hidden ID -->
             <input type="hidden" th:value="*{id}" th:field="*{id}"/>

@@ -8,6 +8,7 @@ import com.crossover.jns.JnsFilmes.business.service.PersonService;
 import com.crossover.jns.JnsFilmes.data.repository.PersonRepository;
 import com.crossover.jns.JnsFilmes.exceptions.PersistenceException;
 import com.crossover.jns.JnsFilmes.presentation.dto.PersonDto;
+import com.crossover.jns.JnsFilmes.presentation.dto.PrizeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -68,6 +69,11 @@ public class PersonController extends WebsiteEntityControllerBase<Person, Long, 
     @Override
     protected Person getNewEntity() {
         return new Person();
+    }
+
+    @Override
+    protected PersonDto getNewDto() {
+        return new PersonDto();
     }
 
     @Override

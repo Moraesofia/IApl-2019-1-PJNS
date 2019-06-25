@@ -87,6 +87,11 @@ public class PrizeController extends WebsiteEntityControllerBase<Prize, Long, Pr
     }
 
     @Override
+    protected PrizeDto getNewDto() {
+        return new PrizeDto();
+    }
+
+    @Override
     protected boolean validateEntity(@Valid PrizeDto prizeDto, BindingResult bindingResult) {
         if (Arrays.stream(CategoryEnum.values()).noneMatch(v -> Objects.equals(v.name(), prizeDto.getCategory()))) {
             rejectBindingValue(bindingResult, "category", "unknown category");

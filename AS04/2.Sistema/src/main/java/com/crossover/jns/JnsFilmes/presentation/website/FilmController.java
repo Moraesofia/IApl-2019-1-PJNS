@@ -8,6 +8,7 @@ import com.crossover.jns.JnsFilmes.data.repository.FilmRepository;
 import com.crossover.jns.JnsFilmes.exceptions.InvalidDtoException;
 import com.crossover.jns.JnsFilmes.exceptions.PersistenceException;
 import com.crossover.jns.JnsFilmes.presentation.dto.FilmDto;
+import com.crossover.jns.JnsFilmes.presentation.dto.PersonDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,6 +68,11 @@ public class FilmController extends WebsiteEntityControllerBase<Film, Long, Film
     @Override
     protected Film getNewEntity() {
         return new Film();
+    }
+
+    @Override
+    protected FilmDto getNewDto() {
+        return new FilmDto();
     }
 
 }

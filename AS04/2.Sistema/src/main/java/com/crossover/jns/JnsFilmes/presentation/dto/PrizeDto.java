@@ -11,23 +11,31 @@ import com.crossover.jns.JnsFilmes.business.service.PersonService;
 import com.crossover.jns.JnsFilmes.exceptions.InvalidDtoException;
 import com.crossover.jns.JnsFilmes.exceptions.NotFoundException;
 import com.crossover.jns.JnsFilmes.exceptions.PersistenceException;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class PrizeDto {
 
+    @ApiModelProperty(notes = "Must be omitted when adding a new entity. Required otherwise.")
     private Long id;
 
+    @ApiModelProperty(required = true,
+            notes = "The prize's category. For instance, 'SCRIPT' means 'best script prize'.",
+            allowableValues = "DIRECTOR,ACTRESS,ACTOR,FILM,SCRIPT")
     @NotBlank
     private String category;
 
+    @ApiModelProperty(notes = "The ID of the person that won the prize. Must be ommited if the prize's categoy is FILM or SCRIPT. Required otherwise.")
     @NotNull
     private Long idWinner;
 
+    @ApiModelProperty(required = true, notes = "The ID of the person that won the prize.")
     @NotNull
     private Long idFilm;
 
+    @ApiModelProperty(required = true, notes = "The ID of the award that the prize belongs to.")
     @NotNull
     private Long idAward;
 

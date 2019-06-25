@@ -8,6 +8,7 @@ import com.crossover.jns.JnsFilmes.exceptions.NotFoundException;
 import com.crossover.jns.JnsFilmes.exceptions.PersistenceException;
 import com.crossover.jns.JnsFilmes.exceptions.WebsiteException;
 import com.crossover.jns.JnsFilmes.presentation.dto.AwardDto;
+import com.crossover.jns.JnsFilmes.presentation.dto.FilmDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -72,6 +73,11 @@ public class AwardController extends WebsiteEntityControllerBase<Award, Long, Aw
     @Override
     protected Award getNewEntity() {
         return new Award();
+    }
+
+    @Override
+    protected AwardDto getNewDto() {
+        return new AwardDto();
     }
 
 }

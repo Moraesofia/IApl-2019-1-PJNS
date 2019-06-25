@@ -6,6 +6,7 @@ import com.crossover.jns.JnsFilmes.business.service.PersonService;
 import com.crossover.jns.JnsFilmes.exceptions.InvalidDtoException;
 import com.crossover.jns.JnsFilmes.exceptions.NotFoundException;
 import com.crossover.jns.JnsFilmes.exceptions.PersistenceException;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -13,24 +14,31 @@ import javax.validation.constraints.Size;
 
 public class FilmDto {
 
+    @ApiModelProperty(notes = "Must be omitted when adding a new entity. Required otherwise.")
     private Long id;
 
+    @ApiModelProperty(required = true, notes = "Between 2 and 128 caracters")
     @NotBlank
     @Size(min = 2, max = 128)
     private String title;
 
+    @ApiModelProperty(required = true)
     @NotNull
     private Integer year;
 
+    @ApiModelProperty(required = true, notes = "The film's genre (comedy, drama etc.)")
     @NotBlank
     private String genre;
 
+    @ApiModelProperty(required = true, notes = "The ID of the person that directed the film")
     @NotNull
     private Long idDirector;
 
+    @ApiModelProperty(required = true, notes = "The ID of the person that was the film's leading male actor")
     @NotNull
     private Long idActor;
 
+    @ApiModelProperty(required = true, notes = "The ID of the person that was the film's leading female actress")
     @NotNull
     private Long idActress;
 

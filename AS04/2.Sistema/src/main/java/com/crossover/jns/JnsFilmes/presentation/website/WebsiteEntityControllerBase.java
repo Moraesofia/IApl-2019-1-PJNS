@@ -38,6 +38,8 @@ public abstract class WebsiteEntityControllerBase<TEntity, TId, TRepository exte
     protected abstract String getControllerBasePath();
 
     protected abstract TEntity getNewEntity();
+    
+    protected abstract TDto getNewDto();
 
     // Retrieves all saved entities as DTOs
     @GetMapping({"", "/"})
@@ -83,7 +85,7 @@ public abstract class WebsiteEntityControllerBase<TEntity, TId, TRepository exte
     // Create new entity action
     @GetMapping("/add")
     public String createEntity(Model model) {
-        model.addAttribute(getDtoName(), getNewEntity());
+        model.addAttribute(getDtoName(), getNewDto());
         return getTemplatesEditName();
     }
 

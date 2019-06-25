@@ -9,7 +9,7 @@
 
 <body th:include="fragments/layout :: body" th:with="content=~{::content}, customScript=~{::customScript}">
 <div th:fragment="content">
-    <form th:action="@{/prize/save}" th:object=${prizeDto} method="POST">
+    <form th:action="@{/prizes/save}" th:object=${prizeDto} method="POST">
         <fieldset>
             <!-- Hidden ID -->
             <input type="hidden" th:value="*{id}" th:field="*{id}"/>

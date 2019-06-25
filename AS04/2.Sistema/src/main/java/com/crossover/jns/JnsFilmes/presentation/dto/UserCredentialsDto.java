@@ -1,5 +1,7 @@
 package com.crossover.jns.JnsFilmes.presentation.dto;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.validation.constraints.NotBlank;
 
 /**
@@ -7,9 +9,11 @@ import javax.validation.constraints.NotBlank;
  */
 public class UserCredentialsDto {
 
+    @ApiModelProperty(required = true)
     @NotBlank
     private String username;
 
+    @ApiModelProperty(required = true)
     @NotBlank
     private String password;
 
