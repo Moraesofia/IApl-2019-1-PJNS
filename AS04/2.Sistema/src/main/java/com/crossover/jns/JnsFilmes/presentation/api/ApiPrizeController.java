@@ -18,7 +18,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/prize")
+@RequestMapping("/api")
 public class ApiPrizeController extends ApiEntityControllerBase<Prize, Long, PrizeRepository, PrizeDto> {
 
     @Autowired

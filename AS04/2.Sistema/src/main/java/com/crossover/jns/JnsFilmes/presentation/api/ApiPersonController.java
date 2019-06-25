@@ -17,7 +17,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/person")
+@RequestMapping("/api")
 public class ApiPersonController extends ApiEntityControllerBase<Person, Long, PersonRepository, PersonDto> {
 
     @Autowired
