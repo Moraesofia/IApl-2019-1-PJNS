@@ -9,6 +9,7 @@
 <body th:include="fragments/layout :: body" th:with="content=~{::content}">
     <div th:fragment="content">
 
+        <h1 th:text="#{title_app}"></h1>
         <h2 th:text="#{home_select_entity}"></h2>
         <ul>
             <li><a th:text="#{persons_title}" th:href="@{/persons}"></a></li>
@@ -17,6 +18,12 @@
             <li><a th:text="#{prizes_title}" th:href="@{/prizes}"></a></li>
         </ul>
 
+        <hr>
+        <h1 th:text="#{title_producer}"></h1>
+        <h2 th:text="#{home_select_producer_entity}"></h2>
+        <ul>
+            <li><a th:text="#{holidays_title}" th:href="@{/holidays}"></a></li>
+        </ul>
 
     </div>
 </body>

@@ -5,15 +5,16 @@ import com.crossover.jns.JnsFilmes.business.enums.GenderEnum;
 import com.crossover.jns.JnsFilmes.business.enums.JobEnum;
 import com.crossover.jns.JnsFilmes.business.service.EntityServiceBase;
 import com.crossover.jns.JnsFilmes.business.service.PersonService;
+import com.crossover.jns.JnsFilmes.config.Messages;
 import com.crossover.jns.JnsFilmes.data.repository.PersonRepository;
 import com.crossover.jns.JnsFilmes.exceptions.PersistenceException;
 import com.crossover.jns.JnsFilmes.presentation.dto.PersonDto;
-import com.crossover.jns.JnsFilmes.presentation.dto.PrizeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +26,9 @@ public class PersonController extends WebsiteEntityControllerBase<Person, Long, 
 
     @Autowired
     private PersonService personService;
+
+    @Autowired
+    private Messages messages;
 
     @Override
     protected String getControllerBasePath() {
@@ -77,13 +81,13 @@ public class PersonController extends WebsiteEntityControllerBase<Person, Long, 
     }
 
     @Override
-    protected boolean validateEntity(@Valid PersonDto personDto, BindingResult bindingResult) {
+    protected boolean validateEntity(@Valid PersonDto personDto, BindingResult bindingResult, HttpServletRequest req) {
         if (Arrays.stream(JobEnum.values()).noneMatch(v -> Objects.equals(v.name(), personDto.getJob()))) {
-            rejectBindingValue(bindingResult, "job", "unknown job");
+            rejectBindingValue(bindingResult, "job", messages.get("error_person_unknownjob", req));
             return false;
         }
         if (Arrays.stream(GenderEnum.values()).noneMatch(v -> Objects.equals(v.name(), personDto.getGender()))) {
-            rejectBindingValue(bindingResult, "gender", "unknown gender");
+            rejectBindingValue(bindingResult, "gender", messages.get("error_person_unknowngender", req));
             return false;
         }
         return true;

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
@@ -38,7 +39,7 @@ public abstract class WebsiteEntityControllerBase<TEntity, TId, TRepository exte
     protected abstract String getControllerBasePath();
 
     protected abstract TEntity getNewEntity();
-    
+
     protected abstract TDto getNewDto();
 
     // Retrieves all saved entities as DTOs
@@ -91,8 +92,10 @@ public abstract class WebsiteEntityControllerBase<TEntity, TId, TRepository exte
 
     // Save action from the form. It either creates or updates an entity
     @PostMapping("/save")
-    public String saveEntityPost(@Valid TDto dto, BindingResult bindingResult) throws WebsiteException {
-        if (bindingResult.hasErrors() || !validateEntity(dto, bindingResult)) {
+    public String saveEntityPost(@Valid TDto dto,
+                                 BindingResult bindingResult,
+                                 HttpServletRequest req) throws WebsiteException {
+        if (bindingResult.hasErrors() || !validateEntity(dto, bindingResult, req)) {
             return getTemplatesEditName();
         }
 
@@ -116,7 +119,7 @@ public abstract class WebsiteEntityControllerBase<TEntity, TId, TRepository exte
         }
     }
 
-    protected boolean validateEntity(@Valid TDto dto, BindingResult bindingResult) {
+    protected boolean validateEntity(@Valid TDto dto, BindingResult bindingResult, HttpServletRequest req) {
         return true;
     }
 
@@ -137,7 +140,6 @@ public abstract class WebsiteEntityControllerBase<TEntity, TId, TRepository exte
     }
 
     protected void rejectBindingValue(BindingResult bindingResult, String field, String reason) {
-        // TODO: How to internationalize those custom validation messages?
         bindingResult.rejectValue(field, "error." + getDtoName(), reason);
     }
 }

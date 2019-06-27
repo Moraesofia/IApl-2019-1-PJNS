@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 
 
 /**
- * Exception thrown by the REST API controllers
+ * Exception thrown by our REST API controllers
  */
 public class RestApiException extends Exception {
 

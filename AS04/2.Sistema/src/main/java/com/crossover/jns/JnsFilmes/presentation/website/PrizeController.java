@@ -4,6 +4,7 @@ import com.crossover.jns.JnsFilmes.business.entity.Prize;
 import com.crossover.jns.JnsFilmes.business.entity.Prize;
 import com.crossover.jns.JnsFilmes.business.enums.CategoryEnum;
 import com.crossover.jns.JnsFilmes.business.service.*;
+import com.crossover.jns.JnsFilmes.config.Messages;
 import com.crossover.jns.JnsFilmes.data.repository.PrizeRepository;
 import com.crossover.jns.JnsFilmes.exceptions.InvalidDtoException;
 import com.crossover.jns.JnsFilmes.exceptions.NotFoundException;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
@@ -40,6 +42,9 @@ public class PrizeController extends WebsiteEntityControllerBase<Prize, Long, Pr
 
     @Autowired
     private AwardService awardService;
+
+    @Autowired
+    private Messages messages;
 
     @Override
     protected String getControllerBasePath() {
@@ -92,9 +97,9 @@ public class PrizeController extends WebsiteEntityControllerBase<Prize, Long, Pr
     }
 
     @Override
-    protected boolean validateEntity(@Valid PrizeDto prizeDto, BindingResult bindingResult) {
+    protected boolean validateEntity(@Valid PrizeDto prizeDto, BindingResult bindingResult, HttpServletRequest req) {
         if (Arrays.stream(CategoryEnum.values()).noneMatch(v -> Objects.equals(v.name(), prizeDto.getCategory()))) {
-            rejectBindingValue(bindingResult, "category", "unknown category");
+            rejectBindingValue(bindingResult, "category", messages.get("error_prize_unknowncategory", req));
             return false;
         }
         return true;
