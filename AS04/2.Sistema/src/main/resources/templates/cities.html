@@ -11,37 +11,31 @@
 
         <div class="row">
             <div class="col">
-                <div th:if="${param.created}" class="alert alert-success" role="alert" th:text="#{form_create_sucess}">
-                </div>
-                <div th:if="${param.deleted}" class="alert alert-success" role="alert" th:text="#{form_delete_sucess}">
-                </div>
-                <div th:if="${param.updated}" class="alert alert-success" role="alert" th:text="#{form_update_sucess}">
-                </div>
-                <div th:if="${param.cantDeleteBecauseItsUsed}" class="alert alert-danger" role="alert"
-                    th:text="#{form_cant_delete_because_its_used}">
-                </div>
+                <h2 th:text="#{cities_title_screen}"></h2>
             </div>
         </div>
 
         <div class="row">
             <div class="col">
-                <h2>Cidades</h2>
+                <form th:action="@{/cities/search}" th:object=${state} method="POST" class="form-inline">
+                    <h3 th:text="#{cities_pick_state}"></h3>
+                    <input id="state" type="text" name="state" class="form-control" style="margin: 10px;" />
+                    <button type="submit" th:text="#{form_submit}" class="btn btn-primary"></button>
+                </form>
+                <h3 id="err" th:text="${err}"></h3>
             </div>
         </div>
-
+        <br>
         <div class="row">
-            <div class="col-md-12">
-                    Teste
-            </div>
             <div class="col-md-12">
                 <table class="table">
                     <thead>
                         <tr>
                             <th scope="col">Id</th>
-                            <th scope="col">Nome</th>
-                            <th scope="col">Abreviação</th>
-                            <th scope="col">Estado</th>
-                            <th scope="col">País</th>
+                            <th scope="col" th:text="#{city_name}"></th>
+                            <th scope="col" th:text="#{city_abv}"></th>
+                            <th scope="col"  th:text="#{city_state}"></th>
+                            <th scope="col"  th:text="#{city_country}"></th>
 
                         </tr>
                     </thead>

@@ -75,4 +75,20 @@ public class StateService {
             throw new ProducerApiException(ex);
         }
     }
+
+    public boolean containState(String name){
+        boolean contain = false;
+        try {
+            for (StateDto s: getStates()) {
+                if(s.getName().equals(name))
+                    contain = true;
+            }
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        } catch (ProducerApiException e) {
+            e.printStackTrace();
+        }
+
+        return contain;
+    }
 }
