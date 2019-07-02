@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
+    <title th:text="#{title_home}">Home</title>
+    <extras></extras>
+</head>
+
+<body th:include="fragments/layout :: body" th:with="content=~{::content}">
+    <div th:fragment="content">
+
+        <div class="row">
+            <div class="col">
+                <h2 th:text="#{states_title_screen}"></h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <form th:action="@{/states/search}" th:object=${country} method="POST" class="form-inline">
+                    <h3 th:text="#{state_pick_country}"></h3>
+                    <input id="country" type="text" name="country" class="form-control" style="margin: 10px;" />
+                    <button type="submit" th:text="#{form_submit}" class="btn btn-primary"></button>
+                </form>
+                <h3 id="err" th:text="${err}"></h3>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col" th:text="#{city_name}"></th>
+                            <th scope="col" th:text="#{city_country}"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="state : ${states}">
+                            <td scope="row" th:text="${state.id}"></td>
+                            <td th:text="${state.name}"></td>
+                            <td th:text="${state.country}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

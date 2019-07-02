@@ -53,4 +53,17 @@ public class CountryService {
         }
     }
 
+    public boolean containCountry(String country) {
+        try {
+            for (CountryDto s: getCountries()) {
+                if(s.getName().equalsIgnoreCase(country))
+                    return true;
+            }
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        } catch (ProducerApiException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

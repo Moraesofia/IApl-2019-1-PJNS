@@ -1,7 +1,6 @@
 package com.crossover.jns.JnsFilmes.presentation.dto.producer;
 
 import com.crossover.jns.JnsFilmes.exceptions.InvalidDtoException;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 public class StateDto {
 
@@ -28,8 +27,8 @@ public class StateDto {
         this.name = name;
     }
 
-    public CountryDto getCountry() {
-        return country;
+    public String getCountry() {
+        return country.getName();
     }
 
     public void setCountry(CountryDto country) {

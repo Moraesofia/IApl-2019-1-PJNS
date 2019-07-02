@@ -77,11 +77,10 @@ public class StateService {
     }
 
     public boolean containState(String name){
-        boolean contain = false;
         try {
             for (StateDto s: getStates()) {
-                if(s.getName().equals(name))
-                    contain = true;
+                if(s.getName().equalsIgnoreCase(name))
+                    return true;
             }
         } catch (NotFoundException e) {
             e.printStackTrace();
@@ -89,6 +88,6 @@ public class StateService {
             e.printStackTrace();
         }
 
-        return contain;
+        return false;
     }
 }
