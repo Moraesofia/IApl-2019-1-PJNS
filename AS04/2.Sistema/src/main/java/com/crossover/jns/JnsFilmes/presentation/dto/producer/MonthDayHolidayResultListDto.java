@@ -5,13 +5,13 @@ import com.crossover.jns.JnsFilmes.exceptions.InvalidDtoException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HolidaysDto {
+public class MonthDayHolidayResultListDto {
 
+    private List<MonthDayHolidayDto> holidays = new ArrayList<>();
+    private Long total = null;
     private Integer year = null;
 
-    private List<HolidayDto> holidays = new ArrayList<>();
-
-    public HolidaysDto() throws InvalidDtoException {
+    public MonthDayHolidayResultListDto() throws InvalidDtoException {
 
     }
 
@@ -23,18 +23,19 @@ public class HolidaysDto {
         this.year = year;
     }
 
-    public List<HolidayDto> getHolidays() {
+    public List<MonthDayHolidayDto> getHolidays() {
         return holidays;
     }
 
-    public void setHolidays(List<HolidayDto> holidays) {
+    public void setHolidays(List<MonthDayHolidayDto> holidays) {
         this.holidays = holidays;
     }
 
     @Override
     public String toString() {
-        return "HolidaysDto{" +
+        return "MonthDayHolidayResultListDto{" +
                 "year=" + year +
+                ", total=" + total +
                 ", holidays=" + holidays +
                 '}';
     }

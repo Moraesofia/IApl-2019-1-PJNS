@@ -52,17 +52,14 @@
                     <td th:text="${holiday.country}"></td>
                     <td th:text="${holiday.state}"></td>
                     <td th:text="${holiday.city}"></td>
-                    <td th:text="${holiday.date}"></td>
+                    <td th:text="${holiday.dayOfMonth + ' / ' + holiday.month}">
                     <td th:text="${holiday.description}"></td>
                     <td>
                         <div class="btn-group btn-group-sm" role="group" aria-label="crud">
-                            <button type="button" class="btn btn-secondary" th:text="#{edit}" disabled></button>
-                            <button type="button" class="btn btn-secondary" th:text="#{delete}" disabled></button>
-                            <!--TODO: Enable those instead of the ones above when the producer API support them-->
-                            <!--<a class="btn btn-secondary" th:href="@{/holidays/edit/{id}(id=${holiday.id})}"-->
-                            <!--  th:text="#{edit}"></a>-->
-                            <!--<a class="btn btn-secondary" th:href="@{/holidays/delete/{id}(id=${holiday.id})}"-->
-                            <!--  th:text="#{delete}"></a>-->
+                            <a class="btn btn-secondary" th:href="@{/holidays/edit/{id}(id=${holiday.id})}"
+                               th:text="#{edit}"></a>
+                            <a class="btn btn-secondary" th:href="@{/holidays/delete/{id}(id=${holiday.id})}"
+                               th:text="#{delete}"></a>
                         </div>
                     </td>
                 </tr>

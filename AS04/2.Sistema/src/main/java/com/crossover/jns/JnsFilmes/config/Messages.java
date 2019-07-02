@@ -2,12 +2,14 @@ package com.crossover.jns.JnsFilmes.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.LocaleResolver;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Locale;
 
 /**
  * Helper to simplify accessing i18n messages in code.
@@ -35,7 +37,12 @@ public class Messages {
     }
 
     public String get(String code, HttpServletRequest req) {
-        return accessor.getMessage(code, localeResolver.resolveLocale(req));
+        Locale locale = localeResolver.resolveLocale(req);
+        try {
+            return accessor.getMessage(code, locale);
+        } catch (NoSuchMessageException ex) {
+            return "??" + code + "_" + locale.getLanguage() + "??";
+        }
     }
 
 }

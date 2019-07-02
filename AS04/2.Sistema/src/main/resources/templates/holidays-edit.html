@@ -6,38 +6,67 @@
     <extras></extras>
 </head>
 
-<body th:include="fragments/layout :: body" th:with="content=~{::content}, customScripts=~{::customScripts}">
+<body th:include="fragments/layout :: body" th:with="content=~{::content}, customScript=~{::customScript}">
 <div th:fragment="content">
 
-    <form th:action="@{/holidays/save}" th:object=${holidayDto} method="POST">
+    <form th:action="@{/holidays/save}" th:object=${monthDayHolidayDto} method="POST">
         <fieldset>
-            <p th:utext="#{holidays_explanation}"></p>
-
-            <!-- Hidden ID -->
+            <!-- Hidden fields -->
             <input type="hidden" th:value="*{id}" th:field="*{id}"/>
+            <input type="hidden" id="hidden-country" th:value="*{country}" th:field="*{country}"/>
+            <input type="hidden" id="hidden-state" th:value="*{state}" th:field="*{state}"/>
+            <input type="hidden" id="hidden-city" th:value="*{city}" th:field="*{city}"/>
 
-            <!-- Hidden State -->
-            <input type="hidden" th:value="*{state}" th:field="*{state}"/>
-
-            <div class="form-group">
+            <div class="form-group" id="country-fragment" th:fragment="country-fragment">
                 <label for="country" th:text="#{holidays_country}"></label>
-                <input id="country" type="text" th:field="*{country}" class="form-control"/>
-                <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('country')}"
-                     th:errors="*{country}"></div>
+                <select id="country" class="selectpicker form-control" data-live-search="true">
+                    <option th:each="country: ${@countryService.getCountries()}"
+                            th:value="${country.name}"
+                            th:text="${country.name}"></option>
+                </select>
+            </div>
+            <div style="border-top: 1px solid red; color: red;"
+                 th:if="${#fields.hasErrors('country')}"
+                 th:errors="*{country}"></div>
+
+            <div class="form-group" id="state-fragment" th:fragment="state-fragment">
+                <label th:if="${states != null}" for="state" th:text="#{holidays_state}"></label>
+                <select th:if="${states != null}" id="state" class="selectpicker form-control" data-live-search="true">
+                    <option value=""></option>
+                    <option th:each="state: ${states}"
+                            th:value="${state.name}"
+                            th:text="${state.name}"></option>
+                </select>
+            </div>
+            <div style="border-top: 1px solid red; color: red;"
+                 th:if="${#fields.hasErrors('state')}"
+                 th:errors="*{state}"></div>
+
+            <div class="form-group" id="city-fragment" th:fragment="city-fragment">
+                <label th:if="${cities != null}" for="city" th:text="#{holidays_city}"></label>
+                <select th:if="${cities != null}" id="city" class="selectpicker form-control" data-live-search="true">
+                    <option value=""></option>
+                    <option th:each="city: ${cities}"
+                            th:value="${city.name}"
+                            th:text="${city.name}"></option>
+                </select>
+            </div>
+            <div style="border-top: 1px solid red; color: red;"
+                 th:if="${#fields.hasErrors('city')}"
+                 th:errors="*{city}"></div>
+
+            <div class="form-group">
+                <label for="dayOfMonth" th:text="#{holidays_dayOfMonth}"></label>
+                <input id="dayOfMonth" type="number" th:field="*{dayOfMonth}" class="form-control"/>
+                <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('dayOfMonth')}"
+                     th:errors="*{dayOfMonth}"></div>
             </div>
 
             <div class="form-group">
-                <label for="city" th:text="#{holidays_city}"></label>
-                <input id="city" type="text" th:field="*{city}" class="form-control"/>
-                <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('city')}"
-                     th:errors="*{city}"></div>
-            </div>
-
-            <div class="form-group">
-                <label for="date" th:text="#{holidays_date}"></label>
-                <input id="date" type="text" th:field="*{date}" class="form-control"/>
-                <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('date')}"
-                     th:errors="*{date}"></div>
+                <label for="month" th:text="#{holidays_month}"></label>
+                <input id="month" type="number" th:field="*{month}" class="form-control"/>
+                <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('month')}"
+                     th:errors="*{month}"></div>
             </div>
 
             <div class="form-group">
@@ -51,8 +80,8 @@
         </fieldset>
     </form>
 </div>
-<div th:fragment="customScripts">
-    <script src="js/holidays-edit.js"></script>
+<div th:fragment="customScript">
+    <script type="text/javascript" th:src="@{/js/holidays-edit.js}"></script>
 </div>
 </body>
 </html>
