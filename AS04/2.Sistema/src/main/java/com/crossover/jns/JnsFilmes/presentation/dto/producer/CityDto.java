@@ -37,16 +37,16 @@ public class CityDto {
         this.abbreviation = abbreviation;
     }
 
-    public StateDto getState() {
-        return state;
+    public String getState() {
+        return state.getName();
     }
 
     public void setState(StateDto state) {
         this.state = state;
     }
 
-    public CountryDto getCountry() {
-        return country;
+    public String getCountry() {
+        return country.getName();
     }
 
     public void setCountry(CountryDto country) {
