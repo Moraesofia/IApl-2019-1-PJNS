@@ -22,7 +22,7 @@
 
                 <div class="form-group">
                     <label for="year" th:text="#{awards_year}"></label>
-                    <input id="year" type="numero" th:field="*{year}" class="form-control" step="1" min="1880" max="999999999"/>
+                    <input id="year" type="number" th:field="*{year}" class="form-control" step="1" min="1880" max="999999999"/>
                     <div style="border-top: 1px solid red; color: red;" th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></div>
                 </div>
 
