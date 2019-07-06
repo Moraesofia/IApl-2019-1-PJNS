@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head th:include="fragments/layout :: head(title=~{::title}, extras=~{::extras})">
+    <title th:text="#{title_home}">Home</title>
+    <extras></extras>
+</head>
+
+<body th:include="fragments/layout :: body" th:with="content=~{::content}">
+<div th:fragment="content">
+
+    <div class="row">
+        <div class="col">
+            <div th:if="${param.created}" class="alert alert-success" role="alert" th:text="#{form_create_sucess}">
+            </div>
+            <div th:if="${param.deleted}" class="alert alert-success" role="alert" th:text="#{form_delete_sucess}">
+            </div>
+            <div th:if="${param.updated}" class="alert alert-success" role="alert" th:text="#{form_update_sucess}">
+            </div>
+            <div th:if="${param.cantDeleteBecauseItsUsed}" class="alert alert-danger" role="alert"
+                 th:text="#{form_cant_delete_because_its_used}">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <h2 th:text="#{countries_title}"></h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col" th:text="#{name}"></th>
+                    <th scope="col" th:text="#{abbreviation}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="country : ${countries}">
+                    <td scope="row" th:text="${country.id}"></td>
+                    <td th:text="${country.name}"></td>
+                    <td th:text="${country.abbreviation}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
